@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f1a49b53649324182d29a4ad1ab7d2, type: 3}
+  m_Name: GameLogic
+  m_EditorClassIdentifier: 
+  rateAmountDefault: 200
+  stepAmountDefault: 50
+  slotCellPrefab: {fileID: 113321087005378575, guid: c2aacd24eafc5d948815f701549d31d2, type: 3}
+  cellSprites:
+  - {fileID: -1734859633, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
+  - {fileID: -2025866177, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
+  - {fileID: -1513371263, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
+  - {fileID: 160363981, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
+  - {fileID: 964457865, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
+  - {fileID: -774029937, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
+  - {fileID: -1583094914, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
+  - {fileID: 349144957, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
+  - {fileID: 1844731603, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
+  - {fileID: 851766810, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
+  minSpeedWheelRotate: 0.07
+  maxSpeedWheelRotate: 0.17
+  minTimeRotate: 1
+  maxTimeRotate: 3
+  coefficientFirstForCountNumberType: 0.1
+  coefficientOtherForCountNumberType: 0.2
+  coefficientFirstForNearNumberType: 0.1
+  coefficientOtherForNearNumberType: 0.4
+  coefficientFirstForLineNumberType: 0.1
+  coefficientOtherForLineNumberType: 0.6
