@@ -26,4 +26,9 @@ public class WheelCell : MonoBehaviour
         color = new Color(color.r, color.g, color.b, 0);
         sprite.color = color;
     }
+
+    public void SetColor(Color setColor)
+    {
+        sprite.color = new Color(setColor.r, setColor.g, setColor.b, sprite.color.a);
+    }
 }

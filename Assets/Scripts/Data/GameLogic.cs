@@ -309,7 +309,7 @@ public class GameLogic : ScriptableObject
                 var shiftPosition = new SlotPosition() { Wheel = 1, Cell = 0};
                 checkPosition += shiftPosition;
                 
-                while (cells[checkPosition.Wheel, checkPosition.Cell].Number == numberPicture)
+                while (checkPosition.Wheel < cells.Length && cells[checkPosition.Wheel, checkPosition.Cell].Number == numberPicture)
                 {
                     resultCells[numberPicture].OtherWheels.Add(checkPosition);
                     checkPosition += shiftPosition;
@@ -319,7 +319,23 @@ public class GameLogic : ScriptableObject
 
         return CalculateReward(price, resultCells, coefficientFirstForLineNumberType, coefficientOtherForLineNumberType);;
     }
+    #endregion
 
+    #region Select
+    public List<WheelCell> SelectSlotCellList(Slot slot, TypeBuster typeBusterSet, GameLogic.SlotPosition selectSlotPosition)
+    {
+        switch (typeBusterSet)
+        {
+            case TypeBuster.LineHorizontal:
+                return slot.wheels.Select(slotWheel => slotWheel[selectSlotPosition.Cell]).ToList();
+            case TypeBuster.LineVertical:
+                return slot[selectSlotPosition.Wheel].places.ToList();
+            default:
+                return new List<WheelCell> {slot[selectSlotPosition.Wheel, selectSlotPosition.Cell]};
+        }
+    }
+    #endregion
+    
     public struct Result
     {
         public int NumberPicture;
@@ -331,7 +347,7 @@ public class GameLogic : ScriptableObject
     {
         public int Wheel;
         public int Cell;
-        
+
         public static bool operator ==(SlotPosition check1, SlotPosition check2)
         {
             return check1.Wheel == check2.Wheel && check1.Cell == check2.Cell;
@@ -352,9 +368,6 @@ public class GameLogic : ScriptableObject
             return new SlotPosition() { Wheel = addTo.Wheel + addPosition[0], Cell = addTo.Cell + addPosition[1] };
         }
     }
-    #endregion
-    
-    
 }
 
 [Serializable]
@@ -411,4 +424,11 @@ public enum TypeGame
     Count,
     Near,
     Line
+}
+
+public enum TypeBuster
+{
+    Cell,
+    LineHorizontal,
+    LineVertical
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,26 +10,40 @@ public class SlotManager : MonoBehaviour
     [Header("Main")]
     [SerializeField] private int moneyAmount = 10000;
     [SerializeField] private TypeGame typeGame = TypeGame.Count;
-    [SerializeField] private int rateAmount; 
+    [SerializeField] private int rateAmount;
+    [SerializeField] private TypeBuster typeBuster = TypeBuster.Cell;
     
     [Header("Slot")]
     [SerializeField] private Slot slotPoints;
     [SerializeField] private Slot slotCells;
     [SerializeField] private Slot slotCovers;
 
-    private float[] _timeRotate;
-    private float[] _currentTime;
-    private bool _stopRotate = true;
+    [Header("Cover")]
+    [SerializeField] private Color colorCoverCell;
+    [SerializeField] private Color colorSelectCoverCell;
+
+    [Header("Busters")]
+    [SerializeField] private int countCellBuster = 5;
+    [SerializeField] private int countLineVerticalBuster = 5;
+    [SerializeField] private int countLineHorizontalBuster = 5;
+
+    private float[] timeRotate;
+    private float[] currentTime;
+    private bool stopRotate = true;
+
+    private GameLogic.SlotPosition selectSlotCover = new(){Wheel = -1, Cell = -1};
     
-    private GameManager _gameManager;
+    private GameManager gameManager;
 
     [Header("Events")]
     public UnityEvent startSlotRotateEvent;
     public UnityEvent stopSlotRotateEvent;
     public UnityEvent<TypeGame> changeTypeGameEvent;
+    public UnityEvent<TypeBuster> changeTypeBusterEvent;
     public UnityEvent<int> changeRateAmountEvent;
     public UnityEvent<int, int, bool> changeMoneyAmountEvent;
     public UnityEvent<Dictionary<int, int>, Dictionary<int, GameLogic.Result>> winRateDetailAmountEvent;
+    public UnityEvent<TypeBuster, int> changeBusterCountEvent;
 
     [Header("Events for Animation")]
     public UnityEvent startShowResultEvent;
@@ -38,23 +53,25 @@ public class SlotManager : MonoBehaviour
 
     private void Start()
     {
-        _gameManager = (GameManager)GameManager.instance;
+        gameManager = (GameManager)GameManager.instance;
 
-        rateAmount = _gameManager.GameLogic.rateAmountDefault;
+        rateAmount = gameManager.GameLogic.rateAmountDefault;
         
-        _timeRotate = new float[slotPoints.Length];
-        _currentTime = new float[slotPoints.Length];
+        timeRotate = new float[slotPoints.Length];
+        currentTime = new float[slotPoints.Length];
             
-        _gameManager.GameLogic.InitGameState(slotPoints, slotCells);
+        gameManager.GameLogic.InitGameState(slotPoints, slotCells);
         
-        stopSlotRotateEvent.AddListener(CheckResult);
+        startSlotRotateEvent.AddListener(HideCellCover);
+        
+        stopSlotRotateEvent.AddListener(ShowCellCover);
         
         changeMoneyAmountEvent?.Invoke(moneyAmount, moneyAmount, false);
     }
 
     private void Update()
     {
-        _gameManager.GameLogic.MoveWheelCells(slotPoints, slotCells, _timeRotate, _currentTime, _stopRotate,
+        gameManager.GameLogic.MoveWheelCells(slotPoints, slotCells, timeRotate, currentTime, stopRotate,
             () => stopSlotRotateEvent?.Invoke(), Time.deltaTime);
     }
 
@@ -62,7 +79,7 @@ public class SlotManager : MonoBehaviour
     {
         var resultCells = new Dictionary<int, GameLogic.Result>();
         
-        var result = _gameManager.GameLogic.CountRewardResult(rateAmount, slotCells, typeGame, out resultCells);
+        var result = gameManager.GameLogic.CountRewardResult(rateAmount, slotCells, typeGame, out resultCells);
 
         StartCoroutine(ShowResult(moneyAmount, result, resultCells));
         
@@ -82,7 +99,7 @@ public class SlotManager : MonoBehaviour
         
         var currentAmount = amount;
         
-        yield return new WaitForSeconds(_gameManager.GameLogic.startDelayBeforeResult);
+        yield return new WaitForSeconds(gameManager.GameLogic.startDelayBeforeResult);
         
         foreach (var itemResult in result)
         {
@@ -99,7 +116,7 @@ public class SlotManager : MonoBehaviour
                 slotPoints[slotPosition.Wheel, slotPosition.Cell].ShowSprite();
             }
 
-            yield return new WaitForSeconds(_gameManager.GameLogic.timeShowResult);
+            yield return new WaitForSeconds(gameManager.GameLogic.timeShowResult);
             
             foreach (var slotPosition in resultCells[numberPicture].FirstWheel)
             {
@@ -115,7 +132,7 @@ public class SlotManager : MonoBehaviour
 
             currentAmount += winAmount;
             
-            yield return new WaitForSeconds(_gameManager.GameLogic.finalDelayAfterStepResult);
+            yield return new WaitForSeconds(gameManager.GameLogic.finalDelayAfterStepResult);
         }
         
         changeMoneyAmountResultEvent?.Invoke(currentAmount, currentAmount - rateAmount);
@@ -126,7 +143,7 @@ public class SlotManager : MonoBehaviour
         
         finishShowResultEvent?.Invoke();
     }
-    
+
     private void SetTypeGame(TypeGame typeGameSet)
     {
         typeGame = typeGameSet;
@@ -134,18 +151,25 @@ public class SlotManager : MonoBehaviour
         changeTypeGameEvent?.Invoke(typeGame);
     }
 
+    private void SetTypeBuster(TypeBuster typeBusterSet)
+    {
+        typeBuster = typeBusterSet;
+        
+        changeTypeBusterEvent?.Invoke(typeBuster);
+    }
+
     private void StartStopSlotRotate()
     {
-        if (_stopRotate)
+        if (stopRotate)
         {
-            _gameManager.GameLogic.InitRandomSpeedRotateWheel(_timeRotate);
+            gameManager.GameLogic.InitRandomSpeedRotateWheel(timeRotate);
             
             startSlotRotateEvent?.Invoke();
             
             changeRateAmountResultEvent?.Invoke(rateAmount, 0);
         }
         
-        _stopRotate = !_stopRotate;
+        stopRotate = !stopRotate;
     }
 
     private void ChangeRateAmount(int changeAmount)
@@ -161,18 +185,156 @@ public class SlotManager : MonoBehaviour
             
         moneyAmount += changeAmount;
     }
+    
+    private void ShowCellCover()
+    {
+        foreach (var slotWheel in slotCovers.wheels)
+        {
+            foreach (var wheelCell in slotWheel.places)
+            {
+                wheelCell.ShowSprite();
+            }
+        }
+    }
+
+    private void HideCellCover()
+    {
+        foreach (var slotWheel in slotCovers.wheels)
+        {
+            foreach (var wheelCell in slotWheel.places)
+            {
+                wheelCell.HideSprite();
+            }
+        }
+    }
+
+    private void SelectSlotCover(GameLogic.SlotPosition slotPosition)
+    {
+        selectSlotCover = slotPosition;
+
+        var slotCellList = gameManager.GameLogic.SelectSlotCellList(slotCovers, typeBuster, selectSlotCover);
+        
+        foreach (var wheelCell in slotCellList)
+        {
+            wheelCell.SetColor(colorSelectCoverCell);
+        }
+    }
+
+    private void UnselectSlotCover(GameLogic.SlotPosition slotPosition)
+    {
+        var slotCellList = gameManager.GameLogic.SelectSlotCellList(slotCovers, typeBuster, selectSlotCover);
+        
+        foreach (var wheelCell in slotCellList)
+        {
+            wheelCell.SetColor(colorCoverCell);
+        }
+        
+        selectSlotCover = new GameLogic.SlotPosition { Wheel = -1, Cell = -1 };
+    }
+
+    private void ClickSlotCover(GameLogic.SlotPosition slotPosition)
+    {
+        if (selectSlotCover.Wheel < 0) SelectSlotCover(slotPosition);
+        else if (selectSlotCover != slotPosition)
+        {
+            UnselectSlotCover(selectSlotCover);
+            SelectSlotCover(slotPosition);
+        }
+        else
+        {
+            if (GetBusterCount(typeBuster) <= 0) return;
+            
+            var slotCellList = gameManager.GameLogic.SelectSlotCellList(slotCovers, typeBuster, selectSlotCover);
+        
+            foreach (var wheelCell in slotCellList)
+            {
+                wheelCell.HideSprite();
+            }
+            
+            AddBusterCount(typeBuster, -1);
+        }
+    }
+
+    private void AddBusterCount(TypeBuster typeBusterCheck, int addCount)
+    {
+        switch (typeBusterCheck)
+        {
+            case TypeBuster.LineHorizontal:
+                countLineHorizontalBuster += addCount;
+                
+                changeBusterCountEvent?.Invoke(typeBusterCheck, countLineHorizontalBuster);
+                break;
+            case TypeBuster.LineVertical:
+                countLineVerticalBuster += addCount;
+                
+                changeBusterCountEvent?.Invoke(typeBusterCheck, countLineVerticalBuster);
+                break;
+            default:
+                countCellBuster += addCount;
+                
+                changeBusterCountEvent?.Invoke(typeBusterCheck, countCellBuster);
+                break;
+        }
+    }
+
+    private int GetBusterCount(TypeBuster typeBusterCheck)
+    {
+        switch (typeBusterCheck)
+        {
+            case TypeBuster.LineHorizontal:
+                return countLineHorizontalBuster;
+            case TypeBuster.LineVertical:
+                return countLineVerticalBuster;
+            default:
+                return countCellBuster;
+        }
+    }
+
+    #region Listener
+    public void OnMouseEnterCellCoverListener(string wheelCell)
+    {
+        var wheel = Int32.Parse(wheelCell[0].ToString());
+        var cell = Int32.Parse(wheelCell[1].ToString());
+
+        SelectSlotCover(new GameLogic.SlotPosition { Wheel = wheel, Cell = cell });
+    }
+    
+    public void OnMouseExitCellCoverListener(string wheelCell)
+    {
+        var wheel = Int32.Parse(wheelCell[0].ToString());
+        var cell = Int32.Parse(wheelCell[1].ToString());
+
+        UnselectSlotCover(new GameLogic.SlotPosition { Wheel = wheel, Cell = cell });
+    }
+
+    public void OnMouseUpCellCoverListener(string wheelCell)
+    {
+        var wheel = Int32.Parse(wheelCell[0].ToString());
+        var cell = Int32.Parse(wheelCell[1].ToString());
+
+        ClickSlotCover(new GameLogic.SlotPosition { Wheel = wheel, Cell = cell });
+    }
+    #endregion
 
     #region UI
     public void RotateSlotButton()
     {
-        if (!_stopRotate) return;
+        if (!stopRotate) return;
             
         StartStopSlotRotate();
         
-        var randomTimeRotate = _gameManager.GameLogic.GetRandomRange(_gameManager.GameLogic.minTimeRotate,
-            _gameManager.GameLogic.maxTimeRotate);
+        var randomTimeRotate = gameManager.GameLogic.GetRandomRange(gameManager.GameLogic.minTimeRotate,
+            gameManager.GameLogic.maxTimeRotate);
         
         Invoke(nameof(StartStopSlotRotate), randomTimeRotate);
+    }
+
+    public void ResultSlotButton()
+    {
+        if (!stopRotate) return;
+
+        HideCellCover();
+        CheckResult();
     }
 
     public void SetCountTypeGameButton()
@@ -189,17 +351,32 @@ public class SlotManager : MonoBehaviour
     {
         SetTypeGame(TypeGame.Line);
     }
+    
+    public void SetCellTypeBusterButton()
+    {
+        SetTypeBuster(TypeBuster.Cell);
+    }
 
+    public void SetLineHorizontalTypeBusterButton()
+    {
+        SetTypeBuster(TypeBuster.LineHorizontal);
+    }
+    
+    public void SetLineVerticalTypeBusterButton()
+    {
+        SetTypeBuster(TypeBuster.LineVertical);
+    }
+    
     public void IncreaseRateAmountButton()
     {
-        ChangeRateAmount(_gameManager.GameLogic.stepAmountDefault);
-        ChangeMoneyAmount(-_gameManager.GameLogic.stepAmountDefault);
+        ChangeRateAmount(gameManager.GameLogic.stepAmountDefault);
+        ChangeMoneyAmount(-gameManager.GameLogic.stepAmountDefault);
     }
     
     public void DecreaseRateAmountButton()
     {
-        ChangeRateAmount(-_gameManager.GameLogic.stepAmountDefault);
-        ChangeMoneyAmount(_gameManager.GameLogic.stepAmountDefault);
+        ChangeRateAmount(-gameManager.GameLogic.stepAmountDefault);
+        ChangeMoneyAmount(gameManager.GameLogic.stepAmountDefault);
     }
     #endregion
 }
