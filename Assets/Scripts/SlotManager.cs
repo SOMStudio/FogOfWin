@@ -73,11 +73,13 @@ public class SlotManager : MonoBehaviour
 
     private void CheckResult()
     {
-        var resultCells = new Dictionary<int, GameLogic.Result>();
-        
-        var result = gameManager.GameLogic.CountRewardResult(rateAmount, slotCells, typeGame, out resultCells);
+        var result = gameManager.GameLogic.CountRewardResult(rateAmount, slotCells, typeGame, out var resultCells);
 
-        StartCoroutine(ShowResult(moneyAmount, result, resultCells));
+        StartCoroutine(gameManager.GameLogic.ShowResult(slotPoints, moneyAmount, rateAmount, result, resultCells,
+            () => startShowResultEvent?.Invoke(),
+            (a, b) => changeMoneyAmountResultEvent?.Invoke(a, b),
+            (a, b) => changeRateAmountResultEvent?.Invoke(a, b),
+            () => finishShowResultEvent?.Invoke()));
         
         winRateDetailAmountEvent?.Invoke(result, resultCells);
 
@@ -87,57 +89,6 @@ public class SlotManager : MonoBehaviour
         
         moneyAmount += sumResult;
         moneyAmount -= rateAmount;
-    }
-
-    private IEnumerator ShowResult(int amount, Dictionary<int, int> result, Dictionary<int, GameLogic.Result> resultCells)
-    {
-        startShowResultEvent?.Invoke();
-        
-        var currentAmount = amount;
-        
-        yield return new WaitForSeconds(gameManager.GameLogic.startDelayBeforeResult);
-        
-        foreach (var itemResult in result)
-        {
-            int numberPicture = itemResult.Key;
-            int winAmount = itemResult.Value;
-            
-            foreach (var slotPosition in resultCells[numberPicture].FirstWheel)
-            {
-                slotPoints[slotPosition.Wheel, slotPosition.Cell].ShowSprite();
-            }
-
-            foreach (var slotPosition in resultCells[numberPicture].OtherWheels)
-            {
-                slotPoints[slotPosition.Wheel, slotPosition.Cell].ShowSprite();
-            }
-
-            yield return new WaitForSeconds(gameManager.GameLogic.timeShowResult);
-            
-            foreach (var slotPosition in resultCells[numberPicture].FirstWheel)
-            {
-                slotPoints[slotPosition.Wheel, slotPosition.Cell].HideSprite();
-            }
-
-            foreach (var slotPosition in resultCells[numberPicture].OtherWheels)
-            {
-                slotPoints[slotPosition.Wheel, slotPosition.Cell].HideSprite();
-            }
-            
-            changeMoneyAmountResultEvent?.Invoke(currentAmount, currentAmount + winAmount);
-
-            currentAmount += winAmount;
-            
-            yield return new WaitForSeconds(gameManager.GameLogic.finalDelayAfterStepResult);
-        }
-        
-        changeMoneyAmountResultEvent?.Invoke(currentAmount, currentAmount - rateAmount);
-            
-        currentAmount -= rateAmount;
-        
-        changeRateAmountResultEvent?.Invoke(0, rateAmount);
-        
-        finishShowResultEvent?.Invoke();
     }
 
     private void SetTypeGame(TypeGame typeGameSet)
