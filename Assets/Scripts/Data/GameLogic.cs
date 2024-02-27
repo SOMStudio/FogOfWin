@@ -32,6 +32,10 @@ public class GameLogic : ScriptableObject
     public float timeShowResult = 2f;
     public float finalDelayAfterStepResult = 0.5f;
     
+    [Header("Cover")]
+    public Color colorCoverCell;
+    public Color colorSelectCoverCell;
+    
     #region Init
     public void InitGameState(Slot positions, Slot cells)
     {

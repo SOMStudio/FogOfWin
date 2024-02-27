@@ -18,10 +18,6 @@ public class SlotManager : MonoBehaviour
     [SerializeField] private Slot slotCells;
     [SerializeField] private Slot slotCovers;
 
-    [Header("Cover")]
-    [SerializeField] private Color colorCoverCell;
-    [SerializeField] private Color colorSelectCoverCell;
-
     [Header("Busters")]
     [SerializeField] private int countCellBuster = 5;
     [SerializeField] private int countLineVerticalBuster = 5;
@@ -216,7 +212,7 @@ public class SlotManager : MonoBehaviour
         
         foreach (var wheelCell in slotCellList)
         {
-            wheelCell.SetColor(colorSelectCoverCell);
+            wheelCell.SetColor(gameManager.GameLogic.colorSelectCoverCell);
         }
     }
 
@@ -226,7 +222,7 @@ public class SlotManager : MonoBehaviour
         
         foreach (var wheelCell in slotCellList)
         {
-            wheelCell.SetColor(colorCoverCell);
+            wheelCell.SetColor(gameManager.GameLogic.colorCoverCell);
         }
         
         selectSlotCover = new GameLogic.SlotPosition { Wheel = -1, Cell = -1 };
