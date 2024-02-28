@@ -36,3 +36,8 @@ MonoBehaviour:
   coefficientOtherForNearNumberType: 0.4
   coefficientFirstForLineNumberType: 0.1
   coefficientOtherForLineNumberType: 0.6
+  startDelayBeforeResult: 0.5
+  timeShowResult: 2
+  finalDelayAfterStepResult: 0.5
+  colorCoverCell: {r: 0.61960787, g: 0.46666667, b: 1, a: 1}
+  colorSelectCoverCell: {r: 0.91764706, g: 0.47843137, b: 0.98039216, a: 1}
