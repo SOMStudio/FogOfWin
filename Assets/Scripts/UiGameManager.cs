@@ -1,8 +1,12 @@
+using System.Collections.Generic;
+using System.Linq;
+using Base;
 using Data;
+using Ui.Game;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UiManager : MonoBehaviour
+public class UiGameManager : MonoSingleton<UiGameManager>, IUiGameManager
 {
     [Header("Main")]
     [SerializeField] private CanvasGroup mainCanvasGrope;
@@ -41,6 +45,11 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject spinPanel;
     [SerializeField] private GameObject resultPanel;
 
+    [Header("Result panel")]
+    [SerializeField] private ResultPanelManager resultWindow;
+
+    private int amountWin = 0;
+    
     private void ActivateTypeGame(TypeGame typeGame)
     {
         var defaultColor = typeGame1Panel.color;
@@ -142,6 +151,18 @@ public class UiManager : MonoBehaviour
     {
         resultPanel.SetActive(setState);
     }
+
+    public void SetResultWindow(Dictionary<int, int> result, Dictionary<int, GameLogic.Result> _)
+    {
+        amountWin = result.Sum(el => el.Value);
+        
+        if (amountWin != 0) resultWindow.SetText(amountWin + " $");
+    }
+
+    public void ShowResultWindow()
+    {
+        if (amountWin > 0) resultWindow.Show();
+    }
     #endregion
     
     #region Listeners
@@ -180,4 +201,9 @@ public class UiManager : MonoBehaviour
         UpdateTypeBusterCount(typeBuster, count);
     }
     #endregion
+}
+
+public interface IUiGameManager
+{
+    
 }
