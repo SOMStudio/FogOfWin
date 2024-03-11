@@ -1,10 +1,15 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WheelCell : MonoBehaviour
 {
     [SerializeField] private int numberSprite;
     [SerializeField] private SpriteRenderer sprite;
 
+    [Header("Events")]
+    [SerializeField] private UnityEvent showSpriteEvent;
+    [SerializeField] private UnityEvent hideSpriteEvent;
+    
     public int Number => numberSprite;
     
     public void SetSprite(int numberInData, Sprite setSprite)
@@ -18,6 +23,8 @@ public class WheelCell : MonoBehaviour
         var color = sprite.color;
         color = new Color(color.r, color.g, color.b, 1);
         sprite.color = color;
+        
+        showSpriteEvent?.Invoke();
     }
     
     public void HideSprite()
@@ -25,6 +32,8 @@ public class WheelCell : MonoBehaviour
         var color = sprite.color;
         color = new Color(color.r, color.g, color.b, 0);
         sprite.color = color;
+        
+        hideSpriteEvent?.Invoke();
     }
 
     public void SetColor(Color setColor)
