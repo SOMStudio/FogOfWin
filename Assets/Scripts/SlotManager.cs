@@ -49,11 +49,11 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     [SerializeField] private UnityEvent<int, int> changeRateAmountResultEvent;
     [SerializeField] private UnityEvent<int, int> changeMoneyAmountResultEvent;
     [SerializeField] private UnityEvent finishShowResultEvent;
-    
+
     public UnityEvent<int, int, bool> ChangeMoneyAmountEvent => changeMoneyAmountEvent;
     public UnityEvent<int> ChangeRateAmountEvent => changeRateAmountEvent;
     public UnityEvent<TypeBuster, int> ChangeBusterCountEvent => changeBusterCountEvent;
-    
+
     private void Start()
     {
         timeRotate = new float[slotPoints.Length];
@@ -88,7 +88,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 
         changeMoneyAmountEvent?.Invoke(moneyAmount, moneyAmount, false);
         changeRateAmountEvent?.Invoke(rateAmount);
-        
+
         changeBusterCountEvent?.Invoke(TypeBuster.Cell, countCellBuster);
         changeBusterCountEvent?.Invoke(TypeBuster.LineVertical, countLineVerticalBuster);
         changeBusterCountEvent?.Invoke(TypeBuster.LineHorizontal, countLineHorizontalBuster);
@@ -156,7 +156,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         moneyAmount += changeAmount;
     }
     
-    private void ShowCellCover()
+    public void ShowCellCover()
     {
         foreach (var slotWheel in slotCovers.wheels)
         {
@@ -167,7 +167,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         }
     }
 
-    private void HideCellCover()
+    public void HideCellCover()
     {
         foreach (var slotWheel in slotCovers.wheels)
         {
@@ -192,6 +192,8 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 
     private void UnselectSlotCover(GameLogic.SlotPosition slotPosition)
     {
+        if (selectSlotCover.Wheel == -1) return;
+        
         var slotCellList = gameLogic.SelectSlotCellList(slotCovers, typeBuster, selectSlotCover);
         
         foreach (var wheelCell in slotCellList)
@@ -353,7 +355,8 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 
 public interface ISlotManager
 {
-    void Init(GameLogic gameLogic, int moneyAmount, int rateAmount, int stepAmount, int countCellBuster, int countLineVerticalBuster, int countLineHorizontalBuster);
+    void Init(GameLogic gameLogic, int moneyAmount, int rateAmount, int stepAmount, int countCellBuster,
+        int countLineVerticalBuster, int countLineHorizontalBuster);
 
     UnityEvent<int, int, bool> ChangeMoneyAmountEvent { get; }
     UnityEvent<int> ChangeRateAmountEvent { get; }
