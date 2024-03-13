@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class TutorialManager : MonoBehaviour
 {
     [Header("Main")]
-    [SerializeField] private CanvasGropeComponent canvasGroup;
+    [SerializeField] private CanvasGroupComponent canvasGroup;
     
     [Header("Tutorial")]
     [SerializeField] private TutorialItem[] tutorialSteps;
@@ -71,5 +71,5 @@ public class TutorialManager : MonoBehaviour
 public class TutorialItem
 {
     public UnityEvent beforeShowItemEvent;
-    public CanvasGropeComponent[] canvas;
+    public CanvasGroupComponent[] canvas;
 }

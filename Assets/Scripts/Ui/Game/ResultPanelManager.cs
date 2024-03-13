@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Ui.Game
 {
-    [RequireComponent(typeof(CanvasGropeComponent))]
+    [RequireComponent(typeof(CanvasGroupComponent))]
     public class ResultPanelManager : MonoBehaviour
     {
         [Header("Main")]
@@ -13,11 +13,11 @@ namespace Ui.Game
         [SerializeField] private float hideAfterTime = 1f;
 
         [Header("Components")]
-        [SerializeField] private CanvasGropeComponent canvasGrope;
+        [SerializeField] private CanvasGroupComponent canvasGroup;
 
         private void Start()
         {
-            if (!canvasGrope) canvasGrope = GetComponent<CanvasGropeComponent>();
+            if (!canvasGroup) canvasGroup = GetComponent<CanvasGroupComponent>();
         }
 
         public void SetText(string setText)
@@ -27,14 +27,14 @@ namespace Ui.Game
         
         public void Show()
         {
-            canvasGrope.Show();
+            canvasGroup.Show();
             
             if (useHideAfterTime) Invoke(nameof(Hide), hideAfterTime);
         }
 
         public void Hide()
         {
-            canvasGrope.Hide();
+            canvasGroup.Hide();
         }
     }
 }

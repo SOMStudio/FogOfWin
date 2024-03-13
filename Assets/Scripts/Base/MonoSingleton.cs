@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Base
@@ -16,6 +17,11 @@ namespace Base
             {
                 Destroy(this.gameObject);
             }
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (instance == this as T) instance = null;
         }
     }
 }

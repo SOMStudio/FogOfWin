@@ -1,34 +1,42 @@
-using System;
+using System.Collections;
 using Base;
 using Data;
 using Save;
+using Ui;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    [Header("Main")]
+    [SerializeField] private GameState gameState = GameState.MainMenu;
+    
     [Header("Data")]
     [SerializeField] private GameLogic gameLogic;
 
     [Header("Managers")]
     [SerializeField] private SaveManager saveManager;
     [SerializeField] private SlotManager slotManager;
+    [SerializeField] private UiMainManager uiMainManager;
+    [SerializeField] private UiGameManager uiGameManager;
 
-    private ISaveManager iSaveManager;
-    private ISlotManager iSlotManager;
+    private bool needUpdateGameState = false;
+    private bool needInitUiMain = false;
+    private bool needInitUiGame = false;
+    private bool needInitSlot = false;
 
     protected override void Awake()
     {
         base.Awake();
 
+        DontDestroyOnLoad(this);
+        
         CheckManagers();
     }
 
     private void Start()
     {
-        if (gameLogic && slotManager && saveManager)
-        {
-            InitSlotManager();
-        }
+        InitManagers();
     }
 
     private void CheckManagers()
@@ -36,39 +44,99 @@ public class GameManager : MonoSingleton<GameManager>
         if (!saveManager)
         {
             saveManager = SaveManager.instance;
-            iSaveManager = saveManager;
         }
         if (!slotManager)
         {
             slotManager = SlotManager.instance;
-            iSlotManager = slotManager;
+            if (slotManager) needInitSlot = true;
+        }
+        if (!uiMainManager)
+        {
+            uiMainManager = UiMainManager.instance;
+            if (uiMainManager) needInitUiMain = true;
+        }
+        if (!uiGameManager)
+        {
+            uiGameManager = UiGameManager.instance;
+            if (uiGameManager) needInitUiGame = true;
+        }
+    }
+
+    private void InitManagers()
+    {
+        if (needInitUiMain)
+        {
+            needInitUiMain = false;
+            InitUiMainManager(uiMainManager);
+        }
+        if (needInitUiGame)
+        {
+            needInitUiGame = false;
+            InitUiGameManager(uiGameManager);
+        }
+        if (slotManager && saveManager && needInitSlot)
+        {
+            needInitSlot = false;
+            InitSlotManager(slotManager, saveManager);
+        }
+        if (needUpdateGameState)
+        {
+            needUpdateGameState = false;
+            ChangeGameState(slotManager, uiMainManager, uiGameManager);
+        }
+    }
+
+    private void ChangeGameState(ISlotManager slotManagerGame, IUiMainManager uiMainManagerActive, IUiGameManager uiGameManagerActive)
+    {
+        switch (gameState)
+        {
+            case GameState.MainMenu:
+                uiMainManagerActive?.ShowMainPanel();
+                uiGameManagerActive?.HideGamePanels();
+                slotManagerGame?.HideGame();
+                break;
+            case GameState.Game:
+                uiMainManagerActive?.HideMainPanel();
+                uiGameManagerActive?.ShowGamePanels();
+                slotManagerGame?.ShowGame();
+                break;
         }
     }
     
-    private void InitSlotManager()
+    private void InitUiMainManager(IUiMainManager uiMainManagerInit)
     {
-        int moneyAmount = iSaveManager.GetValue(GameLogic.MoneyAmountKey, gameLogic.moneyAmountDefault);
-        int rateAmount = iSaveManager.GetValue(GameLogic.RateAmountKey, gameLogic.rateAmountDefault);
-        int stepAmount = iSaveManager.GetValue(GameLogic.StepAmountKey, gameLogic.stepAmountDefault);
-        int countCellBuster = iSaveManager.GetValue(GameLogic.CountCellBusterKey, gameLogic.countCellBusterDefault);
-        int countLineVerticalBuster = iSaveManager.GetValue(GameLogic.CountLineVerticalBusterKey, gameLogic.countLineVerticalBusterDefault);
-        int countLineHorizontalBuster = iSaveManager.GetValue(GameLogic.CountLineHorizontalBusterKey, gameLogic.countLineHorizontalBusterDefault);
+        uiMainManagerInit.ButtonPlayEvent.AddListener(StartGame);
+    }
 
-        iSlotManager.Init(gameLogic, moneyAmount, rateAmount, stepAmount, countCellBuster, countLineVerticalBuster, countLineHorizontalBuster);
+    private void InitUiGameManager(IUiGameManager uiGameManagerInit)
+    {
+        uiGameManagerInit.ButtonMainMenuEvent.AddListener(StartMainMenu);
+    }
+
+    private void InitSlotManager(ISlotManager slotManagerInit, ISaveManager saveManagerInit)
+    {
+        int moneyAmount = saveManagerInit.GetValue(GameLogic.MoneyAmountKey, gameLogic.moneyAmountDefault);
+        int rateAmount = saveManagerInit.GetValue(GameLogic.RateAmountKey, gameLogic.rateAmountDefault);
+        int stepAmount = saveManagerInit.GetValue(GameLogic.StepAmountKey, gameLogic.stepAmountDefault);
+        int countCellBuster = saveManagerInit.GetValue(GameLogic.CountCellBusterKey, gameLogic.countCellBusterDefault);
+        int countLineVerticalBuster = saveManagerInit.GetValue(GameLogic.CountLineVerticalBusterKey, gameLogic.countLineVerticalBusterDefault);
+        int countLineHorizontalBuster = saveManagerInit.GetValue(GameLogic.CountLineHorizontalBusterKey, gameLogic.countLineHorizontalBusterDefault);
+
+        slotManagerInit.Init(gameLogic, moneyAmount, rateAmount, stepAmount, countCellBuster, countLineVerticalBuster, countLineHorizontalBuster);
         
-        iSlotManager.ChangeMoneyAmountEvent.AddListener(ChangeMoneyAmountListener);
-        iSlotManager.ChangeRateAmountEvent.AddListener(ChangeRateAmountListener);
-        iSlotManager.ChangeBusterCountEvent.AddListener(ChangeBusterCountListener);
+        slotManagerInit.ChangeMoneyAmountEvent.AddListener(ChangeMoneyAmountListener);
+        slotManagerInit.ChangeRateAmountEvent.AddListener(ChangeRateAmountListener);
+        slotManagerInit.ChangeBusterCountEvent.AddListener(ChangeBusterCountListener);
     }
 
     private void ChangeMoneyAmountListener(int oldAmount, int newAmount, bool afterRotate)
     {
-        iSaveManager.SetValue(GameLogic.MoneyAmountKey, newAmount);
+        saveManager.SetValue(GameLogic.MoneyAmountKey, newAmount);
     }
 
     private void ChangeRateAmountListener(int newAmount)
     {
-        iSaveManager.SetValue(GameLogic.RateAmountKey, newAmount);
+        saveManager.SetValue(GameLogic.RateAmountKey, newAmount);
     }
     
     private void ChangeBusterCountListener(TypeBuster typeBuster, int count)
@@ -76,14 +144,94 @@ public class GameManager : MonoSingleton<GameManager>
         switch (typeBuster)
         {
             case TypeBuster.Cell:
-                iSaveManager.SetValue(GameLogic.CountCellBusterKey, count);
+                saveManager.SetValue(GameLogic.CountCellBusterKey, count);
                 break;
             case TypeBuster.LineVertical:
-                iSaveManager.SetValue(GameLogic.CountLineVerticalBusterKey, count);
+                saveManager.SetValue(GameLogic.CountLineVerticalBusterKey, count);
                 break;
             case TypeBuster.LineHorizontal:
-                iSaveManager.SetValue(GameLogic.CountLineHorizontalBusterKey, count);
+                saveManager.SetValue(GameLogic.CountLineHorizontalBusterKey, count);
                 break;
         }
     }
+    
+    private IEnumerator StartGameAsync()
+    {
+        var loadScene = SceneManager.LoadSceneAsync("Game");
+
+        while (!loadScene.isDone)
+        {
+            yield return null;
+        }
+
+        gameState = GameState.Game;
+        needUpdateGameState = true;
+        
+        CheckManagers();
+
+        yield return null;
+        
+        InitManagers();
+
+        yield return null;
+    }
+
+    private IEnumerator StartMainAsync()
+    {
+        var loadScene = SceneManager.LoadSceneAsync("Main");
+
+        while (!loadScene.isDone)
+        {
+            yield return null;
+        }
+
+        gameState = GameState.MainMenu;
+        needUpdateGameState = true;
+        
+        CheckManagers();
+
+        yield return null;
+        
+        InitManagers();
+
+        yield return null;
+    }
+
+    #region Actions
+    public void StartGame()
+    {
+        if (!uiGameManager)
+        {
+            StartCoroutine(StartGameAsync());
+        }
+        else
+        {
+            gameState = GameState.Game;
+            needUpdateGameState = true;
+            
+            InitManagers();
+        }
+    }
+
+    public void StartMainMenu()
+    {
+        if (!uiMainManager)
+        {
+            StartCoroutine(StartMainAsync());
+        }
+        else
+        {
+            gameState = GameState.MainMenu;
+            needUpdateGameState = true;
+            
+            InitManagers();
+        }
+    }
+    #endregion
+}
+
+public enum GameState
+{
+    MainMenu,
+    Game
 }

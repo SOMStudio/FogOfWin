@@ -14,8 +14,9 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     [SerializeField] private int stepAmount = 50;
     [SerializeField] private TypeGame typeGame = TypeGame.Count;
     [SerializeField] private TypeBuster typeBuster = TypeBuster.Cell;
-    
+
     [Header("Slot")]
+    [SerializeField] private GameObject slotBase;
     [SerializeField] private Slot slotPoints;
     [SerializeField] private Slot slotCells;
     [SerializeField] private Slot slotCovers;
@@ -262,6 +263,16 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         }
     }
 
+    public void ShowGame()
+    {
+        slotBase.SetActive(true);
+    }
+
+    public void HideGame()
+    {
+        slotBase.SetActive(false);
+    }
+
     #region Listener
     public void OnMouseEnterCellCoverListener(string wheelCell)
     {
@@ -355,10 +366,13 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 
 public interface ISlotManager
 {
-    void Init(GameLogic gameLogic, int moneyAmount, int rateAmount, int stepAmount, int countCellBuster,
-        int countLineVerticalBuster, int countLineHorizontalBuster);
-
     UnityEvent<int, int, bool> ChangeMoneyAmountEvent { get; }
     UnityEvent<int> ChangeRateAmountEvent { get; }
     UnityEvent<TypeBuster, int> ChangeBusterCountEvent { get; }
+    
+    void Init(GameLogic gameLogic, int moneyAmount, int rateAmount, int stepAmount, int countCellBuster,
+        int countLineVerticalBuster, int countLineHorizontalBuster);
+
+    void HideGame();
+    void ShowGame();
 }

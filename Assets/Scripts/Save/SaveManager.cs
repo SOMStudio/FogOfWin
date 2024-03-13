@@ -7,7 +7,14 @@ namespace Save
     public class SaveManager : MonoSingleton<SaveManager>, ISaveManager
     {
         public event Action<string> ChangeValueEvent;
-        
+
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            DontDestroyOnLoad(this);
+        }
+
         public void SetValue(string nameValue, float value)
         {
             PlayerPrefs.SetFloat(nameValue, value);
