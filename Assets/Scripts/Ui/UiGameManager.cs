@@ -122,12 +122,42 @@ namespace Ui
         #region Actions
         public void HideGamePanels()
         {
-            ActivateAllCanvas(false);
+            ShowMoneyPanel(false);
+            ShowTypeGamePanel(false);
+            ShowBusterPanel(false);
+            ShowSpinGamePanel(false);
         }
 
         public void ShowGamePanels()
         {
-            ActivateAllCanvas(true);
+            ShowMoneyPanel(true);
+            ShowTypeGamePanel(true);
+            ShowBusterPanel(true);
+            ShowSpinGamePanel(true);
+        }
+
+        private void ShowMoneyPanel(bool setState)
+        {
+            if (setState) moneyCanvasGrope.Show();
+            else moneyCanvasGrope.Hide();
+        }
+
+        private void ShowTypeGamePanel(bool setState)
+        {
+            if (setState) typeCanvasGrope.Show();
+            else typeCanvasGrope.Hide();
+        }
+
+        private void ShowBusterPanel(bool setState)
+        {
+            if (setState) busterCanvasGrope.Show();
+            else busterCanvasGrope.Hide();
+        }
+
+        private void ShowSpinGamePanel(bool setState)
+        {
+            if (setState) spinCanvasGrope.Show();
+            else spinCanvasGrope.Hide();
         }
 
         public void ActivateAllCanvas(bool setState)
@@ -138,28 +168,24 @@ namespace Ui
             ActivateSpinGamePanel(setState);
         }
 
-        public void ActivateMoneyPanel(bool setState)
+        private void ActivateMoneyPanel(bool setState)
         {
-            if (setState) moneyCanvasGrope.Show();
-            else moneyCanvasGrope.Hide();
+            moneyCanvasGrope.Interactive(setState);
         }
 
-        public void ActivateTypeGamePanel(bool setState)
+        private void ActivateTypeGamePanel(bool setState)
         {
-            if (setState) typeCanvasGrope.Show();
-            else typeCanvasGrope.Hide();
+            typeCanvasGrope.Interactive(setState);
         }
 
-        public void ActivateBusterPanel(bool setState)
+        private void ActivateBusterPanel(bool setState)
         {
-            if (setState) busterCanvasGrope.Show();
-            else busterCanvasGrope.Hide();
+            busterCanvasGrope.Interactive(setState);
         }
 
-        public void ActivateSpinGamePanel(bool setState)
+        private void ActivateSpinGamePanel(bool setState)
         {
-            if (setState) spinCanvasGrope.Show();
-            else spinCanvasGrope.Hide();
+            spinCanvasGrope.Interactive(setState);
         }
 
         public void ShowSpinButton(bool setState)

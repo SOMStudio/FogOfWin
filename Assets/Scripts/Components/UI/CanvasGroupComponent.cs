@@ -24,6 +24,13 @@ namespace Components.UI
             if (!canvasGroup) canvasGroup = GetComponent<CanvasGroup>();
         }
 
+        public void Interactive(bool setInteractive)
+        {
+            InitState();
+            
+            canvasGroup.interactable = setInteractive;
+        }
+        
         public void Show()
         {
             InitState();
