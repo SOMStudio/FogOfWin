@@ -155,14 +155,18 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
     
-    private IEnumerator StartGameAsync()
+    private IEnumerator StartGameAsync(IUiMainManager mainMenu)
     {
         var loadScene = SceneManager.LoadSceneAsync("Game");
 
+        mainMenu.LoadWindowShow();
         while (!loadScene.isDone)
         {
+            mainMenu.LoadWindowProgress(loadScene.progress);
+            
             yield return null;
         }
+        mainMenu.LoadWindowHide();
 
         gameState = GameState.Game;
         needUpdateGameState = true;
@@ -202,7 +206,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         if (!uiGameManager)
         {
-            StartCoroutine(StartGameAsync());
+            StartCoroutine(StartGameAsync(uiMainManager));
         }
         else
         {

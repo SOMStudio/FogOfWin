@@ -1,5 +1,6 @@
 using Base;
 using Components.UI;
+using Ui.Game;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -15,6 +16,7 @@ namespace Ui
         [SerializeField] private CanvasGroupComponent mainCanvasGroup;
         [SerializeField] private CanvasGroupComponent settingsCanvasGroup;
         [SerializeField] private CanvasGroupComponent storeCanvasGroup;
+        [SerializeField] private LoadPanelManager loadPanelManager;
 
         [Header("Buttons")]
         [SerializeField] private Button playButton;
@@ -37,6 +39,21 @@ namespace Ui
         {
             mainCanvasGroup.Hide();
         }
+
+        public void LoadWindowShow()
+        {
+            loadPanelManager.Show();
+        }
+
+        public void LoadWindowProgress(float progress)
+        {
+            loadPanelManager.Progress(progress);
+        }
+
+        public void LoadWindowHide()
+        {
+            loadPanelManager.Hide();
+        }
     }
 
     public interface IUiMainManager
@@ -45,6 +62,9 @@ namespace Ui
         
         void ShowMainPanel();
         void HideMainPanel();
-        
+
+        void LoadWindowShow();
+        void LoadWindowProgress(float progress);
+        void LoadWindowHide();
     }
 }
