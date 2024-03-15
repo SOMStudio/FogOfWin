@@ -3,6 +3,7 @@ using System.Linq;
 using Base;
 using Components.UI;
 using Data;
+using Sound;
 using Ui.Game;
 using UnityEngine;
 using UnityEngine.Events;
@@ -245,6 +246,18 @@ namespace Ui
         public void ChangeCountBusterListener(TypeBuster typeBuster, int count)
         {
             UpdateTypeBusterCount(typeBuster, count);
+        }
+        #endregion
+        
+        #region Buttons
+        public void PlayButtonSound()
+        {
+            SoundManager.instance?.PlaySoundByIndex(0);
+        }
+        
+        public void PlayOpenPanelSound()
+        {
+            SoundManager.instance?.PlaySoundByIndex(1);
         }
         #endregion
     }

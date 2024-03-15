@@ -16,6 +16,8 @@ namespace Data
         public const string CountCellBusterKey = "CountCellBuster";
         public const string CountLineVerticalBusterKey = "CountLineVerticalBusterKey";
         public const string CountLineHorizontalBusterKey = "CountLineHorizontalBuster";
+        public const string SoundVolumeKey = "FogOfWin_SFXVol";
+        public const string MusicVolumeKey = "FogOfWin_MusicVol";
     
         [Header("Main")]
         public WheelCell slotCellPrefab;

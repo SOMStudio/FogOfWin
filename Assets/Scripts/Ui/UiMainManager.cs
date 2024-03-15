@@ -1,5 +1,6 @@
 using Base;
 using Components.UI;
+using Sound;
 using Ui.Game;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,12 +31,12 @@ namespace Ui
             DontDestroyOnLoad(this);
         }
 
-        public void ShowMainPanel()
+        public void ShowMainPanels()
         {
             mainCanvasGroup.Show();
         }
 
-        public void HideMainPanel()
+        public void HideMainPanels()
         {
             mainCanvasGroup.Hide();
         }
@@ -54,14 +55,26 @@ namespace Ui
         {
             loadPanelManager.Hide();
         }
+
+        #region Buttons
+        public void PlayButtonSound()
+        {
+            SoundManager.instance?.PlaySoundByIndex(0);
+        }
+        
+        public void PlayOpenPanelSound()
+        {
+            SoundManager.instance?.PlaySoundByIndex(1);
+        }
+        #endregion
     }
 
     public interface IUiMainManager
     {
         UnityEvent ButtonPlayEvent { get; }
         
-        void ShowMainPanel();
-        void HideMainPanel();
+        void ShowMainPanels();
+        void HideMainPanels();
 
         void LoadWindowShow();
         void LoadWindowProgress(float progress);

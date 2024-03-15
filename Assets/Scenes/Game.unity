@@ -810,6 +810,7 @@ GameObject:
   - component: {fileID: 116883081}
   - component: {fileID: 116883079}
   - component: {fileID: 116883078}
+  - component: {fileID: 116883082}
   m_Layer: 5
   m_Name: SpinPanel
   m_TagString: Untagged
@@ -915,6 +916,26 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &116883082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116883076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48087c22118e6ad498f48dbeac12f694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 0}
+  showTime: 0.5
+  showEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hideEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &129922004
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1782,6 +1803,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 556742509}
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: SetLineHorizontalTypeBusterButton
@@ -2407,10 +2440,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba1c76f4bf6e9840a47d4b5eb5c75bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  informationText: {fileID: 610822652}
   useHideAfterTime: 1
   hideAfterTime: 3
-  canvasGroup: {fileID: 0}
+  informationText: {fileID: 610822652}
 --- !u!225 &360640145
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3206,7 +3238,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 514918467}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &514918467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3654,6 +3698,7 @@ GameObject:
   - component: {fileID: 554647026}
   - component: {fileID: 554647028}
   - component: {fileID: 554647029}
+  - component: {fileID: 554647031}
   m_Layer: 5
   m_Name: BusterPanel
   m_TagString: Untagged
@@ -3781,6 +3826,26 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &554647031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554647024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48087c22118e6ad498f48dbeac12f694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 0}
+  showTime: 0.5
+  showEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hideEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &556300987 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3307900059437962170, guid: 26f018fc91ccb0e43ad48657848468c5, type: 3}
@@ -4144,7 +4209,7 @@ Transform:
   m_Children:
   - {fileID: 233160332}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &561907612
 GameObject:
@@ -4720,6 +4785,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 862700904}
         m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
         m_MethodName: ActivateAllCanvas
         m_Mode: 6
@@ -4874,6 +4951,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 654274443}
   m_CullTransparentMesh: 1
+--- !u!1001 &661043542
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 568500703254279001, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
+      propertyPath: m_Name
+      value: MusicManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218628235970654903, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218628235970654903, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 385.42175
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218628235970654903, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 580.2844
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218628235970654903, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.017433077
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218628235970654903, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218628235970654903, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218628235970654903, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218628235970654903, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218628235970654903, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218628235970654903, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218628235970654903, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7bf4c59c1234b884897130c46f1eb204, type: 3}
 --- !u!1001 &661639411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6032,7 +6170,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &862700898
 GameObject:
@@ -6048,6 +6186,7 @@ GameObject:
   - component: {fileID: 862700899}
   - component: {fileID: 862700905}
   - component: {fileID: 862700904}
+  - component: {fileID: 862700906}
   m_Layer: 5
   m_Name: GameCanvas
   m_TagString: Untagged
@@ -6134,7 +6273,7 @@ RectTransform:
   - {fileID: 360640140}
   - {fileID: 1282338316}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6153,18 +6292,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00baf0eef3c077147b64fa107104b111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCanvasGrope: {fileID: 862700905}
-  moneyCanvasGrope: {fileID: 1202528029}
+  mainCanvasGrope: {fileID: 862700906}
+  moneyCanvasGrope: {fileID: 1202528030}
   moneyAmountText: {fileID: 849293892}
   menuButton: {fileID: 514918466}
-  typeCanvasGrope: {fileID: 1053522686}
+  typeCanvasGrope: {fileID: 1053522687}
   typeGame1Panel: {fileID: 1938465254}
   typeGame2Panel: {fileID: 1431190418}
   typeGame3Panel: {fileID: 2007936180}
   typeGame1Button: {fileID: 1201485230}
   typeGame2Button: {fileID: 1226815381}
   typeGame3Button: {fileID: 1800335481}
-  busterCanvasGrope: {fileID: 554647030}
+  busterCanvasGrope: {fileID: 554647031}
   typeBuster1Panel: {fileID: 933807270}
   typeBuster2Panel: {fileID: 62426128}
   typeBuster3Panel: {fileID: 1126973531}
@@ -6174,7 +6313,7 @@ MonoBehaviour:
   buster1CountText: {fileID: 336567857}
   buster2CountText: {fileID: 18081504}
   buster3CountText: {fileID: 958851042}
-  spinCanvasGrope: {fileID: 116883081}
+  spinCanvasGrope: {fileID: 116883082}
   rateAmountText: {fileID: 2069912541}
   reduceRateButton: {fileID: 1876308411}
   increaseRateButton: {fileID: 1132351487}
@@ -6193,6 +6332,26 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &862700906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862700898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48087c22118e6ad498f48dbeac12f694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 0}
+  showTime: 0.5
+  showEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hideEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &870847748
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7100,6 +7259,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9589b710217b99b4ba78c7865573b6d9, type: 3}
+--- !u!1001 &1005141830
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1431038449232244979, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431038449232244979, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 385.42175
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431038449232244979, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 580.2844
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431038449232244979, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.017433077
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431038449232244979, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431038449232244979, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431038449232244979, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431038449232244979, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431038449232244979, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431038449232244979, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431038449232244979, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2825327782442853433, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
+      propertyPath: m_Name
+      value: SoundManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bf8f170bb5dd59546a4937e7b693f727, type: 3}
 --- !u!114 &1008418069 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 116126899381684322, guid: 26f018fc91ccb0e43ad48657848468c5, type: 3}
@@ -7671,6 +7891,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 556742509}
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: SetCellTypeBusterButton
@@ -7852,6 +8084,7 @@ GameObject:
   - component: {fileID: 1053522682}
   - component: {fileID: 1053522684}
   - component: {fileID: 1053522685}
+  - component: {fileID: 1053522687}
   m_Layer: 5
   m_Name: TypePanel
   m_TagString: Untagged
@@ -7979,6 +8212,26 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1053522687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053522680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48087c22118e6ad498f48dbeac12f694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 0}
+  showTime: 0.5
+  showEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hideEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1056178996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8535,6 +8788,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 556742509}
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: IncreaseRateAmountButton
@@ -9410,6 +9675,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 556742509}
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: SetCountTypeGameButton
@@ -9473,6 +9750,7 @@ GameObject:
   - component: {fileID: 1202528029}
   - component: {fileID: 1202528027}
   - component: {fileID: 1202528026}
+  - component: {fileID: 1202528030}
   m_Layer: 5
   m_Name: ScorePanel
   m_TagString: Untagged
@@ -9580,6 +9858,26 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1202528030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202528024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48087c22118e6ad498f48dbeac12f694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 0}
+  showTime: 0.5
+  showEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hideEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1212245477 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 116126899381684322, guid: 26f018fc91ccb0e43ad48657848468c5, type: 3}
@@ -9764,6 +10062,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 556742509}
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: SetNearTypeGameButton
@@ -11668,6 +11978,18 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 862700904}
+          m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+          m_MethodName: PlayOpenPanelSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 1282338317}
           m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
           m_MethodName: ShowNext
@@ -11764,6 +12086,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 556742509}
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: RotateSlotButton
@@ -12366,6 +12700,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1282338317}
         m_TargetAssemblyTypeName: TutorialManager, Assembly-CSharp
         m_MethodName: Show
@@ -13412,6 +13758,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 556742509}
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: SetLineVerticalTypeBusterButton
@@ -14626,6 +14984,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 556742509}
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: SetLineTypeGameButton
@@ -15024,6 +15394,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 556742509}
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: DecreaseRateAmountButton
@@ -16113,6 +16495,8 @@ MonoBehaviour:
   slotManager: {fileID: 0}
   uiMainManager: {fileID: 0}
   uiGameManager: {fileID: 0}
+  musicManager: {fileID: 0}
+  soundManager: {fileID: 0}
 --- !u!4 &1958813564
 Transform:
   m_ObjectHideFlags: 0

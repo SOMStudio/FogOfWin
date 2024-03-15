@@ -1,7 +1,9 @@
 using System.Collections;
 using Base;
 using Data;
+using Music;
 using Save;
+using Sound;
 using Ui;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,6 +21,8 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private SlotManager slotManager;
     [SerializeField] private UiMainManager uiMainManager;
     [SerializeField] private UiGameManager uiGameManager;
+    [SerializeField] private MusicManager musicManager;
+    [SerializeField] private SoundManager soundManager;
 
     private bool needUpdateGameState = false;
     private bool needInitUiMain = false;
@@ -41,10 +45,9 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void CheckManagers()
     {
-        if (!saveManager)
-        {
-            saveManager = SaveManager.instance;
-        }
+        if (!saveManager) saveManager = SaveManager.instance;
+        if (!musicManager) musicManager = MusicManager.instance;
+        if (!soundManager) soundManager = SoundManager.instance;
         if (!slotManager)
         {
             slotManager = SlotManager.instance;
@@ -91,12 +94,12 @@ public class GameManager : MonoSingleton<GameManager>
         switch (gameState)
         {
             case GameState.MainMenu:
-                uiMainManagerActive?.ShowMainPanel();
+                uiMainManagerActive?.ShowMainPanels();
                 uiGameManagerActive?.HideGamePanels();
                 slotManagerGame?.HideGame();
                 break;
             case GameState.Game:
-                uiMainManagerActive?.HideMainPanel();
+                uiMainManagerActive?.HideMainPanels();
                 uiGameManagerActive?.ShowGamePanels();
                 slotManagerGame?.ShowGame();
                 break;
@@ -200,9 +203,8 @@ public class GameManager : MonoSingleton<GameManager>
 
         yield return null;
     }
-
-    #region Actions
-    public void StartGame()
+    
+    private void StartGame()
     {
         if (!uiGameManager)
         {
@@ -217,7 +219,7 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    public void StartMainMenu()
+    private void StartMainMenu()
     {
         if (!uiMainManager)
         {
@@ -231,7 +233,6 @@ public class GameManager : MonoSingleton<GameManager>
             InitManagers();
         }
     }
-    #endregion
 }
 
 public enum GameState
