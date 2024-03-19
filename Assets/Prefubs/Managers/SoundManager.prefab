@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea879fb7da51314fa5c99a89ab74086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamePrefsName: FogOgWar
+  gamePrefsName: FogOfWin
   gameSounds:
   - {fileID: 8300000, guid: fdb801f69475c8949b7b643e8e9176ad, type: 3}
   - {fileID: 8300000, guid: e05a5815a62da244d96eec90e5e8cb81, type: 3}

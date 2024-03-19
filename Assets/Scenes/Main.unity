@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575075004e3e6fd4c8bd553c442757f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useHideAfterTime: 1
+  useHideAfterTime: 0
   hideAfterTime: 1
   slider: {fileID: 107913373}
   progressTExt: {fileID: 70939665}
@@ -681,6 +681,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6737887388738231200, guid: 8aad67b3b0117e14cb3477a082533450, type: 3}
   m_PrefabInstance: {fileID: 149465634}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &149465636 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5184069540477803611, guid: 8aad67b3b0117e14cb3477a082533450, type: 3}
+  m_PrefabInstance: {fileID: 149465634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &153444559
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,7 +1029,7 @@ GameObject:
   - component: {fileID: 360640142}
   - component: {fileID: 360640145}
   - component: {fileID: 360640141}
-  - component: {fileID: 360640144}
+  - component: {fileID: 360640146}
   - component: {fileID: 360640143}
   m_Layer: 5
   m_Name: SettingsPanel
@@ -1102,25 +1113,34 @@ MonoBehaviour:
   showTime: 0.5
   showEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 862700906}
+        m_TargetAssemblyTypeName: Ui.UiMainManager, Assembly-CSharp
+        m_MethodName: PlayOpenPanelSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hideEvent:
     m_PersistentCalls:
-      m_Calls: []
---- !u!114 &360640144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 360640139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba1c76f4bf6e9840a47d4b5eb5c75bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useHideAfterTime: 1
-  hideAfterTime: 3
-  informationText: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: 862700906}
+        m_TargetAssemblyTypeName: Ui.UiMainManager, Assembly-CSharp
+        m_MethodName: PlayOpenPanelSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!225 &360640145
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1133,6 +1153,22 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &360640146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360640139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436c44dd3f18c1a488c24daf1225fe28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useHideAfterTime: 0
+  hideAfterTime: 1
+  soundSlider: {fileID: 7272895644800430493}
+  musicSlider: {fileID: 149465636}
 --- !u!1 &395781977
 GameObject:
   m_ObjectHideFlags: 0
@@ -2003,9 +2039,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windowCanvasGroup: {fileID: 862700907}
   mainCanvasGroup: {fileID: 358586724}
-  settingsCanvasGroup: {fileID: 360640143}
   storeCanvasGroup: {fileID: 1214436187}
   loadPanelManager: {fileID: 938939}
+  settingsCanvasGroup: {fileID: 360640143}
+  settingsPanelManager: {fileID: 360640146}
   playButton: {fileID: 670933082}
 --- !u!114 &862700907
 MonoBehaviour:
@@ -2098,7 +2135,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You Win!
+  m_Text: Shop
 --- !u!222 &864621283
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2698,9 +2735,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1214436185}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!114 &1214436187
 MonoBehaviour:
@@ -3293,8 +3330,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 360640144}
-        m_TargetAssemblyTypeName: Ui.Game.ResultPanelManager, Assembly-CSharp
+      - m_Target: {fileID: 360640143}
+        m_TargetAssemblyTypeName: Components.UI.CanvasGroupComponent, Assembly-CSharp
         m_MethodName: Hide
         m_Mode: 1
         m_Arguments:
@@ -3446,6 +3483,18 @@ MonoBehaviour:
       - m_Target: {fileID: 862700906}
         m_TargetAssemblyTypeName: Ui.UiMainManager, Assembly-CSharp
         m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 360640143}
+        m_TargetAssemblyTypeName: Components.UI.CanvasGroupComponent, Assembly-CSharp
+        m_MethodName: Show
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4181,6 +4230,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6737887388738231200, guid: 8aad67b3b0117e14cb3477a082533450, type: 3}
   m_PrefabInstance: {fileID: 7272895644800430491}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7272895644800430493 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5184069540477803611, guid: 8aad67b3b0117e14cb3477a082533450, type: 3}
+  m_PrefabInstance: {fileID: 7272895644800430491}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7544105486151865837
 PrefabInstance:
   m_ObjectHideFlags: 0

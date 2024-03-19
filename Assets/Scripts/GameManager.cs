@@ -70,12 +70,12 @@ public class GameManager : MonoSingleton<GameManager>
         if (needInitUiMain)
         {
             needInitUiMain = false;
-            InitUiMainManager(uiMainManager);
+            InitUiMainManager(uiMainManager, saveManager);
         }
         if (needInitUiGame)
         {
             needInitUiGame = false;
-            InitUiGameManager(uiGameManager);
+            InitUiGameManager(uiGameManager, saveManager);
         }
         if (slotManager && saveManager && needInitSlot)
         {
@@ -106,13 +106,36 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
     
-    private void InitUiMainManager(IUiMainManager uiMainManagerInit)
+    private void InitUiMainManager(IUiMainManager uiMainManagerInit, ISaveManager saveManagerInit)
     {
+        float soundAmount = saveManagerInit.GetValue(GameLogic.SoundVolumeKey, gameLogic.soundVolumeDefault);
+        float musicAmount = saveManagerInit.GetValue(GameLogic.MusicVolumeKey, gameLogic.musicVolumeDefault);
+
+        uiMainManagerInit.Init(soundAmount, musicAmount);
+        
         uiMainManagerInit.ButtonPlayEvent.AddListener(StartGame);
+        
+        uiMainManagerInit.SliderSoundEvent.AddListener(ChangeSoundVolume);
+        uiMainManagerInit.SliderMusicEvent.AddListener(ChangeMusicVolume);
     }
 
-    private void InitUiGameManager(IUiGameManager uiGameManagerInit)
+    private void ChangeSoundVolume(float newAmount)
     {
+        saveManager.SetValue(GameLogic.SoundVolumeKey, newAmount);
+        soundManager.UpdateVolume();
+    }
+    
+    private void ChangeMusicVolume(float newAmount)
+    {
+        saveManager.SetValue(GameLogic.MusicVolumeKey, newAmount);
+        musicManager.UpdateVolume();
+    }
+
+    private void InitUiGameManager(IUiGameManager uiGameManagerInit, ISaveManager saveManagerInit)
+    {
+        saveManagerInit.GetValue(GameLogic.SoundVolumeKey, gameLogic.soundVolumeDefault);
+        saveManagerInit.GetValue(GameLogic.MusicVolumeKey, gameLogic.musicVolumeDefault);
+        
         uiGameManagerInit.ButtonMainMenuEvent.AddListener(StartMainMenu);
     }
 

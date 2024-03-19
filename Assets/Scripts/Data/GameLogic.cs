@@ -56,6 +56,10 @@ namespace Data
         public Color colorCoverCell;
         public Color colorSelectCoverCell;
 
+        [Header("Settings")]
+        public float soundVolumeDefault = 0.5f;
+        public float musicVolumeDefault = 0f;
+
         #region Init
         public void InitGameState(Slot positions, Slot cells)
         {
