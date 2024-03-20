@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Base;
 using Data;
+using Save;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -31,6 +32,8 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     private bool stopRotate = true;
 
     private GameLogic.SlotPosition selectSlotCover = new(){Wheel = -1, Cell = -1};
+
+    private ISaveManager saveManager;
     
     [Header("Managers")]
     [SerializeField] private GameLogic gameLogic;
@@ -43,7 +46,6 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     [SerializeField] private UnityEvent<int, int, bool> changeMoneyAmountEvent;
     [SerializeField] private UnityEvent<int> changeRateAmountEvent;
     [SerializeField] private UnityEvent<Dictionary<int, int>, Dictionary<int, GameLogic.Result>> winRateDetailAmountEvent;
-    [SerializeField] private UnityEvent<TypeBuster, int> changeBusterCountEvent;
 
     [Header("Events for Animation")]
     [SerializeField] private UnityEvent startShowResultEvent;
@@ -53,7 +55,6 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 
     public UnityEvent<int, int, bool> ChangeMoneyAmountEvent => changeMoneyAmountEvent;
     public UnityEvent<int> ChangeRateAmountEvent => changeRateAmountEvent;
-    public UnityEvent<TypeBuster, int> ChangeBusterCountEvent => changeBusterCountEvent;
 
     private void Start()
     {
@@ -72,27 +73,23 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
             () => stopSlotRotateEvent?.Invoke(), Time.deltaTime);
     }
 
-    public void Init(GameLogic setGameLogic, int setMoneyAmount, int setRateAmount, int setStepAmount,
-        int setCountCellBuster, int setCountLineVerticalBuster, int setCountLineHorizontalBuster)
+    public void Init(GameLogic gameLogicSet, ISaveManager saveManagerSet)
     {
-        gameLogic = setGameLogic;
+        gameLogic = gameLogicSet;
+        saveManager = saveManagerSet;
 
-        moneyAmount = setMoneyAmount;
-        rateAmount = setRateAmount;
-        stepAmount = setStepAmount;
+        moneyAmount = saveManager.GetValueInt(GameLogic.MoneyAmountKey);
+        rateAmount = saveManager.GetValueInt(GameLogic.RateAmountKey);
+        stepAmount = saveManager.GetValueInt(GameLogic.StepAmountKey);
 
-        countCellBuster = setCountCellBuster;
-        countLineVerticalBuster = setCountLineVerticalBuster;
-        countLineHorizontalBuster = setCountLineHorizontalBuster;
+        countCellBuster = saveManager.GetValueInt(GameLogic.CountCellBusterKey);
+        countLineVerticalBuster = saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey);
+        countLineHorizontalBuster = saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey);
 
         gameLogic.InitGameState(slotPoints, slotCells);
 
         changeMoneyAmountEvent?.Invoke(moneyAmount, moneyAmount, false);
         changeRateAmountEvent?.Invoke(rateAmount);
-
-        changeBusterCountEvent?.Invoke(TypeBuster.Cell, countCellBuster);
-        changeBusterCountEvent?.Invoke(TypeBuster.LineVertical, countLineVerticalBuster);
-        changeBusterCountEvent?.Invoke(TypeBuster.LineHorizontal, countLineHorizontalBuster);
     }
 
     private void CheckResult()
@@ -234,18 +231,15 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         {
             case TypeBuster.LineHorizontal:
                 countLineHorizontalBuster += addCount;
-                
-                changeBusterCountEvent?.Invoke(typeBusterCheck, countLineHorizontalBuster);
+                saveManager.SetValue(GameLogic.CountLineHorizontalBusterKey, countLineHorizontalBuster);
                 break;
             case TypeBuster.LineVertical:
                 countLineVerticalBuster += addCount;
-                
-                changeBusterCountEvent?.Invoke(typeBusterCheck, countLineVerticalBuster);
+                saveManager.SetValue(GameLogic.CountLineVerticalBusterKey, countLineVerticalBuster);
                 break;
             default:
                 countCellBuster += addCount;
-                
-                changeBusterCountEvent?.Invoke(typeBusterCheck, countCellBuster);
+                saveManager.SetValue(GameLogic.CountCellBusterKey, countCellBuster);
                 break;
         }
     }
@@ -368,10 +362,8 @@ public interface ISlotManager
 {
     UnityEvent<int, int, bool> ChangeMoneyAmountEvent { get; }
     UnityEvent<int> ChangeRateAmountEvent { get; }
-    UnityEvent<TypeBuster, int> ChangeBusterCountEvent { get; }
-    
-    void Init(GameLogic gameLogic, int moneyAmount, int rateAmount, int stepAmount, int countCellBuster,
-        int countLineVerticalBuster, int countLineHorizontalBuster);
+
+    void Init(GameLogic gameLogicSet, ISaveManager saveManager);
 
     void HideGame();
     void ShowGame();

@@ -3,8 +3,10 @@ using System.Linq;
 using Base;
 using Components.UI;
 using Data;
+using Save;
 using Sound;
 using Ui.Game;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -53,10 +55,29 @@ namespace Ui
         [Header("Result panel")]
         [SerializeField] private ResultPanelManager resultWindow;
 
+        private ISaveManager saveManager;
         private int amountWin = 0;
 
         public UnityEvent ButtonMainMenuEvent => menuButton.onClick;
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            saveManager.ChangeValueEvent -= SaveSystemListener;
+        }
+
+        public void Init(ISaveManager saveManagerSet)
+        {
+            saveManager = saveManagerSet;
+
+            UpdateTypeBusterCount(TypeBuster.Cell, saveManager.GetValueInt(GameLogic.CountCellBusterKey));
+            UpdateTypeBusterCount(TypeBuster.LineHorizontal, saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey));
+            UpdateTypeBusterCount(TypeBuster.LineVertical, saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey));
+            
+            saveManager.ChangeValueEvent += SaveSystemListener;
+        }
+        
         private void ActivateTypeGame(TypeGame typeGame)
         {
             var defaultColor = typeGame1Panel.color;
@@ -105,18 +126,35 @@ namespace Ui
             }
         }
 
+        private void SaveSystemListener(string keySaveItem)
+        {
+            switch (keySaveItem)
+            {
+                case GameLogic.CountCellBusterKey:
+                    UpdateTypeBusterCount(TypeBuster.Cell, saveManager.GetValueInt(GameLogic.CountCellBusterKey));
+                    break;
+                case GameLogic.CountLineHorizontalBusterKey:
+                    UpdateTypeBusterCount(TypeBuster.LineHorizontal, saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey));
+                    break;
+                case GameLogic.CountLineVerticalBusterKey:
+                    UpdateTypeBusterCount(TypeBuster.LineVertical, saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey));
+                    break;
+            }
+        }
+        
         private void UpdateTypeBusterCount(TypeBuster typeBuster, int countSet)
         {
-            if (typeBuster == TypeBuster.LineHorizontal)
+            switch (typeBuster)
             {
-                buster2CountText.text = countSet.ToString();
-            } else if (typeBuster == TypeBuster.LineVertical)
-            {
-                buster3CountText.text = countSet.ToString();
-            }
-            else if (typeBuster == TypeBuster.Cell)
-            {
-                buster1CountText.text = countSet.ToString();
+                case TypeBuster.LineHorizontal:
+                    buster2CountText.text = countSet.ToString();
+                    break;
+                case TypeBuster.LineVertical:
+                    buster3CountText.text = countSet.ToString();
+                    break;
+                case TypeBuster.Cell:
+                    buster1CountText.text = countSet.ToString();
+                    break;
             }
         }
     
@@ -242,11 +280,6 @@ namespace Ui
         {
             moneyAmountText.text = newAmount + "$";
         }
-
-        public void ChangeCountBusterListener(TypeBuster typeBuster, int count)
-        {
-            UpdateTypeBusterCount(typeBuster, count);
-        }
         #endregion
         
         #region Buttons
@@ -265,7 +298,9 @@ namespace Ui
     public interface IUiGameManager
     {
         UnityEvent ButtonMainMenuEvent { get; }
+        void Init(ISaveManager saveManager);
         void HideGamePanels();
         void ShowGamePanels();
+        
     }
 }

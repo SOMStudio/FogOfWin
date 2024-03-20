@@ -1,7 +1,8 @@
+using Ui.Game;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.Game
+namespace Ui.Menu
 {
     public class LoadPanelManager : BasePanelManager
     {

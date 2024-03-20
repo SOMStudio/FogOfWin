@@ -1,8 +1,11 @@
+using System.Data;
 using Base;
 using Components.UI;
+using Data;
+using Save;
 using Sound;
-using Ui.Game;
 using Ui.Menu;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -16,12 +19,15 @@ namespace Ui
         
         [Header("Windows")]
         [SerializeField] private CanvasGroupComponent mainCanvasGroup;
-        [SerializeField] private CanvasGroupComponent storeCanvasGroup;
         [SerializeField] private LoadPanelManager loadPanelManager;
 
         [Header("Settings")]
         [SerializeField] private CanvasGroupComponent settingsCanvasGroup;
         [SerializeField] private SettingsPanelManager settingsPanelManager;
+        
+        [Header("Store")]
+        [SerializeField] private CanvasGroupComponent storeCanvasGroup;
+        [SerializeField] private StorePanelManager storePanelManager;
 
         [Header("Buttons")]
         [SerializeField] private Button playButton;
@@ -37,10 +43,14 @@ namespace Ui
             DontDestroyOnLoad(this);
         }
 
-        public void Init(float soundAmount, float musicAmount)
+        public void Init(ISaveManager saveManager)
         {
-            settingsPanelManager.SoundVolume(soundAmount);
-            settingsPanelManager.MusicVolume(musicAmount);
+            settingsPanelManager.SoundVolume(saveManager.GetValueFloat(GameLogic.SoundVolumeKey));
+            settingsPanelManager.MusicVolume(saveManager.GetValueFloat(GameLogic.MusicVolumeKey));
+
+            storePanelManager.Init(saveManager);
+            
+            saveManager.ChangeValueEvent += storePanelManager.UpdateStoreValues;
         }
 
         public void ShowMainPanels()
@@ -97,7 +107,7 @@ namespace Ui
         UnityEvent<float> SliderSoundEvent { get; }
         UnityEvent<float> SliderMusicEvent { get; }
 
-        void Init(float soundAmount, float musicAmount);
+        void Init(ISaveManager saveManager);
         
         void ShowMainPanels();
         void HideMainPanels();

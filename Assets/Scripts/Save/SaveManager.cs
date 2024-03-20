@@ -24,9 +24,20 @@ namespace Save
 
         public float GetValue(string nameValue, float value = 0f)
         {
-            return HasValue(nameValue) ? PlayerPrefs.GetFloat(nameValue) : value;
+            if (HasValue(nameValue))
+                return PlayerPrefs.GetFloat(nameValue);
+            else
+            {
+                PlayerPrefs.SetFloat(nameValue, value);
+                return GetValueFloat(nameValue);
+            }
         }
-        
+
+        public float GetValueFloat(string nameValue)
+        {
+            return PlayerPrefs.GetFloat(nameValue);
+        }
+
         public void SetValue(string nameValue, int value)
         {
             PlayerPrefs.SetInt(nameValue, value);
@@ -36,9 +47,20 @@ namespace Save
 
         public int GetValue(string nameValue, int value = 0)
         {
-            return HasValue(nameValue) ? PlayerPrefs.GetInt(nameValue) : value;
+            if (HasValue(nameValue))
+                return PlayerPrefs.GetInt(nameValue);
+            else
+            {
+                PlayerPrefs.SetInt(nameValue, value);
+                return GetValueInt(nameValue);
+            }
         }
-        
+
+        public int GetValueInt(string nameValue)
+        {
+            return PlayerPrefs.GetInt(nameValue);
+        }
+
         public void SetValue(string nameValue, string value)
         {
             PlayerPrefs.SetString(nameValue, value);
@@ -48,7 +70,18 @@ namespace Save
 
         public string GetValue(string nameValue, string value = "")
         {
-            return HasValue(nameValue) ? PlayerPrefs.GetString(nameValue) : value;
+            if (HasValue(nameValue))
+                return PlayerPrefs.GetString(nameValue);
+            else
+            {
+                PlayerPrefs.SetString(nameValue, value);
+                return GetValueString(nameValue);
+            }
+        }
+
+        public string GetValueString(string nameValue)
+        {
+            return PlayerPrefs.GetString(nameValue);
         }
 
         public bool HasValue(string nameValue)
@@ -63,10 +96,13 @@ namespace Save
 
         void SetValue(string nameValue, float value);
         float GetValue(string nameValue, float value = 0f);
+        float GetValueFloat(string nameValue);
         void SetValue(string nameValue, int value);
         int GetValue(string nameValue, int value = 0);
+        int GetValueInt(string nameValue);
         void SetValue(string nameValue, string value);
         string GetValue(string nameValue, string value = "");
+        string GetValueString(string nameValue);
         bool HasValue(string nameValue);
     }
 }

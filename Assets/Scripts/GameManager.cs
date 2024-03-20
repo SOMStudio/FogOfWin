@@ -24,6 +24,7 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private MusicManager musicManager;
     [SerializeField] private SoundManager soundManager;
 
+    private bool needInitSaveSystem = false;
     private bool needUpdateGameState = false;
     private bool needInitUiMain = false;
     private bool needInitUiGame = false;
@@ -45,7 +46,11 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void CheckManagers()
     {
-        if (!saveManager) saveManager = SaveManager.instance;
+        if (!saveManager)
+        {
+            saveManager = SaveManager.instance;
+            if (saveManager) needInitSaveSystem = true;
+        }
         if (!musicManager) musicManager = MusicManager.instance;
         if (!soundManager) soundManager = SoundManager.instance;
         if (!slotManager)
@@ -67,6 +72,11 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void InitManagers()
     {
+        if (needInitSaveSystem)
+        {
+            needInitSaveSystem = false;
+            InitSaveManager();
+        }
         if (needInitUiMain)
         {
             needInitUiMain = false;
@@ -89,6 +99,28 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
+    private void InitSaveManager()
+    {
+        if (!saveManager.HasValue(GameLogic.MoneyAmountKey))
+            saveManager.SetValue(GameLogic.MoneyAmountKey, gameLogic.moneyAmountDefault);
+        if (!saveManager.HasValue(GameLogic.RateAmountKey))
+            saveManager.SetValue(GameLogic.RateAmountKey, gameLogic.rateAmountDefault);
+        if (!saveManager.HasValue(GameLogic.StepAmountKey))
+            saveManager.SetValue(GameLogic.StepAmountKey, gameLogic.stepAmountDefault);
+
+        if (!saveManager.HasValue(GameLogic.CountCellBusterKey))
+            saveManager.SetValue(GameLogic.CountCellBusterKey, gameLogic.countCellBusterDefault);
+        if (!saveManager.HasValue(GameLogic.CountLineVerticalBusterKey))
+            saveManager.SetValue(GameLogic.CountLineVerticalBusterKey, gameLogic.countLineVerticalBusterDefault);
+        if (!saveManager.HasValue(GameLogic.CountLineHorizontalBusterKey))
+            saveManager.SetValue(GameLogic.CountLineHorizontalBusterKey, gameLogic.countLineHorizontalBusterDefault);
+
+        if (!saveManager.HasValue(GameLogic.SoundVolumeKey))
+            saveManager.SetValue(GameLogic.SoundVolumeKey, gameLogic.soundVolumeDefault);
+        if (!saveManager.HasValue(GameLogic.MusicVolumeKey))
+            saveManager.SetValue(GameLogic.MusicVolumeKey, gameLogic.musicVolumeDefault);
+    }
+
     private void ChangeGameState(ISlotManager slotManagerGame, IUiMainManager uiMainManagerActive, IUiGameManager uiGameManagerActive)
     {
         switch (gameState)
@@ -108,10 +140,7 @@ public class GameManager : MonoSingleton<GameManager>
     
     private void InitUiMainManager(IUiMainManager uiMainManagerInit, ISaveManager saveManagerInit)
     {
-        float soundAmount = saveManagerInit.GetValue(GameLogic.SoundVolumeKey, gameLogic.soundVolumeDefault);
-        float musicAmount = saveManagerInit.GetValue(GameLogic.MusicVolumeKey, gameLogic.musicVolumeDefault);
-
-        uiMainManagerInit.Init(soundAmount, musicAmount);
+        uiMainManagerInit.Init(saveManagerInit);
         
         uiMainManagerInit.ButtonPlayEvent.AddListener(StartGame);
         
@@ -133,26 +162,17 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void InitUiGameManager(IUiGameManager uiGameManagerInit, ISaveManager saveManagerInit)
     {
-        saveManagerInit.GetValue(GameLogic.SoundVolumeKey, gameLogic.soundVolumeDefault);
-        saveManagerInit.GetValue(GameLogic.MusicVolumeKey, gameLogic.musicVolumeDefault);
+        uiGameManagerInit.Init(saveManagerInit);
         
         uiGameManagerInit.ButtonMainMenuEvent.AddListener(StartMainMenu);
     }
 
     private void InitSlotManager(ISlotManager slotManagerInit, ISaveManager saveManagerInit)
     {
-        int moneyAmount = saveManagerInit.GetValue(GameLogic.MoneyAmountKey, gameLogic.moneyAmountDefault);
-        int rateAmount = saveManagerInit.GetValue(GameLogic.RateAmountKey, gameLogic.rateAmountDefault);
-        int stepAmount = saveManagerInit.GetValue(GameLogic.StepAmountKey, gameLogic.stepAmountDefault);
-        int countCellBuster = saveManagerInit.GetValue(GameLogic.CountCellBusterKey, gameLogic.countCellBusterDefault);
-        int countLineVerticalBuster = saveManagerInit.GetValue(GameLogic.CountLineVerticalBusterKey, gameLogic.countLineVerticalBusterDefault);
-        int countLineHorizontalBuster = saveManagerInit.GetValue(GameLogic.CountLineHorizontalBusterKey, gameLogic.countLineHorizontalBusterDefault);
-
-        slotManagerInit.Init(gameLogic, moneyAmount, rateAmount, stepAmount, countCellBuster, countLineVerticalBuster, countLineHorizontalBuster);
+        slotManagerInit.Init(gameLogic, saveManagerInit);
         
         slotManagerInit.ChangeMoneyAmountEvent.AddListener(ChangeMoneyAmountListener);
         slotManagerInit.ChangeRateAmountEvent.AddListener(ChangeRateAmountListener);
-        slotManagerInit.ChangeBusterCountEvent.AddListener(ChangeBusterCountListener);
     }
 
     private void ChangeMoneyAmountListener(int oldAmount, int newAmount, bool afterRotate)
@@ -164,23 +184,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         saveManager.SetValue(GameLogic.RateAmountKey, newAmount);
     }
-    
-    private void ChangeBusterCountListener(TypeBuster typeBuster, int count)
-    {
-        switch (typeBuster)
-        {
-            case TypeBuster.Cell:
-                saveManager.SetValue(GameLogic.CountCellBusterKey, count);
-                break;
-            case TypeBuster.LineVertical:
-                saveManager.SetValue(GameLogic.CountLineVerticalBusterKey, count);
-                break;
-            case TypeBuster.LineHorizontal:
-                saveManager.SetValue(GameLogic.CountLineHorizontalBusterKey, count);
-                break;
-        }
-    }
-    
+
     private IEnumerator StartGameAsync(IUiMainManager mainMenu)
     {
         var loadScene = SceneManager.LoadSceneAsync("Game");
