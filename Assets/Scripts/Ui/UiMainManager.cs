@@ -122,13 +122,13 @@ namespace Ui
                 switch (luckyBox.typeBuster)
                 {
                     case TypeBuster.Cell:
-                        resultString += luckyBox.amount + "Cell Busters";
+                        resultString += luckyBox.amount + " Cell Busters";
                         break;
                     case TypeBuster.LineHorizontal:
-                        resultString += luckyBox.amount + "Horizontal line Cell Busters";
+                        resultString += luckyBox.amount + " Horizontal line Cell Busters";
                         break;
                     case TypeBuster.LineVertical:
-                        resultString += luckyBox.amount + "Vertical line Cell Busters";
+                        resultString += luckyBox.amount + " Vertical line Cell Busters";
                         break;
                 }
             }
