@@ -453,7 +453,7 @@ namespace Data
         public bool NeedShowLuckyBoxWithAmount(ISaveManager saveManager)
         {
             int amountCheck = saveManager.GetValueInt(MoneyAmountKey);
-            return true; //amountCheck < showIfAmountMoneyLover;
+            return amountCheck < showIfAmountMoneyLover;
         }
         #endregion
         
