@@ -174,6 +174,8 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
                 wheelCell.HideSprite();
             }
         }
+
+        UnselectSlotCoverAll();
     }
 
     private void SelectSlotCover(GameLogic.SlotPosition slotPosition)
@@ -200,6 +202,17 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         }
         
         selectSlotCover = new GameLogic.SlotPosition { Wheel = -1, Cell = -1 };
+    }
+    
+    private void UnselectSlotCoverAll()
+    {
+        foreach (var wheel in slotCovers.wheels)
+        {
+            foreach (var place in wheel.places)
+            {
+                place.SetColor(gameLogic.colorCoverCell);
+            }
+        }
     }
 
     private void ClickSlotCover(GameLogic.SlotPosition slotPosition)
