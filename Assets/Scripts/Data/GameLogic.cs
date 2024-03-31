@@ -16,7 +16,7 @@ namespace Data
         public const string CountCellBusterKey = "CountCellBuster";
         public const string CountLineVerticalBusterKey = "CountLineVerticalBusterKey";
         public const string CountLineHorizontalBusterKey = "CountLineHorizontalBuster";
-        public const string countEnterInGameKey = "CountEnterInGameKey";
+        public const string CountEnterInGameKey = "CountEnterInGameKey";
         public const string SoundVolumeKey = "FogOfWin_SFXVol";
         public const string MusicVolumeKey = "FogOfWin_MusicVol";
     
@@ -429,7 +429,7 @@ namespace Data
         #endregion
         
         #region Select
-        public List<WheelCell> SelectSlotCellList(Slot slot, TypeBuster typeBusterSet, GameLogic.SlotPosition selectSlotPosition)
+        public List<WheelCell> SelectSlotCellList(Slot slot, TypeBuster typeBusterSet, SlotPosition selectSlotPosition)
         {
             switch (typeBusterSet)
             {
@@ -446,7 +446,7 @@ namespace Data
         #region LuckyBox
         public bool NeedShowLuckyBoxWithCountShow(ISaveManager saveManager)
         {
-            int countShowCheck = saveManager.GetValueInt(countEnterInGameKey) % showIfCountEnter;
+            int countShowCheck = saveManager.GetValueInt(CountEnterInGameKey) % showIfCountEnter;
             return countShowCheck == 0;
         }
         
@@ -487,6 +487,21 @@ namespace Data
             public static SlotPosition operator +(SlotPosition addTo, int[] addPosition)
             {
                 return new SlotPosition() { Wheel = addTo.Wheel + addPosition[0], Cell = addTo.Cell + addPosition[1] };
+            }
+            
+            public bool Equals(SlotPosition other)
+            {
+                return Wheel == other.Wheel && Cell == other.Cell;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is SlotPosition other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(Wheel, Cell);
             }
         }
     }

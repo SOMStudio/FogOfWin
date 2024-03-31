@@ -24,11 +24,11 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private MusicManager musicManager;
     [SerializeField] private SoundManager soundManager;
 
-    private bool needInitSaveSystem = false;
-    private bool needUpdateGameState = false;
-    private bool needInitUiMain = false;
-    private bool needInitUiGame = false;
-    private bool needInitSlot = false;
+    private bool needInitSaveSystem;
+    private bool needUpdateGameState;
+    private bool needInitUiMain;
+    private bool needInitUiGame;
+    private bool needInitSlot;
 
     protected override void Awake()
     {
@@ -115,10 +115,10 @@ public class GameManager : MonoSingleton<GameManager>
         if (!saveManager.HasValue(GameLogic.CountLineHorizontalBusterKey))
             saveManager.SetValue(GameLogic.CountLineHorizontalBusterKey, gameLogic.countLineHorizontalBusterDefault);
 
-        if (!saveManager.HasValue(GameLogic.countEnterInGameKey))
-            saveManager.SetValue(GameLogic.countEnterInGameKey, 1);
+        if (!saveManager.HasValue(GameLogic.CountEnterInGameKey))
+            saveManager.SetValue(GameLogic.CountEnterInGameKey, 1);
         else
-            saveManager.SetValue(GameLogic.countEnterInGameKey, saveManager.GetValueInt(GameLogic.countEnterInGameKey) + 1);
+            saveManager.SetValue(GameLogic.CountEnterInGameKey, saveManager.GetValueInt(GameLogic.CountEnterInGameKey) + 1);
         
         if (!saveManager.HasValue(GameLogic.SoundVolumeKey))
             saveManager.SetValue(GameLogic.SoundVolumeKey, gameLogic.soundVolumeDefault);
