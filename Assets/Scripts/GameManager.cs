@@ -80,7 +80,7 @@ public class GameManager : MonoSingleton<GameManager>
         if (needInitUiMain)
         {
             needInitUiMain = false;
-            InitUiMainManager(uiMainManager, saveManager);
+            InitUiMainManager(uiMainManager, gameLogic, saveManager);
         }
         if (needInitUiGame)
         {
@@ -115,6 +115,11 @@ public class GameManager : MonoSingleton<GameManager>
         if (!saveManager.HasValue(GameLogic.CountLineHorizontalBusterKey))
             saveManager.SetValue(GameLogic.CountLineHorizontalBusterKey, gameLogic.countLineHorizontalBusterDefault);
 
+        if (!saveManager.HasValue(GameLogic.countEnterInGameKey))
+            saveManager.SetValue(GameLogic.countEnterInGameKey, 1);
+        else
+            saveManager.SetValue(GameLogic.countEnterInGameKey, saveManager.GetValueInt(GameLogic.countEnterInGameKey) + 1);
+        
         if (!saveManager.HasValue(GameLogic.SoundVolumeKey))
             saveManager.SetValue(GameLogic.SoundVolumeKey, gameLogic.soundVolumeDefault);
         if (!saveManager.HasValue(GameLogic.MusicVolumeKey))
@@ -138,9 +143,9 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
     
-    private void InitUiMainManager(IUiMainManager uiMainManagerInit, ISaveManager saveManagerInit)
+    private void InitUiMainManager(IUiMainManager uiMainManagerInit, GameLogic gameLogicInit , ISaveManager saveManagerInit)
     {
-        uiMainManagerInit.Init(saveManagerInit);
+        uiMainManagerInit.Init(gameLogicInit, saveManagerInit);
         
         uiMainManagerInit.ButtonPlayEvent.AddListener(StartGame);
         

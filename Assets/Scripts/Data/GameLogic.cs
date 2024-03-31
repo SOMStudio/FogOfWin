@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Save;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Data
 {
@@ -16,6 +16,7 @@ namespace Data
         public const string CountCellBusterKey = "CountCellBuster";
         public const string CountLineVerticalBusterKey = "CountLineVerticalBusterKey";
         public const string CountLineHorizontalBusterKey = "CountLineHorizontalBuster";
+        public const string countEnterInGameKey = "CountEnterInGameKey";
         public const string SoundVolumeKey = "FogOfWin_SFXVol";
         public const string MusicVolumeKey = "FogOfWin_MusicVol";
     
@@ -60,6 +61,14 @@ namespace Data
         public float soundVolumeDefault = 0.5f;
         public float musicVolumeDefault = 0f;
 
+        [Header("Lucky Box")]
+        public int showIfAmountMoneyLover = 2000;
+        public int showIfCountEnter = 10;
+        public int minAmountMoneyLuckyBox = 3000;
+        public int maxAmountMoneyLuckyBox = 9000;
+        public int minCountBusterLuckyBox = 3;
+        public int maxCountBusterLuckyBox = 8;
+        
         #region Init
         public void InitGameState(Slot positions, Slot cells)
         {
@@ -82,7 +91,7 @@ namespace Data
 
         private int GetRandomSpriteNumber()
         {
-            return Random.Range(0, cellSprites.Length);
+            return UnityEngine.Random.Range(0, cellSprites.Length);
         }
 
         private Sprite GetSpriteWithNumber(int numberSprite)
@@ -92,7 +101,7 @@ namespace Data
 
         public float GetRandomRange(float nimValue, float maxValue)
         {
-            return Random.Range(nimValue, maxValue);
+            return UnityEngine.Random.Range(nimValue, maxValue);
         }
     
         public void InitRandomSpeedRotateWheel(float[] wheelSpeeds)
@@ -103,7 +112,7 @@ namespace Data
             }
         }
         #endregion
-    
+        
         #region Spin
         public void MoveWheelCells(Slot points, Slot cells, float[] timeRotate, float[] currentTime, bool stopRotate, Action stopRotateAction, float deltaTime)
         {
@@ -147,7 +156,7 @@ namespace Data
             InitRandomSprite(cells[numWheel, 0]);
         }
         #endregion
-
+        
         #region Reward
         public Dictionary<int, int> CountRewardResult(int price, Slot cells, TypeGame type, out Dictionary<int, Result> resultCells)
         {
@@ -348,7 +357,7 @@ namespace Data
             return CalculateReward(price, resultCells, coefficientFirstForLineNumberType, coefficientOtherForLineNumberType);;
         }
         #endregion
-
+        
         #region Result
         public IEnumerator ShowResult(Slot points, int amount, int rateAmount, Dictionary<int, int> result,
             Dictionary<int, Result> resultCells, Action startShowResultAction,
@@ -418,7 +427,7 @@ namespace Data
             }
         }
         #endregion
-    
+        
         #region Select
         public List<WheelCell> SelectSlotCellList(Slot slot, TypeBuster typeBusterSet, GameLogic.SlotPosition selectSlotPosition)
         {
@@ -433,14 +442,28 @@ namespace Data
             }
         }
         #endregion
-    
+
+        #region LuckyBox
+        public bool NeedShowLuckyBoxWithCountShow(ISaveManager saveManager)
+        {
+            int countShowCheck = saveManager.GetValueInt(countEnterInGameKey) % showIfCountEnter;
+            return countShowCheck == 0;
+        }
+        
+        public bool NeedShowLuckyBoxWithAmount(ISaveManager saveManager)
+        {
+            int amountCheck = saveManager.GetValueInt(MoneyAmountKey);
+            return true; //amountCheck < showIfAmountMoneyLover;
+        }
+        #endregion
+        
         public struct Result
         {
             public int NumberPicture;
             public List<SlotPosition> FirstWheel;
             public List<SlotPosition> OtherWheels;
         }
-    
+        
         public struct SlotPosition
         {
             public int Wheel;

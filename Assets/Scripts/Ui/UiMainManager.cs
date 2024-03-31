@@ -1,11 +1,11 @@
-using System.Data;
+using System.Collections;
 using Base;
 using Components.UI;
 using Data;
 using Save;
 using Sound;
+using Ui.Game;
 using Ui.Menu;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -29,9 +29,21 @@ namespace Ui
         [SerializeField] private CanvasGroupComponent storeCanvasGroup;
         [SerializeField] private StorePanelManager storePanelManager;
 
+        [Header("Lucky Box")]
+        [SerializeField] private CanvasGroupComponent luckyBoxCanvasGrope;
+        [SerializeField] private LuckyBoxPanelManager luckyBoxPanelManager;
+        
+        [Header("Result")]
+        [SerializeField] private CanvasGroupComponent resulCanvasGrope;
+        [SerializeField] private ResultPanelManager resultPanelManager;
+
         [Header("Buttons")]
         [SerializeField] private Button playButton;
+        [SerializeField] private Button luckyBoxButton;
 
+        private GameLogic gameLogic;
+        private ISaveManager saveManager;
+        
         public UnityEvent ButtonPlayEvent => playButton.onClick;
         public UnityEvent<float> SliderSoundEvent => settingsPanelManager.soundSlider.onValueChanged; 
         public UnityEvent<float> SliderMusicEvent => settingsPanelManager.musicSlider.onValueChanged;
@@ -43,19 +55,29 @@ namespace Ui
             DontDestroyOnLoad(this);
         }
 
-        public void Init(ISaveManager saveManager)
+        public void Init(GameLogic gameLogicSet, ISaveManager saveManagerSet)
         {
+            gameLogic = gameLogicSet;
+            saveManager = saveManagerSet;
+            
             settingsPanelManager.SoundVolume(saveManager.GetValueFloat(GameLogic.SoundVolumeKey));
             settingsPanelManager.MusicVolume(saveManager.GetValueFloat(GameLogic.MusicVolumeKey));
 
             storePanelManager.Init(saveManager);
             
             saveManager.ChangeValueEvent += storePanelManager.UpdateStoreValues;
+            
+            luckyBoxPanelManager.Init(gameLogic, saveManager);
+
+            if (gameLogic.NeedShowLuckyBoxWithCountShow(saveManager)) luckyBoxButton.gameObject.SetActive(true);
+            else if (gameLogic.NeedShowLuckyBoxWithAmount(saveManager)) luckyBoxButton.gameObject.SetActive(true);
         }
 
         public void ShowMainPanels()
         {
             mainCanvasGroup.Show();
+
+            if (gameLogic.NeedShowLuckyBoxWithAmount(saveManager)) luckyBoxButton.gameObject.SetActive(true);
         }
 
         public void HideMainPanels()
@@ -88,6 +110,44 @@ namespace Ui
             loadPanelManager.Hide();
         }
 
+        public void ShowLuckyPox(LuckyBoxItem luckyBox)
+        {
+            string resultString = "";
+            if (luckyBox.typeReward == TypeReward.Money)
+            {
+                resultString += luckyBox.amount + " $";
+            }
+            else
+            {
+                switch (luckyBox.typeBuster)
+                {
+                    case TypeBuster.Cell:
+                        resultString += luckyBox.amount + "Cell Busters";
+                        break;
+                    case TypeBuster.LineHorizontal:
+                        resultString += luckyBox.amount + "Horizontal line Cell Busters";
+                        break;
+                    case TypeBuster.LineVertical:
+                        resultString += luckyBox.amount + "Vertical line Cell Busters";
+                        break;
+                }
+            }
+
+            StartCoroutine(ShowLuckyBoxCoroutine(resultString));
+        }
+
+        private IEnumerator ShowLuckyBoxCoroutine(string message)
+        {
+            luckyBoxCanvasGrope.Interactive(false);
+            
+            yield return new WaitForSeconds(3f);
+            
+            luckyBoxCanvasGrope.Hide();
+
+            resultPanelManager.SetText(message);
+            resulCanvasGrope.Show();
+        }
+
         #region Buttons
         public void PlayButtonSound()
         {
@@ -107,7 +167,7 @@ namespace Ui
         UnityEvent<float> SliderSoundEvent { get; }
         UnityEvent<float> SliderMusicEvent { get; }
 
-        void Init(ISaveManager saveManager);
+        void Init(GameLogic gameLogic, ISaveManager saveManager);
         
         void ShowMainPanels();
         void HideMainPanels();

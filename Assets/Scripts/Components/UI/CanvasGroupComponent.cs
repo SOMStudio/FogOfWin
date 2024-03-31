@@ -8,7 +8,6 @@ namespace Components.UI
     {
         [Header("Main")]
         [SerializeField] private CanvasGroup canvasGroup;
-        [SerializeField] private float showTime = 0.5f;
 
         [Header("Events")]
         [SerializeField] private UnityEvent showEvent;
