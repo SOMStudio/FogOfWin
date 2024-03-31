@@ -73,6 +73,13 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
             () => stopSlotRotateEvent?.Invoke(), Time.deltaTime);
     }
 
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        
+        saveManager.ChangeValueEvent -= UpdateLuckyBoxListener;
+    }
+
     public void Init(GameLogic gameLogicSet, ISaveManager saveManagerSet)
     {
         gameLogic = gameLogicSet;
@@ -86,6 +93,8 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         countLineVerticalBuster = saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey);
         countLineHorizontalBuster = saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey);
 
+        saveManager.ChangeValueEvent += UpdateLuckyBoxListener;
+        
         gameLogic.InitGameState(slotPoints, slotCells);
 
         changeMoneyAmountEvent?.Invoke(moneyAmount, moneyAmount, false);
@@ -243,16 +252,13 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         switch (typeBusterCheck)
         {
             case TypeBuster.LineHorizontal:
-                countLineHorizontalBuster += addCount;
-                saveManager.SetValue(GameLogic.CountLineHorizontalBusterKey, countLineHorizontalBuster);
+                saveManager.SetValue(GameLogic.CountLineHorizontalBusterKey, countLineHorizontalBuster + addCount);
                 break;
             case TypeBuster.LineVertical:
-                countLineVerticalBuster += addCount;
-                saveManager.SetValue(GameLogic.CountLineVerticalBusterKey, countLineVerticalBuster);
+                saveManager.SetValue(GameLogic.CountLineVerticalBusterKey, countLineVerticalBuster + addCount);
                 break;
             default:
-                countCellBuster += addCount;
-                saveManager.SetValue(GameLogic.CountCellBusterKey, countCellBuster);
+                saveManager.SetValue(GameLogic.CountCellBusterKey, countCellBuster + addCount);
                 break;
         }
     }
@@ -303,6 +309,22 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         var cell = Int32.Parse(wheelCell[1].ToString());
 
         ClickSlotCover(new GameLogic.SlotPosition { Wheel = wheel, Cell = cell });
+    }
+
+    public void UpdateLuckyBoxListener(string value)
+    {
+        switch (value)
+        {
+            case GameLogic.CountCellBusterKey:
+                countCellBuster = saveManager.GetValueInt(GameLogic.CountCellBusterKey);
+                break;
+            case GameLogic.CountLineHorizontalBusterKey:
+                countLineHorizontalBuster = saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey);
+                break;
+            case GameLogic.CountLineVerticalBusterKey:
+                countLineVerticalBuster = saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey);
+                break;
+        }
     }
     #endregion
 
