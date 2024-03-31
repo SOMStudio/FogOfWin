@@ -40,7 +40,7 @@ namespace Ui.Menu
                             gameLogic.maxAmountMoneyLuckyBox);
                         break;
                     case TypeReward.Buster:
-                        box.typeBuster = (TypeBuster)UnityEngine.Random.Range(0, 4);
+                        box.typeBuster = (TypeBuster)UnityEngine.Random.Range(0, 3);
                         box.amount = UnityEngine.Random.Range(gameLogic.minCountBusterLuckyBox,
                             gameLogic.maxCountBusterLuckyBox);
                         break;
