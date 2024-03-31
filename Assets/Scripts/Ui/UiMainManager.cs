@@ -77,7 +77,11 @@ namespace Ui
         {
             mainCanvasGroup.Show();
 
-            if (gameLogic.NeedShowLuckyBoxWithAmount(saveManager)) luckyBoxButton.gameObject.SetActive(true);
+            if (gameLogic.NeedShowLuckyBoxWithAmount(saveManager))
+            {
+                luckyBoxPanelManager.Generate();
+                luckyBoxButton.gameObject.SetActive(true);
+            }
         }
 
         public void HideMainPanels()
