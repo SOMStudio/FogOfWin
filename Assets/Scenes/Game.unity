@@ -925,7 +925,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 0}
-  showTime: 0.5
   showEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -3713,7 +3712,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 0}
-  showTime: 0.5
   showEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -5903,7 +5901,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 0}
-  showTime: 0.5
   showEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -7749,7 +7746,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 0}
-  showTime: 0.5
   showEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -9243,7 +9239,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 0}
-  showTime: 0.5
   showEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -10170,6 +10165,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+        - m_Target: {fileID: 556742509}
+          m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
+          m_MethodName: ShowTutorial
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
     canvas:
     - {fileID: 4547348884128765892}
     - {fileID: 4998495753892604434}
@@ -10277,7 +10284,19 @@ MonoBehaviour:
     - {fileID: 479169398}
   - beforeShowItemEvent:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 556742509}
+          m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
+          m_MethodName: HideTutorial
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     canvas:
     - {fileID: 2108215122}
     - {fileID: 687995379}
@@ -10294,7 +10313,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 0}
-  showTime: 0.5
   showEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -17177,6 +17195,78 @@ PrefabInstance:
     - target: {fileID: 1367310955517031700, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
       propertyPath: m_Name
       value: ResultPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2308422349770491515, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2308422349770491515, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2308422349770491515, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2308422349770491515, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2308422349770491515, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2308422349770491515, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4442770443768905630, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4442770443768905630, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4442770443768905630, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4442770443768905630, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4442770443768905630, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4442770443768905630, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187482562727111445, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187482562727111445, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187482562727111445, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187482562727111445, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187482562727111445, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7187482562727111445, guid: 82288ec4a5447a8468e0f76d3c4f29f3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

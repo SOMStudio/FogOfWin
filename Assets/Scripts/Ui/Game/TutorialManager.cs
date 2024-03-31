@@ -72,7 +72,9 @@ namespace Ui.Game
     [Serializable]
     public class TutorialItem
     {
+        [Header("Invoke Event")]
         public UnityEvent beforeShowItemEvent;
+        [Header("Show Canvas Group")]
         public CanvasGroupComponent[] canvas;
     }
 }

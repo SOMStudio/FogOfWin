@@ -32,6 +32,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     private bool stopRotate = true;
 
     private GameLogic.SlotPosition selectSlotCover = new(){Wheel = -1, Cell = -1};
+    private bool initTutorial;
 
     private ISaveManager saveManager;
     
@@ -286,6 +287,16 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         slotBase.SetActive(false);
     }
 
+    public void ShowTutorial()
+    {
+        initTutorial = true;
+    }
+
+    public void HideTutorial()
+    {
+        initTutorial = false;
+    }
+
     #region Listener
     public void OnMouseEnterCellCoverListener(string wheelCell)
     {
@@ -305,6 +316,8 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 
     public void OnMouseUpCellCoverListener(string wheelCell)
     {
+        if (initTutorial) return;
+        
         var wheel = Int32.Parse(wheelCell[0].ToString());
         var cell = Int32.Parse(wheelCell[1].ToString());
 
