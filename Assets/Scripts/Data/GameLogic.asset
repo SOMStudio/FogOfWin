@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f1a49b53649324182d29a4ad1ab7d2, type: 3}
   m_Name: GameLogic
   m_EditorClassIdentifier: 
-  rateAmountDefault: 200
-  stepAmountDefault: 50
   slotCellPrefab: {fileID: 113321087005378575, guid: c2aacd24eafc5d948815f701549d31d2, type: 3}
   cellSprites:
   - {fileID: -1734859633, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
@@ -26,6 +24,12 @@ MonoBehaviour:
   - {fileID: 349144957, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
   - {fileID: 1844731603, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
   - {fileID: 851766810, guid: 48d708da318f4774888648ffb2c8e10f, type: 3}
+  moneyAmountDefault: 10000
+  rateAmountDefault: 200
+  stepAmountDefault: 50
+  countCellBusterDefault: 20
+  countLineVerticalBusterDefault: 10
+  countLineHorizontalBusterDefault: 10
   minSpeedWheelRotate: 0.07
   maxSpeedWheelRotate: 0.17
   minTimeRotate: 1
@@ -41,3 +45,11 @@ MonoBehaviour:
   finalDelayAfterStepResult: 0.5
   colorCoverCell: {r: 0.61960787, g: 0.46666667, b: 1, a: 1}
   colorSelectCoverCell: {r: 0.91764706, g: 0.47843137, b: 0.98039216, a: 1}
+  soundVolumeDefault: 0.5
+  musicVolumeDefault: 0
+  showIfAmountMoneyLover: 2000
+  showIfCountEnter: 10
+  minAmountMoneyLuckyBox: 3000
+  maxAmountMoneyLuckyBox: 9000
+  minCountBusterLuckyBox: 5
+  maxCountBusterLuckyBox: 15
