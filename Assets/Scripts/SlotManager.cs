@@ -78,7 +78,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     {
         base.OnDestroy();
         
-        saveManager.ChangeValueEvent -= UpdateLuckyBoxListener;
+        saveManager.ChangeValueEvent -= UpdateSaveManagerListener;
     }
 
     public void Init(GameLogic gameLogicSet, ISaveManager saveManagerSet)
@@ -94,9 +94,11 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         countLineVerticalBuster = saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey);
         countLineHorizontalBuster = saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey);
 
-        saveManager.ChangeValueEvent += UpdateLuckyBoxListener;
+        saveManager.ChangeValueEvent += UpdateSaveManagerListener;
         
         gameLogic.InitGameState(slotPoints, slotCells);
+        
+        finishShowResultEvent.AddListener(UpdateAmountListener);
 
         changeMoneyAmountEvent?.Invoke(moneyAmount, moneyAmount, false);
         changeRateAmountEvent?.Invoke(rateAmount);
@@ -152,16 +154,20 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 
     private void ChangeRateAmount(int changeAmount)
     {
-        rateAmount += changeAmount;
+        int newRateAmount = rateAmount + changeAmount;
         
-        changeRateAmountEvent?.Invoke(rateAmount);
+        saveManager.SetValue(GameLogic.RateAmountKey, newRateAmount);
+        
+        changeRateAmountEvent?.Invoke(newRateAmount);
     }
 
     private void ChangeMoneyAmount(int changeAmount)
     {
-        changeMoneyAmountEvent?.Invoke(moneyAmount, moneyAmount + changeAmount, false);
-            
-        moneyAmount += changeAmount;
+        int newAmount = moneyAmount + changeAmount;
+        
+        changeMoneyAmountEvent?.Invoke(moneyAmount, newAmount, false);
+        
+        saveManager.SetValue(GameLogic.MoneyAmountKey, newAmount);
     }
     
     public void ShowCellCover()
@@ -324,7 +330,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         ClickSlotCover(new GameLogic.SlotPosition { Wheel = wheel, Cell = cell });
     }
 
-    public void UpdateLuckyBoxListener(string value)
+    private void UpdateSaveManagerListener(string value)
     {
         switch (value)
         {
@@ -337,7 +343,18 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
             case GameLogic.CountLineVerticalBusterKey:
                 countLineVerticalBuster = saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey);
                 break;
+            case GameLogic.MoneyAmountKey:
+                moneyAmount = saveManager.GetValueInt(GameLogic.MoneyAmountKey);
+                break;
+            case GameLogic.RateAmountKey:
+                rateAmount = saveManager.GetValueInt(GameLogic.RateAmountKey);
+                break;
         }
+    }
+
+    private void UpdateAmountListener()
+    {
+        saveManager.SetValue(GameLogic.MoneyAmountKey, moneyAmount);
     }
     #endregion
 

@@ -175,19 +175,6 @@ public class GameManager : MonoSingleton<GameManager>
     private void InitSlotManager(ISlotManager slotManagerInit, ISaveManager saveManagerInit)
     {
         slotManagerInit.Init(gameLogic, saveManagerInit);
-        
-        slotManagerInit.ChangeMoneyAmountEvent.AddListener(ChangeMoneyAmountListener);
-        slotManagerInit.ChangeRateAmountEvent.AddListener(ChangeRateAmountListener);
-    }
-
-    private void ChangeMoneyAmountListener(int oldAmount, int newAmount, bool afterRotate)
-    {
-        saveManager.SetValue(GameLogic.MoneyAmountKey, newAmount);
-    }
-
-    private void ChangeRateAmountListener(int newAmount)
-    {
-        saveManager.SetValue(GameLogic.RateAmountKey, newAmount);
     }
 
     private IEnumerator StartGameAsync(IUiMainManager mainMenu)
