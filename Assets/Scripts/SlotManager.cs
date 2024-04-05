@@ -251,6 +251,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
             }
             
             AddBusterCount(typeBuster, -1);
+            UnselectSlotCover(selectSlotCover);
         }
     }
 
@@ -306,18 +307,22 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     #region Listener
     public void OnMouseEnterCellCoverListener(string wheelCell)
     {
+        #if !UNITY_ANDROID
         var wheel = Int32.Parse(wheelCell[0].ToString());
         var cell = Int32.Parse(wheelCell[1].ToString());
 
         SelectSlotCover(new GameLogic.SlotPosition { Wheel = wheel, Cell = cell });
+        #endif
     }
     
     public void OnMouseExitCellCoverListener(string wheelCell)
     {
+        #if !UNITY_ANDROID
         var wheel = Int32.Parse(wheelCell[0].ToString());
         var cell = Int32.Parse(wheelCell[1].ToString());
 
         UnselectSlotCover(new GameLogic.SlotPosition { Wheel = wheel, Cell = cell });
+        #endif
     }
 
     public void OnMouseUpCellCoverListener(string wheelCell)
