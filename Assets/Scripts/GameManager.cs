@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Base;
 using Data;
 using Music;
@@ -24,6 +26,8 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField] private MusicManager musicManager;
     [SerializeField] private SoundManager soundManager;
 
+    private List<string> errorList;
+    
     private bool needInitSaveSystem;
     private bool needUpdateGameState;
     private bool needInitUiMain;
@@ -35,17 +39,18 @@ public class GameManager : MonoSingleton<GameManager>
         base.Awake();
 
         DontDestroyOnLoad(this);
-        
-        CheckManagers();
     }
 
     private void Start()
     {
+        CheckManagers();
         InitManagers();
     }
 
     private void CheckManagers()
     {
+        if (errorList == null) errorList = new List<string>();
+        
         if (!saveManager)
         {
             saveManager = SaveManager.instance;
@@ -74,29 +79,70 @@ public class GameManager : MonoSingleton<GameManager>
     {
         if (needInitSaveSystem)
         {
-            needInitSaveSystem = false;
-            InitSaveManager();
+            try
+            {
+                InitSaveManager();
+                needInitSaveSystem = false;
+            }
+            catch (Exception e)
+            {
+                errorList.Add(e.Message);
+            }
         }
+
         if (needInitUiMain)
         {
-            needInitUiMain = false;
-            InitUiMainManager(uiMainManager, gameLogic, saveManager);
+            try
+            {
+                InitUiMainManager(uiMainManager, gameLogic, saveManager);
+                needInitUiMain = false;
+            }
+            catch (Exception e)
+            {
+                errorList.Add(e.Message);
+            }
         }
+
         if (needInitUiGame)
         {
-            needInitUiGame = false;
-            InitUiGameManager(uiGameManager, saveManager);
+            try
+            {
+                InitUiGameManager(uiGameManager, saveManager);
+                needInitUiGame = false;
+            }
+            catch (Exception e)
+            {
+                errorList.Add(e.Message);
+            }
         }
+
         if (slotManager && saveManager && needInitSlot)
         {
-            needInitSlot = false;
-            InitSlotManager(slotManager, saveManager);
+            try
+            {
+                InitSlotManager(slotManager, saveManager);
+                needInitSlot = false;
+            }
+            catch (Exception e)
+            {
+                errorList.Add(e.Message);
+            }
         }
+
         if (needUpdateGameState)
         {
-            needUpdateGameState = false;
-            ChangeGameState(slotManager, uiMainManager, uiGameManager);
+            try
+            {
+                ChangeGameState(slotManager, uiMainManager, uiGameManager);
+                needUpdateGameState = false;
+            }
+            catch (Exception e)
+            {
+                errorList.Add(e.Message);
+            }
         }
+
+        if (uiMainManager && errorList.Count > 0) ShowError(errorList, uiMainManager);
     }
 
     private void InitSaveManager()
@@ -192,6 +238,8 @@ public class GameManager : MonoSingleton<GameManager>
 
         gameState = GameState.Game;
         needUpdateGameState = true;
+
+        yield return new WaitUntil(() => SlotManager.instance);
         
         CheckManagers();
 
@@ -213,6 +261,8 @@ public class GameManager : MonoSingleton<GameManager>
 
         gameState = GameState.MainMenu;
         needUpdateGameState = true;
+        
+        yield return new WaitUntil(() => UiMainManager.instance);
         
         CheckManagers();
 
@@ -251,6 +301,13 @@ public class GameManager : MonoSingleton<GameManager>
             
             InitManagers();
         }
+    }
+
+    private void ShowError(List<string> errors, IErrorManager errorManager)
+    {
+        foreach (var error in errors) errorManager.AddErrorMessage(error);
+        
+        errors.Clear();
     }
 }
 

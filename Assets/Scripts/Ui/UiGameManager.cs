@@ -300,6 +300,5 @@ namespace Ui
         void Init(ISaveManager saveManager);
         void HideGamePanels();
         void ShowGamePanels();
-        
     }
 }

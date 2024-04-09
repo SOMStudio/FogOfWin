@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Base;
 using Components.UI;
@@ -12,7 +13,7 @@ using UnityEngine.UI;
 
 namespace Ui
 {
-    public class UiMainManager : MonoSingleton<UiMainManager>, IUiMainManager
+    public class UiMainManager : MonoSingleton<UiMainManager>, IUiMainManager, IErrorManager
     {
         [Header("Main")]
         [SerializeField] private CanvasGroupComponent windowCanvasGroup;
@@ -36,6 +37,9 @@ namespace Ui
         [Header("Result")]
         [SerializeField] private CanvasGroupComponent resulCanvasGrope;
         [SerializeField] private ResultPanelManager resultPanelManager;
+
+        [Header("Errors")]
+        [SerializeField] private Text errorText;
 
         [Header("Buttons")]
         [SerializeField] private Button playButton;
@@ -152,6 +156,11 @@ namespace Ui
             resulCanvasGrope.Show();
         }
 
+        public void AddErrorMessage(string error)
+        {
+            errorText.text += Environment.NewLine + error;
+        }
+
         #region Buttons
         public void PlayButtonSound()
         {
@@ -179,6 +188,10 @@ namespace Ui
         void LoadWindowShow();
         void LoadWindowProgress(float progress);
         void LoadWindowHide();
-        
+    }
+    
+    public interface IErrorManager
+    {
+        void AddErrorMessage(string error);
     }
 }
