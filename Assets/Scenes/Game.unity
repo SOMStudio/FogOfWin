@@ -708,7 +708,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9023352822221008763, guid: 9589b710217b99b4ba78c7865573b6d9, type: 3}
       propertyPath: m_Text
-      value: This is Type Buster, open cell in Fog over Slot
+      value: This Booster Type, open cell in Fog over Slot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4620,8 +4620,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9023352822221008763, guid: 9589b710217b99b4ba78c7865573b6d9, type: 3}
       propertyPath: m_Text
-      value: This is Type Game, calculate all same numbers repeated in horizontal
-        cells start from firs colomn
+      value: This is a Game Type, count all the same numbers repeating in horizontal
+        cells starting from the first column
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4827,7 +4827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9023352822221008763, guid: 9589b710217b99b4ba78c7865573b6d9, type: 3}
       propertyPath: m_Text
-      value: This is button for calculate Result of Win
+      value: This is the button for calculating the reward Result
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4956,8 +4956,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9023352822221008763, guid: 9589b710217b99b4ba78c7865573b6d9, type: 3}
       propertyPath: m_Text
-      value: This is Type Game, calculate all same numbers repeated in near cells
-        start from firs colomn
+      value: This is a Game Type, count all the same numbers that are repeated in
+        the nearest cells, starting from the first column
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6716,7 +6716,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9023352822221008763, guid: 9589b710217b99b4ba78c7865573b6d9, type: 3}
       propertyPath: m_Text
-      value: This is Type Buster
+      value: These are Booster Types
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7901,7 +7901,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: All cells except the first column will be covered by "Fog"
+  m_Text: All cells except the first column will be covered by Fog
 --- !u!222 &1090619320
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9598,7 +9598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9023352822221008763, guid: 9589b710217b99b4ba78c7865573b6d9, type: 3}
       propertyPath: m_Text
-      value: This is button for Spin with rate of spin
+      value: This is a Spin button with a fixed bet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11950,7 +11950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9023352822221008763, guid: 9589b710217b99b4ba78c7865573b6d9, type: 3}
       propertyPath: m_Text
-      value: This is Type Buster, open vertical line in Fog over Slot
+      value: This Booster Type, open vertical line in the fog over Slot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12325,7 +12325,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9023352822221008763, guid: 9589b710217b99b4ba78c7865573b6d9, type: 3}
       propertyPath: m_Text
-      value: This is Type Game
+      value: These are the Types of reward calculation in the Game
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12743,7 +12743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9023352822221008763, guid: 9589b710217b99b4ba78c7865573b6d9, type: 3}
       propertyPath: m_Text
-      value: This is Type Buster, open horizontal line in Fog over Slot
+      value: This Booster Type, open horizontal line in Fog over Slot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13871,7 +13871,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9023352822221008763, guid: 9589b710217b99b4ba78c7865573b6d9, type: 3}
       propertyPath: m_Text
-      value: This is Type Game, calculate all same numbers repeated in first colomn
+      value: This is a Game Type, count all the same numbers that are repeated according
+        to the first column
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
