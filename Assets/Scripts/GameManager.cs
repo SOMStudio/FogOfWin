@@ -235,11 +235,15 @@ public class GameManager : MonoSingleton<GameManager>
             yield return null;
         }
         mainMenu.LoadWindowHide();
-
+        
         gameState = GameState.Game;
         needUpdateGameState = true;
+        
+        yield return null;
+        
+        uiMainManager?.HideMainPanels();
 
-        yield return new WaitUntil(() => SlotManager.instance);
+        yield return new WaitUntil(() => SlotManager.instance && UiGameManager.instance);
         
         CheckManagers();
 
