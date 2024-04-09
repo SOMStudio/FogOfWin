@@ -13,19 +13,27 @@ namespace Ui.Game
         [Header("Tutorial")]
         [SerializeField] private TutorialItem[] tutorialSteps;
 
-        private int activeTutorial = 0;
+        [Header("Events")]
+        public UnityEvent startTutorialEvent;
+        public UnityEvent endTutorialEvent;
+        
+        private int activeTutorial;
     
         public void Show()
         {
+            startTutorialEvent?.Invoke();
+            
             activeTutorial = 0;
             ShowTutorial(activeTutorial);
         
             canvasGroup.Show();
         }
 
-        public void Hide()
+        private void Hide()
         {
             canvasGroup.Hide();
+            
+            endTutorialEvent?.Invoke();
         }
 
         private void ShowTutorial(int activateTutorial)
