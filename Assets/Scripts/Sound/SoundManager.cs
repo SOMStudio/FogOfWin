@@ -30,14 +30,7 @@ namespace Sound
 			DontDestroyOnLoad(gameObject);
 			
 			string stKey = $"{gamePrefsName}_SFXVol";
-			if (PlayerPrefs.HasKey(stKey))
-			{
-				volume = PlayerPrefs.GetFloat(stKey);
-			}
-			else
-			{
-				volume = 0.5f;
-			}
+			volume = PlayerPrefs.HasKey(stKey) ? PlayerPrefs.GetFloat(stKey) : 0.5f;
 
 			soundObjectList = new List<SoundObject>();
 
@@ -46,7 +39,7 @@ namespace Sound
 				tempSoundObj = new SoundObject(theSound, theSound.name, volume);
 				soundObjectList.Add(tempSoundObj);
 
-				DontDestroyOnLoad(tempSoundObj.sourceGo);
+				DontDestroyOnLoad(tempSoundObj.SourceGo);
 			}
 		}
 
@@ -57,27 +50,22 @@ namespace Sound
 
 		public void UpdateVolume()
 		{
-			if (soundObjectList == null)
-			{
-				Init();
-			}
+			if (soundObjectList == null) Init();
 
 			string stKey = $"{gamePrefsName}_SFXVol";
 			volume = PlayerPrefs.GetFloat(stKey);
 
-			foreach (var sound in soundObjectList)
-			{
-				tempSoundObj = sound;
-				tempSoundObj.source.volume = volume;
-			}
+			if (soundObjectList != null)
+				foreach (var sound in soundObjectList)
+				{
+					tempSoundObj = sound;
+					tempSoundObj.Source.volume = volume;
+				}
 		}
 
 		public void PlaySoundByIndex(int indexSound, Vector3 playPosition)
 		{
-			if (indexSound > soundObjectList.Count)
-			{
-				indexSound = soundObjectList.Count - 1;
-			}
+			if (indexSound > soundObjectList.Count) indexSound = soundObjectList.Count - 1;
 
 			tempSoundObj = soundObjectList[indexSound];
 			tempSoundObj.PlaySound(playPosition);
@@ -91,30 +79,28 @@ namespace Sound
 
 	public class SoundObject
 	{
-		public readonly AudioSource source;
-		public readonly GameObject sourceGo;
+		public readonly AudioSource Source;
+		public readonly GameObject SourceGo;
 		
 		private readonly Transform sourceTR;
 		private readonly AudioClip clip;
-		private string name;
 
 		public SoundObject(AudioClip setClip, string setName, float setVolume)
 		{
-			sourceGo = new GameObject("AudioSource_" + setName);
-			sourceTR = sourceGo.transform;
-			source = sourceGo.AddComponent<AudioSource>();
-			source.name = "AudioSource_" + setName;
-			source.playOnAwake = false;
-			source.clip = setClip;
-			source.volume = setVolume;
+			SourceGo = new GameObject("AudioSource_" + setName);
+			sourceTR = SourceGo.transform;
+			Source = SourceGo.AddComponent<AudioSource>();
+			Source.name = "AudioSource_" + setName;
+			Source.playOnAwake = false;
+			Source.clip = setClip;
+			Source.volume = setVolume;
 			clip = setClip;
-			name = setName;
 		}
 
 		public void PlaySound(Vector3 atPosition)
 		{
 			sourceTR.position = atPosition;
-			source.PlayOneShot(clip);
+			Source.PlayOneShot(clip);
 		}
 	}
 }
