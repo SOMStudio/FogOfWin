@@ -55,7 +55,7 @@ namespace Ui
         [SerializeField] private ResultPanelManager resultWindow;
 
         private ISaveManager saveManager;
-        private int amountWin = 0;
+        private int amountWin;
 
         public UnityEvent ButtonMainMenuEvent => menuButton.onClick;
 
