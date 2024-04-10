@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 namespace Ui
 {
-    public class UiMainManager : MonoSingleton<UiMainManager>, IUiMainManager, IErrorManager
+    public class UiMainManager : MonoSingleton<UiMainManager>, IUiMainManager, IConsoleManager
     {
         [Header("Main")]
         [SerializeField] private CanvasGroupComponent windowCanvasGroup;
@@ -156,7 +156,7 @@ namespace Ui
             resulCanvasGrope.Show();
         }
 
-        public void AddErrorMessage(string error)
+        public void AddMessage(string error)
         {
             errorText.text += Environment.NewLine + error;
         }
@@ -190,8 +190,8 @@ namespace Ui
         void LoadWindowHide();
     }
     
-    public interface IErrorManager
+    public interface IConsoleManager
     {
-        void AddErrorMessage(string error);
+        void AddMessage(string error);
     }
 }
