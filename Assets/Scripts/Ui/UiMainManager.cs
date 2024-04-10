@@ -38,8 +38,8 @@ namespace Ui
         [SerializeField] private CanvasGroupComponent resulCanvasGrope;
         [SerializeField] private ResultPanelManager resultPanelManager;
 
-        [Header("Errors")]
-        [SerializeField] private Text errorText;
+        [Header("Console")]
+        [SerializeField] private Text consoleText;
 
         [Header("Buttons")]
         [SerializeField] private Button playButton;
@@ -156,9 +156,14 @@ namespace Ui
             resulCanvasGrope.Show();
         }
 
-        public void AddMessage(string error)
+        public void AddMessage(string message)
         {
-            errorText.text += Environment.NewLine + error;
+            consoleText.text += Environment.NewLine + message;
+        }
+
+        public void Clear()
+        {
+            consoleText.text = "Console:";
         }
 
         #region Buttons
@@ -192,6 +197,7 @@ namespace Ui
     
     public interface IConsoleManager
     {
-        void AddMessage(string error);
+        void AddMessage(string message);
+        void Clear();
     }
 }

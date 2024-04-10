@@ -4,6 +4,7 @@ using System.Linq;
 using Base;
 using Data;
 using Save;
+using Ui;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,12 +30,15 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 
     private float[] timeRotate;
     private float[] currentTime;
+    private bool[] stopWheelState;
+    
     private bool stopRotate = true;
 
     private GameLogic.SlotPosition selectSlotCover = new(){Wheel = -1, Cell = -1};
     private bool initTutorial;
 
     private ISaveManager saveManager;
+    private IConsoleManager consoleManager;
     
     [Header("Managers")]
     [SerializeField] private GameLogic gameLogic;
@@ -61,7 +65,10 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     {
         timeRotate = new float[slotPoints.Length];
         currentTime = new float[slotPoints.Length];
-
+        stopWheelState = new bool[slotPoints.Length];
+        
+        for (var i = 0; i < stopWheelState.Length; i++) stopWheelState[i] = true;
+        
         startSlotRotateEvent.AddListener(HideCellCover);
         stopSlotRotateEvent.AddListener(ShowCellCover);
     }
@@ -69,9 +76,9 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     private void Update()
     {
         if (!gameLogic) return;
-        
-        gameLogic.MoveWheelCells(slotPoints, slotCells, timeRotate, currentTime, stopRotate,
-            () => stopSlotRotateEvent?.Invoke(), Time.deltaTime);
+
+        gameLogic.MoveWheelCells(slotPoints, slotCells, timeRotate, currentTime, stopWheelState, stopRotate,
+            Time.deltaTime, () => stopSlotRotateEvent?.Invoke());
     }
 
     protected override void OnDestroy()
@@ -81,11 +88,12 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         saveManager.ChangeValueEvent -= UpdateSaveManagerListener;
     }
 
-    public void Init(GameLogic gameLogicSet, ISaveManager saveManagerSet)
+    public void Init(GameLogic gameLogicSet, ISaveManager saveManagerSet, IConsoleManager consoleManagerSet)
     {
         gameLogic = gameLogicSet;
         saveManager = saveManagerSet;
-
+        consoleManager = consoleManagerSet;
+        
         moneyAmount = saveManager.GetValueInt(GameLogic.MoneyAmountKey);
         rateAmount = saveManager.GetValueInt(GameLogic.RateAmountKey);
         stepAmount = saveManager.GetValueInt(GameLogic.StepAmountKey);
@@ -150,6 +158,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         }
         
         stopRotate = !stopRotate;
+        for (var i = 0; i < stopWheelState.Length; i++) stopWheelState[i] = false;
     }
 
     private void ChangeRateAmount(int changeAmount)
@@ -169,8 +178,8 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         
         saveManager.SetValue(GameLogic.MoneyAmountKey, newAmount);
     }
-    
-    public void ShowCellCover()
+
+    private void ShowCellCover()
     {
         foreach (var slotWheel in slotCovers.wheels)
         {
@@ -181,7 +190,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         }
     }
 
-    public void HideCellCover()
+    private void HideCellCover()
     {
         foreach (var slotWheel in slotCovers.wheels)
         {
@@ -433,7 +442,7 @@ public interface ISlotManager
     UnityEvent<int, int, bool> ChangeMoneyAmountEvent { get; }
     UnityEvent<int> ChangeRateAmountEvent { get; }
 
-    void Init(GameLogic gameLogicSet, ISaveManager saveManager);
+    void Init(GameLogic gameLogicSet, ISaveManager saveManager, IConsoleManager consoleManager);
 
     void HideGame();
     void ShowGame();

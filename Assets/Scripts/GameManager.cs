@@ -9,6 +9,7 @@ using Sound;
 using Ui;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Debug = System.Diagnostics.Debug;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -120,7 +121,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             try
             {
-                InitSlotManager(slotManager, saveManager);
+                InitSlotManager(slotManager, saveManager, uiMainManager);
                 needInitSlot = false;
             }
             catch (Exception e)
@@ -218,9 +219,9 @@ public class GameManager : MonoSingleton<GameManager>
         uiGameManagerInit.ButtonMainMenuEvent.AddListener(StartMainMenu);
     }
 
-    private void InitSlotManager(ISlotManager slotManagerInit, ISaveManager saveManagerInit)
+    private void InitSlotManager(ISlotManager slotManagerInit, ISaveManager saveManagerInit, IConsoleManager consoleManagerInit)
     {
-        slotManagerInit.Init(gameLogic, saveManagerInit);
+        slotManagerInit.Init(gameLogic, saveManagerInit, consoleManagerInit);
     }
 
     private IEnumerator StartGameAsync(IUiMainManager mainMenu)
@@ -241,7 +242,7 @@ public class GameManager : MonoSingleton<GameManager>
         
         yield return null;
         
-        uiMainManager?.HideMainPanels();
+        mainMenu.HideMainPanels();
 
         yield return new WaitUntil(() => SlotManager.instance && UiGameManager.instance);
         
@@ -257,7 +258,7 @@ public class GameManager : MonoSingleton<GameManager>
     private IEnumerator StartMainAsync()
     {
         var loadScene = SceneManager.LoadSceneAsync("Main");
-
+        
         while (!loadScene.isDone)
         {
             yield return null;

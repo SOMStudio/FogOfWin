@@ -59,7 +59,7 @@ namespace Data
 
         [Header("Settings")]
         public float soundVolumeDefault = 0.5f;
-        public float musicVolumeDefault = 0f;
+        public float musicVolumeDefault;
 
         [Header("Lucky Box")]
         public int showIfAmountMoneyLover = 2000;
@@ -114,45 +114,51 @@ namespace Data
         #endregion
         
         #region Spin
-        public void MoveWheelCells(Slot points, Slot cells, float[] timeRotate, float[] currentTime, bool stopRotate, Action stopRotateAction, float deltaTime)
+        public void MoveWheelCells(Slot points, Slot cells, float[] timeRotate, float[] currentTime,
+            bool[] stopWheelState, bool stopRotate, float deltaTime, Action stopRotateAction)
         {
-            for (int i = 0; i < points.Length; i++)
+            var countWheels = points.Length;
+            var countCells = points[0].Length;
+
+            for (int i = 0; i < countWheels; i++)
             {
-                if (stopRotate && currentTime[i] == 0f) continue;
-            
+                if (stopRotate && stopWheelState[i]) continue;
+
                 currentTime[i] += deltaTime;
-            
-                for (int j = 0; j < points[0].Length - 1; j++)
+                var siftWheel = currentTime[i] / timeRotate[i];
+
+                for (int j = 0; j < countCells - 1; j++)
                 {
                     var spriteMove = cells[i, j];
 
                     spriteMove.transform.position = Vector3.Lerp(points[i, j].transform.position,
-                        points[i, j + 1].transform.position, currentTime[i] / timeRotate[i]);
+                        points[i, j + 1].transform.position, siftWheel);
                 }
 
-                if (currentTime[i] / timeRotate[i] >= 1)
+                if (siftWheel >= 1f)
                 {
-                    currentTime[i] = 0f;
-                
+                    currentTime[i] = .0f;
+                    if (stopRotate) stopWheelState[i] = true;
+
                     ShiftWheelCells(i, cells);
-                
-                    if (stopRotate && currentTime.All(el => el == 0f)) stopRotateAction?.Invoke();
+
+                    if (stopRotate && stopWheelState.All(el => el)) stopRotateAction?.Invoke();
                 }
             }
         }
 
         private void ShiftWheelCells(int numWheel, Slot cells)
         {
-            var lastSprite = cells[numWheel, cells[0].Length - 1];
+            var lastNumber = cells[0].Length - 1;
+            var lastSprite = cells[numWheel, lastNumber];
 
-            for (int i = cells[0].Length - 1; i > 0; i--)
+            for (int i = lastNumber; i > 0; i--)
             {
                 cells[numWheel, i] = cells[numWheel, i - 1];
             }
 
             cells[numWheel, 0] = lastSprite;
-            cells[numWheel, 0].transform.position = cells[numWheel, 0].transform.position;
-        
+
             InitRandomSprite(cells[numWheel, 0]);
         }
         #endregion
@@ -288,7 +294,7 @@ namespace Data
             {
                 foreach (var shiftCell in shiftPosition)
                 {
-                    var checkPosition = position + new int[] { shiftWheel, shiftCell };
+                    var checkPosition = position + new[] { shiftWheel, shiftCell };
 
                     if (ignore != null && ignore.Contains(checkPosition)) continue;
                 
@@ -306,7 +312,7 @@ namespace Data
             {
                 foreach (var shiftCell in shiftPosition)
                 {
-                    var checkPosition = position + new int[] { shiftWheel, shiftCell };
+                    var checkPosition = position + new[] { shiftWheel, shiftCell };
 
                     if (checkPosition != position && checkPosition.Wheel >= 0 &&
                         checkPosition.Wheel <= checkField.GetLength(0) - 1 && checkPosition.Cell >= 0 &&
@@ -354,7 +360,7 @@ namespace Data
                 }
             }
 
-            return CalculateReward(price, resultCells, coefficientFirstForLineNumberType, coefficientOtherForLineNumberType);;
+            return CalculateReward(price, resultCells, coefficientFirstForLineNumberType, coefficientOtherForLineNumberType);
         }
         #endregion
         
