@@ -359,6 +359,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
                 break;
             case GameLogic.MoneyAmountKey:
                 moneyAmount = saveManager.GetValueInt(GameLogic.MoneyAmountKey);
+                changeMoneyAmountEvent?.Invoke(moneyAmount, moneyAmount, false);
                 break;
             case GameLogic.RateAmountKey:
                 rateAmount = saveManager.GetValueInt(GameLogic.RateAmountKey);
