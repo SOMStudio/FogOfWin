@@ -9,7 +9,6 @@ using Sound;
 using Ui;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Debug = System.Diagnostics.Debug;
 
 public class GameManager : MonoSingleton<GameManager>
 {
