@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.ComponentModel;
 using Base;
 using Components.UI;
 using Data;
@@ -39,6 +40,7 @@ namespace Ui
         [SerializeField] private ResultPanelManager resultPanelManager;
 
         [Header("Console")]
+        [SerializeField] private CanvasGroupComponent consolePanel;
         [SerializeField] private Text consoleText;
 
         [Header("Buttons")]
@@ -47,6 +49,8 @@ namespace Ui
 
         private GameLogic gameLogic;
         private ISaveManager saveManager;
+
+        private int countClickFogOfWin;
         
         public UnityEvent ButtonPlayEvent => playButton.onClick;
         public UnityEvent<float> SliderSoundEvent => settingsPanelManager.soundSlider.onValueChanged; 
@@ -91,6 +95,8 @@ namespace Ui
         public void HideMainPanels()
         {
             mainCanvasGroup.Hide();
+            
+            countClickFogOfWin = 0;
         }
 
         public void ShowSettingsPanel()
@@ -156,9 +162,21 @@ namespace Ui
             resulCanvasGrope.Show();
         }
 
-        public void AddMessage(string message)
+        public void AddMessage(string message, TypeConsoleText typeText = TypeConsoleText.Message)
         {
-            consoleText.text += Environment.NewLine + message;
+            var textResult = "";
+            
+            switch (typeText)
+            {
+                case TypeConsoleText.Message:
+                    textResult = "<color='blue'>" + message + "</color>";
+                    break;
+                case TypeConsoleText.Error:
+                    textResult = "<color='red'>" + message + "</color>";
+                    break;
+            }
+
+            consoleText.text += Environment.NewLine + DateTime.Now.ToString("[HH:mm:ss] ") + textResult;
         }
 
         public void Clear()
@@ -176,7 +194,27 @@ namespace Ui
         {
             SoundManager.instance?.PlaySoundByIndex(1);
         }
+
+        public void OpenConsolePanel()
+        {
+            countClickFogOfWin++;
+            if (countClickFogOfWin == gameLogic.countClickForOpenConsolePanel) consolePanel.Show();
+
+            AddMessage("Hi everyone!");
+        }
+
+        public void CloseConsolePanel()
+        {
+            consolePanel.Hide();
+            countClickFogOfWin = 0;
+        }
         #endregion
+    }
+
+    public enum TypeConsoleText
+    {
+        Message,
+        Error
     }
 
     public interface IUiMainManager
@@ -197,7 +235,7 @@ namespace Ui
     
     public interface IConsoleManager
     {
-        void AddMessage(string message);
+        void AddMessage(string message, TypeConsoleText typeText = TypeConsoleText.Message);
         void Clear();
     }
 }

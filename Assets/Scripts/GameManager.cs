@@ -310,7 +310,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void ShowError(List<string> errors, IConsoleManager consoleManager)
     {
-        foreach (var error in errors) consoleManager.AddMessage(error);
+        foreach (var error in errors) consoleManager.AddMessage(error, TypeConsoleText.Error);
         
         errors.Clear();
     }

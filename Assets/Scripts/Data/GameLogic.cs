@@ -69,6 +69,9 @@ namespace Data
         public int minCountBusterLuckyBox = 3;
         public int maxCountBusterLuckyBox = 8;
         
+        [Header("Console Panel")]
+        public int countClickForOpenConsolePanel = 10;
+        
         #region Init
         public void InitGameState(Slot positions, Slot cells)
         {

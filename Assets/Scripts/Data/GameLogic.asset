@@ -53,3 +53,4 @@ MonoBehaviour:
   maxAmountMoneyLuckyBox: 9000
   minCountBusterLuckyBox: 5
   maxCountBusterLuckyBox: 15
+  countClickForOpenConsolePanel: 10
