@@ -199,8 +199,6 @@ namespace Ui
         {
             countClickFogOfWin++;
             if (countClickFogOfWin == gameLogic.countClickForOpenConsolePanel) consolePanel.Show();
-
-            AddMessage("Hi everyone!");
         }
 
         public void CloseConsolePanel()
