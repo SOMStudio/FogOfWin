@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.ComponentModel;
 using Base;
 using Components.UI;
 using Data;
@@ -124,41 +123,26 @@ namespace Ui
             loadPanelManager.Hide();
         }
 
-        public void ShowLuckyPox(LuckyBoxItem luckyBox)
+        public void ShowLuckyBox(LuckyBoxItem luckyBox)
         {
-            string resultString = "";
-            if (luckyBox.typeReward == TypeReward.Money)
-            {
-                resultString += luckyBox.amount + " $";
-            }
-            else
-            {
-                switch (luckyBox.typeBuster)
-                {
-                    case TypeBuster.Cell:
-                        resultString += luckyBox.amount + " Cell Busters";
-                        break;
-                    case TypeBuster.LineHorizontal:
-                        resultString += luckyBox.amount + " Horizontal line Cell Busters";
-                        break;
-                    case TypeBuster.LineVertical:
-                        resultString += luckyBox.amount + " Vertical line Cell Busters";
-                        break;
-                }
-            }
-
-            StartCoroutine(ShowLuckyBoxCoroutine(resultString));
+            StartCoroutine(ShowLuckyBoxCoroutine(luckyBox));
         }
 
-        private IEnumerator ShowLuckyBoxCoroutine(string message)
+        private IEnumerator ShowLuckyBoxCoroutine(LuckyBoxItem luckyBox)
         {
             luckyBoxCanvasGrope.Interactive(false);
+            
+            yield return new WaitForSeconds(2f);
+            
+            luckyBoxPanelManager.ShowOtherLuckyBox(luckyBox);
             
             yield return new WaitForSeconds(3f);
             
             luckyBoxCanvasGrope.Hide();
-
+            
+            var message = LuckyBoxPanelManager.GetLuckyBoxText(luckyBox);
             resultPanelManager.SetText(message);
+            
             resulCanvasGrope.Show();
         }
 

@@ -3,6 +3,7 @@ using Data;
 using Save;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Ui.Menu
 {
@@ -45,7 +46,39 @@ namespace Ui.Menu
                             gameLogic.maxCountBusterLuckyBox);
                         break;
                 }
+
+                box.rewardText.text = GetLuckyBoxText(box);
+                
+                box.closeBoxImage.gameObject.SetActive(true);
+                box.openBoxImage.gameObject.SetActive(false);
+                box.rewardText.gameObject.SetActive(false);
             }
+        }
+
+        public static string GetLuckyBoxText(LuckyBoxItem luckyBox)
+        {
+            string resultString = "";
+            if (luckyBox.typeReward == TypeReward.Money)
+            {
+                resultString += luckyBox.amount + " $";
+            }
+            else
+            {
+                switch (luckyBox.typeBuster)
+                {
+                    case TypeBuster.Cell:
+                        resultString += luckyBox.amount + " Cell Busters";
+                        break;
+                    case TypeBuster.LineHorizontal:
+                        resultString += luckyBox.amount + " Horizontal line Cell Busters";
+                        break;
+                    case TypeBuster.LineVertical:
+                        resultString += luckyBox.amount + " Vertical line Cell Busters";
+                        break;
+                }
+            }
+
+            return resultString;
         }
         
         private void OpenLuckyBox(LuckyBoxItem luckyBox)
@@ -79,8 +112,24 @@ namespace Ui.Menu
                     }
                 }
             }
+
+            luckyBox.closeBoxImage.gameObject.SetActive(false);
+            luckyBox.openBoxImage.gameObject.SetActive(true);
+            luckyBox.rewardText.gameObject.SetActive(true);
             
             selectRewardEvent?.Invoke(luckyBox);
+        }
+
+        public void ShowOtherLuckyBox(LuckyBoxItem luckyBox)
+        {
+            foreach (var box in boxes)
+            {
+                if (box == luckyBox) continue;
+                
+                box.closeBoxImage.gameObject.SetActive(false);
+                box.openBoxImage.gameObject.SetActive(true);
+                box.rewardText.gameObject.SetActive(true);
+            }
         }
         
         public void OpenLuckyBox1()
@@ -102,9 +151,15 @@ namespace Ui.Menu
     [Serializable]
     public class LuckyBoxItem
     {
+        [Header("Logic")]
         public TypeReward typeReward;
         public TypeBuster typeBuster;
         public int amount;
+
+        [Header("Visual")]
+        public Image closeBoxImage;
+        public Image openBoxImage;
+        public Text rewardText;
     }
     
     public enum TypeReward
