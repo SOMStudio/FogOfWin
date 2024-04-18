@@ -136,9 +136,11 @@ namespace Ui
             
             luckyBoxPanelManager.ShowOtherLuckyBox(luckyBox);
             
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2.5f);
             
             luckyBoxCanvasGrope.Hide();
+            
+            yield return new WaitForSeconds(0.5f);
             
             var message = LuckyBoxPanelManager.GetLuckyBoxText(luckyBox);
             resultPanelManager.SetText(message);
