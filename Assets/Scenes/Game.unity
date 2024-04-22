@@ -2332,6 +2332,18 @@ MonoBehaviour:
           m_StringArgument: 13
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 13
+          m_BoolArgument: 0
+        m_CallState: 2
   onMouseUpEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -7179,6 +7191,18 @@ MonoBehaviour:
           m_StringArgument: 23
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 23
+          m_BoolArgument: 0
+        m_CallState: 2
   onMouseUpEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -10923,6 +10947,18 @@ MonoBehaviour:
           m_StringArgument: 12
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 12
+          m_BoolArgument: 0
+        m_CallState: 2
   onMouseUpEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -12171,6 +12207,18 @@ MonoBehaviour:
           m_StringArgument: 21
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 21
+          m_BoolArgument: 0
+        m_CallState: 2
   onMouseUpEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -12581,6 +12629,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: OnMouseUpCellCoverListener
         m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 00
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -13073,6 +13133,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: OnMouseUpCellCoverListener
         m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 20
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -14482,6 +14554,18 @@ MonoBehaviour:
           m_StringArgument: 03
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 03
+          m_BoolArgument: 0
+        m_CallState: 2
   onMouseUpEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -15025,6 +15109,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: OnMouseUpCellCoverListener
         m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 01
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -15866,6 +15962,18 @@ MonoBehaviour:
           m_StringArgument: 22
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 22
+          m_BoolArgument: 0
+        m_CallState: 2
   onMouseUpEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -16149,6 +16257,18 @@ MonoBehaviour:
           m_StringArgument: 11
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 11
+          m_BoolArgument: 0
+        m_CallState: 2
   onMouseUpEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -16347,6 +16467,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: OnMouseUpCellCoverListener
         m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 10
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -16938,6 +17070,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: SlotManager, Assembly-CSharp
         m_MethodName: OnMouseUpCellCoverListener
         m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 02
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 862700904}
+        m_TargetAssemblyTypeName: Ui.UiGameManager, Assembly-CSharp
+        m_MethodName: PlayButtonSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
