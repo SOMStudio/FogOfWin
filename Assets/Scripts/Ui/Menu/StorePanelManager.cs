@@ -1,6 +1,7 @@
 using System.Collections;
 using Data;
 using Save;
+using Sound;
 using Ui.Game;
 using UnityEngine;
 
@@ -68,7 +69,12 @@ namespace Ui.Menu
         public void ClickItem(StoreItemManager itemClick)
         {
             var amount = saveManager.GetValueInt(GameLogic.MoneyAmountKey);
-            if (amount < itemClick.costBuster) return;
+            if (amount < itemClick.costBuster)
+            {
+                SoundManager.instance?.PlaySoundByIndex(5);
+                return;
+            }
+            SoundManager.instance?.PlaySoundByIndex(4);
             
             saveManager.SetValue(GameLogic.MoneyAmountKey, amount - itemClick.costBuster);
 

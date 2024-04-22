@@ -5,7 +5,7 @@ namespace Base
 {
     public class MonoSingleton<T> : MonoBehaviour where T : class
     {
-        protected static T instance;
+        public static T instance;
 
         protected virtual void Awake()
         {
