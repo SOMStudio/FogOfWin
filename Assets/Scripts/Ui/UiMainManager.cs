@@ -144,8 +144,7 @@ namespace Ui
             
             var message = LuckyBoxPanelManager.GetLuckyBoxText(luckyBox);
             resultPanelManager.SetText(message);
-            
-            resulCanvasGrope.Show();
+            resultPanelManager.Show();
         }
 
         public void AddMessage(string message, TypeConsoleText typeText = TypeConsoleText.Message)
