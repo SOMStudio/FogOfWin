@@ -245,7 +245,15 @@ namespace Ui
 
         public void ShowResultWindow()
         {
-            if (amountWin > 0) resultWindow.Show();
+            if (amountWin > 0)
+            {
+                resultWindow.Show();
+                PlaySound(3);
+            }
+            else
+            {
+                PlaySound(5);
+            }
         }
         #endregion
     
@@ -278,6 +286,7 @@ namespace Ui
         public void ChangeMoneyAmountAnimatedListener(int oldAmount, int newAmount)
         {
             moneyAmountText.text = newAmount + "$";
+            if (newAmount > oldAmount) PlaySound(2);
         }
         #endregion
         
@@ -290,6 +299,11 @@ namespace Ui
         public void PlayOpenPanelSound()
         {
             SoundManager.instance?.PlaySoundByIndex(1);
+        }
+        
+        public void PlaySound(int index)
+        {
+            SoundManager.instance?.PlaySoundByIndex(index);
         }
         #endregion
     }

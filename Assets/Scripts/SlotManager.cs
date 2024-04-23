@@ -58,9 +58,6 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     [SerializeField] private UnityEvent<int, int> changeMoneyAmountResultEvent;
     [SerializeField] private UnityEvent finishShowResultEvent;
 
-    public UnityEvent<int, int, bool> ChangeMoneyAmountEvent => changeMoneyAmountEvent;
-    public UnityEvent<int> ChangeRateAmountEvent => changeRateAmountEvent;
-
     private void Start()
     {
         timeRotate = new float[slotPoints.Length];
@@ -440,9 +437,6 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 
 public interface ISlotManager
 {
-    UnityEvent<int, int, bool> ChangeMoneyAmountEvent { get; }
-    UnityEvent<int> ChangeRateAmountEvent { get; }
-
     void Init(GameLogic gameLogicSet, ISaveManager saveManager, IConsoleManager consoleManager);
 
     void HideGame();
