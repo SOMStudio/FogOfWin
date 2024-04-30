@@ -94,7 +94,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             try
             {
-                InitUiMainManager(uiMainManager, gameLogic, saveManager);
+                InitUiMainManager(uiMainManager, gameLogic, saveManager, soundManager);
                 needInitUiMain = false;
             }
             catch (Exception e)
@@ -107,7 +107,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             try
             {
-                InitUiGameManager(uiGameManager, saveManager);
+                InitUiGameManager(uiGameManager, saveManager, soundManager);
                 needInitUiGame = false;
             }
             catch (Exception e)
@@ -189,9 +189,9 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
     
-    private void InitUiMainManager(IUiMainManager uiMainManagerInit, GameLogic gameLogicInit , ISaveManager saveManagerInit)
+    private void InitUiMainManager(IUiMainManager uiMainManagerInit, GameLogic gameLogicInit , ISaveManager saveManagerInit, ISoundManager soundManagerInit)
     {
-        uiMainManagerInit.Init(gameLogicInit, saveManagerInit);
+        uiMainManagerInit.Init(gameLogicInit, saveManagerInit, soundManagerInit);
         
         uiMainManagerInit.ButtonPlayEvent.AddListener(StartGame);
         
@@ -211,9 +211,9 @@ public class GameManager : MonoSingleton<GameManager>
         musicManager.UpdateVolume();
     }
 
-    private void InitUiGameManager(IUiGameManager uiGameManagerInit, ISaveManager saveManagerInit)
+    private void InitUiGameManager(IUiGameManager uiGameManagerInit, ISaveManager saveManagerInit, ISoundManager soundManagerInit)
     {
-        uiGameManagerInit.Init(saveManagerInit);
+        uiGameManagerInit.Init(saveManagerInit, soundManagerInit);
         
         uiGameManagerInit.ButtonMainMenuEvent.AddListener(StartMainMenu);
     }

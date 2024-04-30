@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Sound
 {
 	[AddComponentMenu("Base/Sound Manager")]
-	public class SoundManager : MonoSingleton<SoundManager>
+	public class SoundManager : MonoSingleton<SoundManager>, ISoundManager
 	{
 		[Header("Main")]
 		[SerializeField] private string gamePrefsName = "DefaultGame";
@@ -102,5 +102,13 @@ namespace Sound
 			sourceTR.position = atPosition;
 			Source.PlayOneShot(clip);
 		}
+	}
+	
+	public interface ISoundManager
+	{
+		public float GetVolume();
+		public void UpdateVolume();
+		public void PlaySoundByIndex(int indexSound, Vector3 playPosition);
+		public void PlaySoundByIndex(int indexSound);
 	}
 }

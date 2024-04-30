@@ -55,6 +55,8 @@ namespace Ui
         [SerializeField] private ResultPanelManager resultWindow;
 
         private ISaveManager saveManager;
+        private ISoundManager soundManager;
+        
         private int amountWin;
 
         public UnityEvent ButtonMainMenuEvent => menuButton.onClick;
@@ -66,9 +68,10 @@ namespace Ui
             saveManager.ChangeValueEvent -= SaveSystemListener;
         }
 
-        public void Init(ISaveManager saveManagerSet)
+        public void Init(ISaveManager saveManagerSet, ISoundManager soundMangerSet)
         {
             saveManager = saveManagerSet;
+            soundManager = soundMangerSet;
 
             UpdateTypeBusterCount(TypeBuster.Cell, saveManager.GetValueInt(GameLogic.CountCellBusterKey));
             UpdateTypeBusterCount(TypeBuster.LineHorizontal, saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey));
@@ -293,17 +296,17 @@ namespace Ui
         #region Buttons
         public void PlayButtonSound()
         {
-            SoundManager.instance?.PlaySoundByIndex(0);
+            soundManager.PlaySoundByIndex(0);
         }
         
         public void PlayOpenPanelSound()
         {
-            SoundManager.instance?.PlaySoundByIndex(1);
+            soundManager.PlaySoundByIndex(1);
         }
         
         public void PlaySound(int index)
         {
-            SoundManager.instance?.PlaySoundByIndex(index);
+            soundManager.PlaySoundByIndex(index);
         }
         #endregion
     }
@@ -311,7 +314,7 @@ namespace Ui
     public interface IUiGameManager
     {
         UnityEvent ButtonMainMenuEvent { get; }
-        void Init(ISaveManager saveManager);
+        void Init(ISaveManager saveManager, ISoundManager soundManager);
         void HideGamePanels();
         void ShowGamePanels();
     }

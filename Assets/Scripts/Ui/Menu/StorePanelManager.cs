@@ -13,10 +13,12 @@ namespace Ui.Menu
         public StoreItemManager[] items;
 
         private ISaveManager saveManager;
+        private ISoundManager soundManager;
 
-        public void Init(ISaveManager saveManagerSet)
+        public void Init(ISaveManager saveManagerSet, ISoundManager soundManagerSet)
         {
             saveManager = saveManagerSet;
+            soundManager = soundManagerSet;
             
             UpdateStoreValues(GameLogic.MoneyAmountKey);
             UpdateStoreValues(GameLogic.CountCellBusterKey);
@@ -71,10 +73,10 @@ namespace Ui.Menu
             var amount = saveManager.GetValueInt(GameLogic.MoneyAmountKey);
             if (amount < itemClick.costBuster)
             {
-                SoundManager.instance?.PlaySoundByIndex(5);
+                soundManager.PlaySoundByIndex(5);
                 return;
             }
-            SoundManager.instance?.PlaySoundByIndex(4);
+            soundManager.PlaySoundByIndex(4);
             
             saveManager.SetValue(GameLogic.MoneyAmountKey, amount - itemClick.costBuster);
 

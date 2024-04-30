@@ -48,6 +48,7 @@ namespace Ui
 
         private GameLogic gameLogic;
         private ISaveManager saveManager;
+        private ISoundManager soundManager;
 
         private int countClickFogOfWin;
         
@@ -62,15 +63,16 @@ namespace Ui
             DontDestroyOnLoad(this);
         }
 
-        public void Init(GameLogic gameLogicSet, ISaveManager saveManagerSet)
+        public void Init(GameLogic gameLogicSet, ISaveManager saveManagerSet, ISoundManager soundManagerSet)
         {
             gameLogic = gameLogicSet;
             saveManager = saveManagerSet;
+            soundManager = soundManagerSet;
             
             settingsPanelManager.SoundVolume(saveManager.GetValueFloat(GameLogic.SoundVolumeKey));
             settingsPanelManager.MusicVolume(saveManager.GetValueFloat(GameLogic.MusicVolumeKey));
 
-            storePanelManager.Init(saveManager);
+            storePanelManager.Init(saveManager, soundManager);
             
             saveManager.ChangeValueEvent += storePanelManager.UpdateStoreValues;
             
@@ -174,17 +176,17 @@ namespace Ui
         #region Buttons
         public void PlayButtonSound()
         {
-            SoundManager.instance?.PlaySoundByIndex(0);
+            soundManager.PlaySoundByIndex(0);
         }
         
         public void PlayOpenPanelSound()
         {
-            SoundManager.instance?.PlaySoundByIndex(1);
+            soundManager.PlaySoundByIndex(1);
         }
 
         public void PlaySound(int index)
         {
-            SoundManager.instance?.PlaySoundByIndex(index);
+            soundManager.PlaySoundByIndex(index);
         }
 
         public void OpenConsolePanel()
@@ -213,7 +215,7 @@ namespace Ui
         UnityEvent<float> SliderSoundEvent { get; }
         UnityEvent<float> SliderMusicEvent { get; }
 
-        void Init(GameLogic gameLogic, ISaveManager saveManager);
+        void Init(GameLogic gameLogic, ISaveManager saveManager, ISoundManager soundManager);
         
         void ShowMainPanels();
         void HideMainPanels();
