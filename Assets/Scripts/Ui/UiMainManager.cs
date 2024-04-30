@@ -132,11 +132,12 @@ namespace Ui
         {
             luckyBoxCanvasGrope.Interactive(false);
             
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
             
             luckyBoxPanelManager.ShowOtherLuckyBox(luckyBox);
+            PlayOpenPanelSound();
             
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(2f);
             
             luckyBoxCanvasGrope.Hide();
             
@@ -145,6 +146,7 @@ namespace Ui
             var message = LuckyBoxPanelManager.GetLuckyBoxText(luckyBox);
             resultPanelManager.SetText(message);
             resultPanelManager.Show();
+            PlaySound(4);
         }
 
         public void AddMessage(string message, TypeConsoleText typeText = TypeConsoleText.Message)
@@ -178,6 +180,11 @@ namespace Ui
         public void PlayOpenPanelSound()
         {
             SoundManager.instance?.PlaySoundByIndex(1);
+        }
+
+        public void PlaySound(int index)
+        {
+            SoundManager.instance?.PlaySoundByIndex(index);
         }
 
         public void OpenConsolePanel()
