@@ -25,15 +25,12 @@ namespace Music
 
 		[Header("Information")]
 		[SerializeField] [Range(0, 1)]  private float volume;
+		[SerializeField] [Range(0, 1)]  private float defaultVolume;
 
 		private void Awake ()
 		{
 			string stKey = $"{gamePrefsName}_MusicVol";
-			if (PlayerPrefs.HasKey (stKey)) {
-				volumePrefs = PlayerPrefs.GetFloat (stKey);
-			} else {
-				volumePrefs = 0.3f;
-			}
+			volumePrefs = PlayerPrefs.HasKey (stKey) ? PlayerPrefs.GetFloat (stKey) : defaultVolume;
 			
 			sourceGo = new GameObject ("Music_" + music.name);
 			source = sourceGo.AddComponent<AudioSource> ();
@@ -54,8 +51,7 @@ namespace Music
 			{
 				if (loopMusic)
 				{
-					if (!source.isPlaying)
-						source.Play();
+					if (!source.isPlaying) source.Play();
 				}
 				else
 				{
@@ -74,7 +70,8 @@ namespace Music
 		}
 	
 		public void UpdateVolume () {
-			if (source) {
+			if (source)
+			{
 				volumePrefs = PlayerPrefs.GetFloat ($"{gamePrefsName}_MusicVol");
 				
 				volume = source.volume;

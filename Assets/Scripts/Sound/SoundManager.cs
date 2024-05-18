@@ -16,13 +16,11 @@ namespace Sound
 
 		[Header("Information")]
 		[SerializeField] [Range(0, 1)] private float volume = 0.5f;
+		[SerializeField] [Range(0, 1)] private float defaultVolume = 0.5f;
 
 		private void Start()
 		{
-			if (soundObjectList == null)
-			{
-				Init();
-			}
+			if (soundObjectList == null) Init();
 		}
 
 		private void Init()
@@ -30,7 +28,7 @@ namespace Sound
 			DontDestroyOnLoad(gameObject);
 			
 			string stKey = $"{gamePrefsName}_SFXVol";
-			volume = PlayerPrefs.HasKey(stKey) ? PlayerPrefs.GetFloat(stKey) : 0.5f;
+			volume = PlayerPrefs.HasKey(stKey) ? PlayerPrefs.GetFloat(stKey) : defaultVolume;
 
 			soundObjectList = new List<SoundObject>();
 

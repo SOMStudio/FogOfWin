@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Base;
 using UnityEngine;
 
@@ -25,17 +24,13 @@ namespace Music
 		public void StopMusic(int indexMusic) {
 			MusicClipManager temp = musicList [indexMusic];
 
-			if (temp) {
-				temp.StopMusic();
-			}
+			if (temp) temp.StopMusic();
 		}
 
 		public void PlayMusic(int indexMusic) {
 			MusicClipManager temp = musicList [indexMusic];
 
-			if (temp) {
-				temp.PlayMusic();
-			}
+			if (temp) temp.PlayMusic();
 		}
 	
 		public void PlayMusicStopAnother(int indexMusic) {
@@ -43,10 +38,7 @@ namespace Music
 			{
 				if (i != indexMusic)
 				{
-					if (musicList[i].IsPlaying() == true)
-					{
-						StopMusic(i);
-					}
+					if (musicList[i].IsPlaying()) StopMusic(i);
 				}
 				else
 				{
