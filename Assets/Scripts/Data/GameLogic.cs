@@ -267,9 +267,8 @@ namespace Data
                     }
                 }
 
-                for (int i = 0; i < resultCells[checkNumber].FirstWheel.Count; i++)
+                foreach (var firstPoint in resultCells[checkNumber].FirstWheel)
                 {
-                    var firstPoint = resultCells[checkNumber].FirstWheel[i];
                     var convertInCheckField = new SlotPosition() { Wheel = firstPoint.Wheel, Cell = firstPoint.Cell - 1 };
 
                     if (checkField[convertInCheckField.Wheel, convertInCheckField.Cell] == 0)
@@ -278,9 +277,9 @@ namespace Data
             
                 var slotPositionList = GetSlotPositionList(checkField);
 
-                for (int i = 0; i < slotPositionList.Count; i++)
+                foreach (var t in slotPositionList)
                 {
-                    resultCells[checkNumber].OtherWheels.Add(slotPositionList[i]);
+                    resultCells[checkNumber].OtherWheels.Add(t);
                 }
             }
         
