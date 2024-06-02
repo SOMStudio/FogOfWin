@@ -179,31 +179,31 @@ public class GameManager : MonoSingleton<GameManager>
             saveManager.SetValue(GameLogic.MusicVolumeKey, gameLogic.musicVolumeDefault);
     }
 
-    private void ChangeGameState(ISlotManager slotManagerGame, IUiMainManager uiMainManagerActive, IUiGameManager uiGameManagerActive)
+    private void ChangeGameState(ISlotManager slotManagerRef, IUiMainManager uiMainManagerRef, IUiGameManager uiGameManagerRef)
     {
         switch (gameState)
         {
             case GameState.MainMenu:
-                uiMainManagerActive?.ShowMainPanels();
-                uiGameManagerActive?.HideGamePanels();
-                slotManagerGame?.HideGame();
+                uiMainManagerRef?.ShowMainPanels();
+                uiGameManagerRef?.HideGamePanels();
+                slotManagerRef?.HideGame();
                 break;
             case GameState.Game:
-                uiMainManagerActive?.HideMainPanels();
-                uiGameManagerActive?.ShowGamePanels();
-                slotManagerGame?.ShowGame();
+                uiMainManagerRef?.HideMainPanels();
+                uiGameManagerRef?.ShowGamePanels();
+                slotManagerRef?.ShowGame();
                 break;
         }
     }
     
-    private void InitUiMainManager(IUiMainManager uiMainManagerInit, GameLogic gameLogicInit , ISaveManager saveManagerInit, ISoundManager soundManagerInit)
+    private void InitUiMainManager(IUiMainManager uiMainManagerRef, GameLogic gameLogicRef , ISaveManager saveManagerRef, ISoundManager soundManagerRef)
     {
-        uiMainManagerInit.Init(gameLogicInit, saveManagerInit, soundManagerInit);
+        uiMainManagerRef.Init(gameLogicRef, saveManagerRef, soundManagerRef);
         
-        uiMainManagerInit.ButtonPlayEvent.AddListener(StartGame);
+        uiMainManagerRef.ButtonPlayEvent.AddListener(StartGame);
         
-        uiMainManagerInit.SliderSoundEvent.AddListener(ChangeSoundVolume);
-        uiMainManagerInit.SliderMusicEvent.AddListener(ChangeMusicVolume);
+        uiMainManagerRef.SliderSoundEvent.AddListener(ChangeSoundVolume);
+        uiMainManagerRef.SliderMusicEvent.AddListener(ChangeMusicVolume);
     }
 
     private void ChangeSoundVolume(float newAmount)
@@ -218,37 +218,37 @@ public class GameManager : MonoSingleton<GameManager>
         musicManager.UpdateVolume();
     }
 
-    private void InitUiGameManager(IUiGameManager uiGameManagerInit, ISaveManager saveManagerInit, ISoundManager soundManagerInit)
+    private void InitUiGameManager(IUiGameManager uiGameManagerRef, ISaveManager saveManagerRef, ISoundManager soundManagerRef)
     {
-        uiGameManagerInit.Init(saveManagerInit, soundManagerInit);
+        uiGameManagerRef.Init(saveManagerRef, soundManagerRef);
         
-        uiGameManagerInit.ButtonMainMenuEvent.AddListener(OpenMainMenu);
+        uiGameManagerRef.ButtonMainMenuEvent.AddListener(OpenMainMenu);
     }
 
-    private void InitSlotManager(ISlotManager slotManagerInit, ISaveManager saveManagerInit, IConsoleManager consoleManagerInit)
+    private void InitSlotManager(ISlotManager slotManagerRef, ISaveManager saveManagerRef, IConsoleManager consoleManagerRef)
     {
-        slotManagerInit.Init(gameLogic, saveManagerInit, consoleManagerInit);
+        slotManagerRef.Init(gameLogic, saveManagerRef, consoleManagerRef);
     }
 
-    private IEnumerator LoadGameSceneAsync(IUiMainManager mainMenu)
+    private IEnumerator LoadGameSceneAsync(IUiMainManager mainMenuManagerRef)
     {
         var loadScene = SceneManager.LoadSceneAsync("Game");
 
-        mainMenu.LoadWindowShow();
+        mainMenuManagerRef.LoadWindowShow();
         while (!loadScene.isDone)
         {
-            mainMenu.LoadWindowProgress(loadScene.progress);
+            mainMenuManagerRef.LoadWindowProgress(loadScene.progress);
             
             yield return null;
         }
-        mainMenu.LoadWindowHide();
+        mainMenuManagerRef.LoadWindowHide();
         
         gameState = GameState.Game;
         needUpdateGameState = true;
         
         yield return null;
         
-        mainMenu.HideMainPanels();
+        mainMenuManagerRef.HideMainPanels();
 
         yield return new WaitUntil(() => SlotManager.instance && UiGameManager.instance);
         
@@ -314,11 +314,11 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    private void ShowError(List<string> errors, IConsoleManager consoleManager)
+    private void ShowError(List<string> errors, IConsoleManager consoleManagerRef)
     {
-        if (consoleManager == null || consoleManager.Equals(null)) return;
+        if (consoleManagerRef == null || consoleManagerRef.Equals(null)) return;
         
-        foreach (var error in errors) consoleManager.AddMessage(error, TypeConsoleText.Error);
+        foreach (var error in errors) consoleManagerRef.AddMessage(error, TypeConsoleText.Error);
         errors.Clear();
     }
 }
