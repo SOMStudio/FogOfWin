@@ -17,22 +17,23 @@ public class GameManager : MonoSingleton<GameManager>
     
     [Header("Data")]
     [SerializeField] private GameLogic gameLogic;
-
-    [Header("Managers")]
-    [SerializeField] private SaveManager saveManager;
-    [SerializeField] private SlotManager slotManager;
-    [SerializeField] private UiMainManager uiMainManager;
-    [SerializeField] private UiGameManager uiGameManager;
-    [SerializeField] private MusicManager musicManager;
-    [SerializeField] private SoundManager soundManager;
+    
+    private ISaveManager saveManager;
+    private ISlotManager slotManager;
+    private IUiMainManager uiMainManager;
+    private IUiGameManager uiGameManager;
+    private IMusicManager musicManager;
+    private ISoundManager soundManager;
+    private IConsoleManager consoleManager;
 
     private List<string> errorList;
     
-    private bool needInitSaveSystem;
+    private bool needInitSaveManager;
+    private bool needInitUiMainManager;
+    private bool needInitUiGameManager;
+    private bool needInitSlotManager;
+    
     private bool needUpdateGameState;
-    private bool needInitUiMain;
-    private bool needInitUiGame;
-    private bool needInitSlot;
 
     protected override void Awake()
     {
@@ -51,38 +52,44 @@ public class GameManager : MonoSingleton<GameManager>
     {
         if (errorList == null) errorList = new List<string>();
         
-        if (!saveManager)
+        if (saveManager == null || saveManager.Equals(null))
         {
             saveManager = SaveManager.instance;
-            if (saveManager) needInitSaveSystem = true;
+            if (saveManager != null) needInitSaveManager = true;
         }
-        if (!musicManager) musicManager = MusicManager.instance;
-        if (!soundManager) soundManager = SoundManager.instance;
-        if (!slotManager)
+        
+        if (musicManager == null || musicManager.Equals(null)) musicManager = MusicManager.instance;
+        
+        if (soundManager == null || soundManager.Equals(null)) soundManager = SoundManager.instance;
+        
+        if (slotManager == null || slotManager.Equals(null))
         {
             slotManager = SlotManager.instance;
-            if (slotManager) needInitSlot = true;
+            if (slotManager != null) needInitSlotManager = true;
         }
-        if (!uiMainManager)
+        
+        if (uiMainManager == null || uiMainManager.Equals(null))
         {
             uiMainManager = UiMainManager.instance;
-            if (uiMainManager) needInitUiMain = true;
+            if (uiMainManager != null) needInitUiMainManager = true;
+            consoleManager = UiMainManager.instance;
         }
-        if (!uiGameManager)
+        
+        if (uiGameManager == null || uiGameManager.Equals(null))
         {
             uiGameManager = UiGameManager.instance;
-            if (uiGameManager) needInitUiGame = true;
+            if (uiGameManager != null) needInitUiGameManager = true;
         }
     }
 
     private void InitManagers()
     {
-        if (needInitSaveSystem)
+        if (needInitSaveManager)
         {
             try
             {
                 InitSaveManager();
-                needInitSaveSystem = false;
+                needInitSaveManager = false;
             }
             catch (Exception e)
             {
@@ -90,12 +97,12 @@ public class GameManager : MonoSingleton<GameManager>
             }
         }
 
-        if (needInitUiMain)
+        if (needInitUiMainManager)
         {
             try
             {
                 InitUiMainManager(uiMainManager, gameLogic, saveManager, soundManager);
-                needInitUiMain = false;
+                needInitUiMainManager = false;
             }
             catch (Exception e)
             {
@@ -103,12 +110,12 @@ public class GameManager : MonoSingleton<GameManager>
             }
         }
 
-        if (needInitUiGame)
+        if (needInitUiGameManager)
         {
             try
             {
                 InitUiGameManager(uiGameManager, saveManager, soundManager);
-                needInitUiGame = false;
+                needInitUiGameManager = false;
             }
             catch (Exception e)
             {
@@ -116,12 +123,12 @@ public class GameManager : MonoSingleton<GameManager>
             }
         }
 
-        if (slotManager && saveManager && needInitSlot)
+        if (needInitSlotManager)
         {
             try
             {
-                InitSlotManager(slotManager, saveManager, uiMainManager);
-                needInitSlot = false;
+                InitSlotManager(slotManager, saveManager, consoleManager);
+                needInitSlotManager = false;
             }
             catch (Exception e)
             {
@@ -142,7 +149,7 @@ public class GameManager : MonoSingleton<GameManager>
             }
         }
 
-        if (uiMainManager && errorList.Count > 0) ShowError(errorList, uiMainManager);
+        if (errorList.Count > 0) ShowError(errorList, consoleManager);
     }
 
     private void InitSaveManager()
@@ -279,7 +286,7 @@ public class GameManager : MonoSingleton<GameManager>
     
     private void StartGame()
     {
-        if (!uiGameManager)
+        if (uiGameManager == null || uiGameManager.Equals(null))
         {
             StartCoroutine(StartGameAsync(uiMainManager));
         }
@@ -294,7 +301,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void StartMainMenu()
     {
-        if (!uiMainManager)
+        if (uiMainManager == null || uiMainManager.Equals(null))
         {
             StartCoroutine(StartMainAsync());
         }
@@ -309,8 +316,9 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void ShowError(List<string> errors, IConsoleManager consoleManager)
     {
-        foreach (var error in errors) consoleManager.AddMessage(error, TypeConsoleText.Error);
+        if (consoleManager == null || consoleManager.Equals(null)) return;
         
+        foreach (var error in errors) consoleManager.AddMessage(error, TypeConsoleText.Error);
         errors.Clear();
     }
 }
