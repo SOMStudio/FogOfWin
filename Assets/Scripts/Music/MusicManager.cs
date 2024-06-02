@@ -5,8 +5,8 @@ using UnityEngine;
 namespace Music
 {
 	[AddComponentMenu("Base/Music Manager")]
-	public class MusicManager : MonoSingleton<MusicManager> {
-
+	public class MusicManager : MonoSingleton<MusicManager>, IMusicManager
+	{
 		[Header("Main")]
 		[SerializeField] protected List<MusicClipManager> musicList;
 
@@ -56,5 +56,10 @@ namespace Music
 		{
 			PlayMusicStopAnother(1);
 		}
+	}
+
+	public interface IMusicManager
+	{
+		void UpdateVolume();
 	}
 }
