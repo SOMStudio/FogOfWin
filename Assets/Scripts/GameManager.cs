@@ -222,7 +222,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         uiGameManagerInit.Init(saveManagerInit, soundManagerInit);
         
-        uiGameManagerInit.ButtonMainMenuEvent.AddListener(StartMainMenu);
+        uiGameManagerInit.ButtonMainMenuEvent.AddListener(OpenMainMenu);
     }
 
     private void InitSlotManager(ISlotManager slotManagerInit, ISaveManager saveManagerInit, IConsoleManager consoleManagerInit)
@@ -230,7 +230,7 @@ public class GameManager : MonoSingleton<GameManager>
         slotManagerInit.Init(gameLogic, saveManagerInit, consoleManagerInit);
     }
 
-    private IEnumerator StartGameAsync(IUiMainManager mainMenu)
+    private IEnumerator LoadGameSceneAsync(IUiMainManager mainMenu)
     {
         var loadScene = SceneManager.LoadSceneAsync("Game");
 
@@ -261,7 +261,7 @@ public class GameManager : MonoSingleton<GameManager>
         yield return null;
     }
 
-    private IEnumerator StartMainAsync()
+    private IEnumerator LoadMainMenuAsync()
     {
         var loadScene = SceneManager.LoadSceneAsync("Main");
         
@@ -288,7 +288,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         if (uiGameManager == null || uiGameManager.Equals(null))
         {
-            StartCoroutine(StartGameAsync(uiMainManager));
+            StartCoroutine(LoadGameSceneAsync(uiMainManager));
         }
         else
         {
@@ -299,11 +299,11 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
-    private void StartMainMenu()
+    private void OpenMainMenu()
     {
         if (uiMainManager == null || uiMainManager.Equals(null))
         {
-            StartCoroutine(StartMainAsync());
+            StartCoroutine(LoadMainMenuAsync());
         }
         else
         {
