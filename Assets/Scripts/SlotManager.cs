@@ -212,7 +212,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         }
     }
 
-    private void UnselectSlotCover(GameLogic.SlotPosition slotPosition)
+    private void UnselectSlotCover()
     {
         if (selectSlotCover.Wheel == -1) return;
         
@@ -242,7 +242,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         if (selectSlotCover.Wheel < 0) SelectSlotCover(slotPosition);
         else if (selectSlotCover != slotPosition)
         {
-            UnselectSlotCover(selectSlotCover);
+            UnselectSlotCover();
             SelectSlotCover(slotPosition);
         }
         else
@@ -257,7 +257,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
             }
             
             AddBusterCount(typeBuster, -1);
-            UnselectSlotCover(selectSlotCover);
+            UnselectSlotCover();
         }
     }
 
@@ -381,6 +381,8 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
             gameLogic.maxTimeRotate);
         
         Invoke(nameof(StartStopSlotRotate), randomTimeRotate);
+        
+        AddConsoleInformation("Click Rotate slot");
     }
 
     public void ResultSlotButton()
@@ -389,50 +391,75 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 
         HideCellCover();
         CheckResult();
+        
+        AddConsoleInformation("Click Result slot");
     }
 
     public void SetCountTypeGameButton()
     {
         SetTypeGame(TypeGame.Count);
+        
+        AddConsoleInformation("Select Count-Type calculate result slot");
     }
     
     public void SetNearTypeGameButton()
     {
         SetTypeGame(TypeGame.Near);
+        
+        AddConsoleInformation("Select Near-Type calculate result slot");
     }
     
     public void SetLineTypeGameButton()
     {
         SetTypeGame(TypeGame.Line);
+        
+        AddConsoleInformation("Select Line-Type calculate result slot");
     }
     
     public void SetCellTypeBusterButton()
     {
         SetTypeBuster(TypeBuster.Cell);
+        
+        AddConsoleInformation("Select Cell-Type buster");
     }
 
     public void SetLineHorizontalTypeBusterButton()
     {
         SetTypeBuster(TypeBuster.LineHorizontal);
+        
+        AddConsoleInformation("Select Line-Horizontal-Type buster");
     }
     
     public void SetLineVerticalTypeBusterButton()
     {
         SetTypeBuster(TypeBuster.LineVertical);
+        
+        AddConsoleInformation("Select Line-Vertical-Type buster");
     }
     
     public void IncreaseRateAmountButton()
     {
         ChangeRateAmount(stepAmount);
         ChangeMoneyAmount(-stepAmount);
+        
+        AddConsoleInformation("Increase rate slot");
     }
     
     public void DecreaseRateAmountButton()
     {
         ChangeRateAmount(-stepAmount);
         ChangeMoneyAmount(stepAmount);
+        
+        AddConsoleInformation("Decrease rate slot");
     }
     #endregion
+
+    private void AddConsoleInformation(string message, TypeConsoleText typeMessage = TypeConsoleText.Message)
+    {
+        #if DEBUG_INFORMATION
+                consoleManager?.AddMessage(message, typeMessage);
+        #endif
+    }
 }
 
 public interface ISlotManager
