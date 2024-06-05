@@ -327,7 +327,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         var wheel = Int32.Parse(wheelCell[0].ToString());
         var cell = Int32.Parse(wheelCell[1].ToString());
 
-        UnselectSlotCover(new GameLogic.SlotPosition { Wheel = wheel, Cell = cell });
+        UnselectSlotCover();
         #endif
     }
 
