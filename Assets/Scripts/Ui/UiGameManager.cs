@@ -8,7 +8,6 @@ using Sound;
 using Ui.Game;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace Ui
 {
@@ -16,42 +15,14 @@ namespace Ui
     {
         [Header("Main")]
         [SerializeField] private CanvasGroupComponent mainCanvasGrope;
-    
-        [Header("Score panel")]
-        [SerializeField] private CanvasGroupComponent moneyCanvasGrope;
-        [SerializeField] private Text moneyAmountText;
-        [SerializeField] private Button menuButton;
+        
+        [Header("Panels")]
+        [SerializeField] private ScorePanelManager scorePanelManager;
+        [SerializeField] private GameTypePanelManager gameTypePanelManager;
+        [SerializeField] private BusterTypePanelManager busterTypePanelManager;
+        [SerializeField] private SpinPanelManager spinPanelManager;
 
-        [Header("Type panel")]
-        [SerializeField] private CanvasGroupComponent typeCanvasGrope;
-        [SerializeField] private Image typeGame1Panel;
-        [SerializeField] private Image typeGame2Panel;
-        [SerializeField] private Image typeGame3Panel;
-        [SerializeField] private Button typeGame1Button;
-        [SerializeField] private Button typeGame2Button;
-        [SerializeField] private Button typeGame3Button;
-
-        [Header("Buster panel")]
-        [SerializeField] private CanvasGroupComponent busterCanvasGrope;
-        [SerializeField] private Image typeBuster1Panel;
-        [SerializeField] private Image typeBuster2Panel;
-        [SerializeField] private Image typeBuster3Panel;
-        [SerializeField] private Button buster1Button;
-        [SerializeField] private Button buster2Button;
-        [SerializeField] private Button buster3Button;
-        [SerializeField] private Text buster1CountText;
-        [SerializeField] private Text buster2CountText;
-        [SerializeField] private Text buster3CountText;
-
-        [Header("Spin panel")]
-        [SerializeField] private CanvasGroupComponent spinCanvasGrope;
-        [SerializeField] private Text rateAmountText;
-        [SerializeField] private Button reduceRateButton;
-        [SerializeField] private Button increaseRateButton;
-        [SerializeField] private GameObject spinPanel;
-        [SerializeField] private GameObject resultPanel;
-
-        [Header("Result panel")]
+        [Header("Windows")]
         [SerializeField] private ResultPanelManager resultWindow;
 
         private ISaveManager saveManager;
@@ -59,7 +30,7 @@ namespace Ui
         
         private int amountWin;
 
-        public UnityEvent ButtonMainMenuEvent => menuButton.onClick;
+        public UnityEvent ButtonMainMenuEvent => scorePanelManager.MenuButtonClickEvent;
 
         protected override void OnDestroy()
         {
@@ -73,59 +44,14 @@ namespace Ui
             saveManager = saveManagerSet;
             soundManager = soundMangerSet;
 
-            UpdateTypeBusterCount(BusterType.Cell, saveManager.GetValueInt(GameLogic.CountCellBusterKey));
-            UpdateTypeBusterCount(BusterType.LineHorizontal, saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey));
-            UpdateTypeBusterCount(BusterType.LineVertical, saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey));
-            
+            busterTypePanelManager.UpdateBusterTypeCount(BusterType.Cell,
+                saveManager.GetValueInt(GameLogic.CountCellBusterKey));
+            busterTypePanelManager.UpdateBusterTypeCount(BusterType.LineHorizontal,
+                saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey));
+            busterTypePanelManager.UpdateBusterTypeCount(BusterType.LineVertical,
+                saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey));
+
             saveManager.ChangeValueEvent += SaveSystemListener;
-        }
-        
-        private void ActivateTypeGame(GameType gameType)
-        {
-            var defaultColor = typeGame1Panel.color;
-
-            switch (gameType)
-            {
-                case GameType.Count:
-                    typeGame1Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 1);
-                    typeGame2Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
-                    typeGame3Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
-                    break;
-                case GameType.Near:
-                    typeGame1Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
-                    typeGame2Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 1);
-                    typeGame3Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
-                    break;
-                case GameType.Line:
-                    typeGame1Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
-                    typeGame2Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
-                    typeGame3Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 1);
-                    break;
-            }
-        }
-    
-        private void ActivateTypeBuster(BusterType busterType)
-        {
-            var defaultColor = typeBuster1Panel.color;
-
-            switch (busterType)
-            {
-                case BusterType.Cell:
-                    typeBuster1Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 1);
-                    typeBuster2Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
-                    typeBuster3Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
-                    break;
-                case BusterType.LineHorizontal:
-                    typeBuster1Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
-                    typeBuster2Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 1);
-                    typeBuster3Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
-                    break;
-                case BusterType.LineVertical:
-                    typeBuster1Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
-                    typeBuster2Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
-                    typeBuster3Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 1);
-                    break;
-            }
         }
 
         private void SaveSystemListener(string keySaveItem)
@@ -133,33 +59,20 @@ namespace Ui
             switch (keySaveItem)
             {
                 case GameLogic.CountCellBusterKey:
-                    UpdateTypeBusterCount(BusterType.Cell, saveManager.GetValueInt(GameLogic.CountCellBusterKey));
+                    busterTypePanelManager.UpdateBusterTypeCount(BusterType.Cell,
+                        saveManager.GetValueInt(GameLogic.CountCellBusterKey));
                     break;
                 case GameLogic.CountLineHorizontalBusterKey:
-                    UpdateTypeBusterCount(BusterType.LineHorizontal, saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey));
+                    busterTypePanelManager.UpdateBusterTypeCount(BusterType.LineHorizontal,
+                        saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey));
                     break;
                 case GameLogic.CountLineVerticalBusterKey:
-                    UpdateTypeBusterCount(BusterType.LineVertical, saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey));
+                    busterTypePanelManager.UpdateBusterTypeCount(BusterType.LineVertical,
+                        saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey));
                     break;
             }
         }
-        
-        private void UpdateTypeBusterCount(BusterType busterType, int countSet)
-        {
-            switch (busterType)
-            {
-                case BusterType.LineHorizontal:
-                    buster2CountText.text = countSet.ToString();
-                    break;
-                case BusterType.LineVertical:
-                    buster3CountText.text = countSet.ToString();
-                    break;
-                case BusterType.Cell:
-                    buster1CountText.text = countSet.ToString();
-                    break;
-            }
-        }
-    
+
         #region Actions
         public void HideGamePanels()
         {
@@ -179,26 +92,26 @@ namespace Ui
 
         private void ShowMoneyPanel(bool setState)
         {
-            if (setState) moneyCanvasGrope.Show();
-            else moneyCanvasGrope.Hide();
+            if (setState) scorePanelManager.Show();
+            else scorePanelManager.Hide();
         }
 
         private void ShowTypeGamePanel(bool setState)
         {
-            if (setState) typeCanvasGrope.Show();
-            else typeCanvasGrope.Hide();
+            if (setState) gameTypePanelManager.Show();
+            else gameTypePanelManager.Hide();
         }
 
         private void ShowBusterPanel(bool setState)
         {
-            if (setState) busterCanvasGrope.Show();
-            else busterCanvasGrope.Hide();
+            if (setState) busterTypePanelManager.Show();
+            else busterTypePanelManager.Hide();
         }
 
         private void ShowSpinGamePanel(bool setState)
         {
-            if (setState) spinCanvasGrope.Show();
-            else spinCanvasGrope.Hide();
+            if (setState) spinPanelManager.Show();
+            else spinPanelManager.Hide();
         }
 
         public void ActivateAllCanvas(bool setState)
@@ -211,32 +124,32 @@ namespace Ui
 
         private void ActivateMoneyPanel(bool setState)
         {
-            moneyCanvasGrope.Interactive(setState);
+            scorePanelManager.Interactive(setState);
         }
 
         private void ActivateTypeGamePanel(bool setState)
         {
-            typeCanvasGrope.Interactive(setState);
+            gameTypePanelManager.Interactive(setState);
         }
 
         private void ActivateBusterPanel(bool setState)
         {
-            busterCanvasGrope.Interactive(setState);
+            busterTypePanelManager.Interactive(setState);
         }
 
         private void ActivateSpinGamePanel(bool setState)
         {
-            spinCanvasGrope.Interactive(setState);
+            spinPanelManager.Interactive(setState);
         }
 
         public void ShowSpinButton(bool setState)
         {
-            spinPanel.SetActive(setState);
+            spinPanelManager.ShowSpinButton(setState);
         }
 
         public void ShowResultButton(bool setState)
         {
-            resultPanel.SetActive(setState);
+            spinPanelManager.ShowResultButton(setState);
         }
 
         public void SetResultWindow(Dictionary<int, int> result, Dictionary<int, GameLogic.Result> _)
@@ -263,32 +176,32 @@ namespace Ui
         #region Listeners
         public void ChangeTypeGameListener(GameType gameType)
         {
-            ActivateTypeGame(gameType);
+            gameTypePanelManager.ActivateGameType(gameType);
         }
 
         public void ChangeTypeBusterListener(BusterType busterType)
         {
-            ActivateTypeBuster(busterType);
+            busterTypePanelManager.ActivateBusterType(busterType);
         }
 
         public void ChangeRateAmountListener(int amount)
         {
-            rateAmountText.text = amount + "$";
+            spinPanelManager.ChangeRateAmountListener(amount);
         }
 
         public void ChangeMoneyAmountListener(int oldAmount, int newAmount, bool afterRotate)
         {
-            if (!afterRotate) moneyAmountText.text = newAmount + "$";
+            scorePanelManager.ChangeMoneyAmountListener(oldAmount, newAmount, afterRotate);
         }
 
         public void ChangeRateAmountAnimatedListener(int oldAmount, int newAmount)
         {
-            rateAmountText.text = newAmount + "$";
+            spinPanelManager.ChangeRateAmountAnimatedListener(oldAmount, newAmount);
         }
     
         public void ChangeMoneyAmountAnimatedListener(int oldAmount, int newAmount)
         {
-            moneyAmountText.text = newAmount + "$";
+            scorePanelManager.ChangeMoneyAmountAnimatedListener(oldAmount, newAmount);
             if (newAmount > oldAmount) PlaySound(2);
         }
         #endregion
