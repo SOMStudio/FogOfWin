@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99f1a49b53649324182d29a4ad1ab7d2, type: 3}
-  m_Name: GameLogic
+  m_Name: GameLogicSettings
   m_EditorClassIdentifier: 
   slotCellPrefab: {fileID: 113321087005378575, guid: c2aacd24eafc5d948815f701549d31d2, type: 3}
   cellSprites:

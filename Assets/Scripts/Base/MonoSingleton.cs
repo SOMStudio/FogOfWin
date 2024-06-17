@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 
 namespace Base
 {
-    public class MonoSingleton<T> : MonoBehaviour where T : class
+    public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         public static T instance;
 

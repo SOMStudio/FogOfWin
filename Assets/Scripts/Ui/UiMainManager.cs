@@ -151,16 +151,16 @@ namespace Ui
             PlaySound(4);
         }
 
-        public void AddMessage(string message, TypeConsoleText typeText = TypeConsoleText.Message)
+        public void AddMessage(string message, ConsoleTextType consoleTextTypeText = ConsoleTextType.Message)
         {
             var textResult = "";
             
-            switch (typeText)
+            switch (consoleTextTypeText)
             {
-                case TypeConsoleText.Message:
+                case ConsoleTextType.Message:
                     textResult = "<color='blue'>" + message + "</color>";
                     break;
-                case TypeConsoleText.Error:
+                case ConsoleTextType.Error:
                     textResult = "<color='red'>" + message + "</color>";
                     break;
             }
@@ -203,7 +203,7 @@ namespace Ui
         #endregion
     }
 
-    public enum TypeConsoleText
+    public enum ConsoleTextType
     {
         Message,
         Error
@@ -227,7 +227,7 @@ namespace Ui
     
     public interface IConsoleManager
     {
-        void AddMessage(string message, TypeConsoleText typeText = TypeConsoleText.Message);
+        void AddMessage(string message, ConsoleTextType consoleTextTypeText = ConsoleTextType.Message);
         void Clear();
     }
 }

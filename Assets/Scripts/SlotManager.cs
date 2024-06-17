@@ -7,6 +7,7 @@ using Save;
 using Ui;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 {
@@ -14,8 +15,8 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     [SerializeField] private int moneyAmount = 10000;
     [SerializeField] private int rateAmount = 200;
     [SerializeField] private int stepAmount = 50;
-    [SerializeField] private TypeGame typeGame = TypeGame.Count;
-    [SerializeField] private TypeBuster typeBuster = TypeBuster.Cell;
+    [FormerlySerializedAs("typeGame")] [SerializeField] private GameType gameType = GameType.Count;
+    [FormerlySerializedAs("typeBuster")] [SerializeField] private BusterType busterType = BusterType.Cell;
 
     [Header("Slot")]
     [SerializeField] private GameObject slotBase;
@@ -46,8 +47,8 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     [Header("Events")]
     [SerializeField] private UnityEvent startSlotRotateEvent;
     [SerializeField] private UnityEvent stopSlotRotateEvent;
-    [SerializeField] private UnityEvent<TypeGame> changeTypeGameEvent;
-    [SerializeField] private UnityEvent<TypeBuster> changeTypeBusterEvent;
+    [SerializeField] private UnityEvent<GameType> changeTypeGameEvent;
+    [SerializeField] private UnityEvent<BusterType> changeTypeBusterEvent;
     [SerializeField] private UnityEvent<int, int, bool> changeMoneyAmountEvent;
     [SerializeField] private UnityEvent<int> changeRateAmountEvent;
     [SerializeField] private UnityEvent<Dictionary<int, int>, Dictionary<int, GameLogic.Result>> winRateDetailAmountEvent;
@@ -111,7 +112,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 
     private void CheckResult()
     {
-        var result = gameLogic.CountRewardResult(rateAmount, slotCells, typeGame, out var resultCells);
+        var result = gameLogic.CountRewardResult(rateAmount, slotCells, gameType, out var resultCells);
 
         StartCoroutine(gameLogic.ShowResult(slotPoints, moneyAmount, rateAmount, result, resultCells,
             () => startShowResultEvent?.Invoke(),
@@ -129,18 +130,18 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         moneyAmount -= rateAmount;
     }
 
-    private void SetTypeGame(TypeGame typeGameSet)
+    private void SetTypeGame(GameType gameTypeSet)
     {
-        typeGame = typeGameSet;
+        gameType = gameTypeSet;
         
-        changeTypeGameEvent?.Invoke(typeGame);
+        changeTypeGameEvent?.Invoke(gameType);
     }
 
-    private void SetTypeBuster(TypeBuster typeBusterSet)
+    private void SetTypeBuster(BusterType busterTypeSet)
     {
-        typeBuster = typeBusterSet;
+        busterType = busterTypeSet;
         
-        changeTypeBusterEvent?.Invoke(typeBuster);
+        changeTypeBusterEvent?.Invoke(busterType);
     }
 
     private void StartStopSlotRotate()
@@ -204,7 +205,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     {
         selectSlotCover = slotPosition;
 
-        var slotCellList = gameLogic.SelectSlotCellList(slotCovers, typeBuster, selectSlotCover);
+        var slotCellList = gameLogic.SelectSlotCellList(slotCovers, busterType, selectSlotCover);
         
         foreach (var wheelCell in slotCellList)
         {
@@ -216,7 +217,7 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     {
         if (selectSlotCover.Wheel == -1) return;
         
-        var slotCellList = gameLogic.SelectSlotCellList(slotCovers, typeBuster, selectSlotCover);
+        var slotCellList = gameLogic.SelectSlotCellList(slotCovers, busterType, selectSlotCover);
         
         foreach (var wheelCell in slotCellList)
         {
@@ -247,28 +248,28 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         }
         else
         {
-            if (GetBusterCount(typeBuster) <= 0) return;
+            if (GetBusterCount(busterType) <= 0) return;
             
-            var slotCellList = gameLogic.SelectSlotCellList(slotCovers, typeBuster, selectSlotCover);
+            var slotCellList = gameLogic.SelectSlotCellList(slotCovers, busterType, selectSlotCover);
         
             foreach (var wheelCell in slotCellList)
             {
                 wheelCell.HideSprite();
             }
             
-            AddBusterCount(typeBuster, -1);
+            AddBusterCount(busterType, -1);
             UnselectSlotCover();
         }
     }
 
-    private void AddBusterCount(TypeBuster typeBusterCheck, int addCount)
+    private void AddBusterCount(BusterType busterTypeCheck, int addCount)
     {
-        switch (typeBusterCheck)
+        switch (busterTypeCheck)
         {
-            case TypeBuster.LineHorizontal:
+            case BusterType.LineHorizontal:
                 saveManager.SetValue(GameLogic.CountLineHorizontalBusterKey, countLineHorizontalBuster + addCount);
                 break;
-            case TypeBuster.LineVertical:
+            case BusterType.LineVertical:
                 saveManager.SetValue(GameLogic.CountLineVerticalBusterKey, countLineVerticalBuster + addCount);
                 break;
             default:
@@ -277,13 +278,13 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
         }
     }
 
-    private int GetBusterCount(TypeBuster typeBusterCheck)
+    private int GetBusterCount(BusterType busterTypeCheck)
     {
-        switch (typeBusterCheck)
+        switch (busterTypeCheck)
         {
-            case TypeBuster.LineHorizontal:
+            case BusterType.LineHorizontal:
                 return countLineHorizontalBuster;
-            case TypeBuster.LineVertical:
+            case BusterType.LineVertical:
                 return countLineVerticalBuster;
             default:
                 return countCellBuster;
@@ -397,42 +398,42 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
 
     public void SetCountTypeGameButton()
     {
-        SetTypeGame(TypeGame.Count);
+        SetTypeGame(GameType.Count);
         
         AddConsoleInformation("Select Count-Type calculate result slot");
     }
     
     public void SetNearTypeGameButton()
     {
-        SetTypeGame(TypeGame.Near);
+        SetTypeGame(GameType.Near);
         
         AddConsoleInformation("Select Near-Type calculate result slot");
     }
     
     public void SetLineTypeGameButton()
     {
-        SetTypeGame(TypeGame.Line);
+        SetTypeGame(GameType.Line);
         
         AddConsoleInformation("Select Line-Type calculate result slot");
     }
     
     public void SetCellTypeBusterButton()
     {
-        SetTypeBuster(TypeBuster.Cell);
+        SetTypeBuster(BusterType.Cell);
         
         AddConsoleInformation("Select Cell-Type buster");
     }
 
     public void SetLineHorizontalTypeBusterButton()
     {
-        SetTypeBuster(TypeBuster.LineHorizontal);
+        SetTypeBuster(BusterType.LineHorizontal);
         
         AddConsoleInformation("Select Line-Horizontal-Type buster");
     }
     
     public void SetLineVerticalTypeBusterButton()
     {
-        SetTypeBuster(TypeBuster.LineVertical);
+        SetTypeBuster(BusterType.LineVertical);
         
         AddConsoleInformation("Select Line-Vertical-Type buster");
     }
@@ -454,10 +455,10 @@ public class SlotManager : MonoSingleton<SlotManager>, ISlotManager
     }
     #endregion
 
-    private void AddConsoleInformation(string message, TypeConsoleText typeMessage = TypeConsoleText.Message)
+    private void AddConsoleInformation(string message, ConsoleTextType consoleTextTypeMessage = ConsoleTextType.Message)
     {
         #if DEBUG_INFORMATION
-                consoleManager?.AddMessage(message, typeMessage);
+                consoleManager?.AddMessage(message, consoleTextTypeMessage);
         #endif
     }
 }

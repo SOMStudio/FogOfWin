@@ -73,30 +73,30 @@ namespace Ui
             saveManager = saveManagerSet;
             soundManager = soundMangerSet;
 
-            UpdateTypeBusterCount(TypeBuster.Cell, saveManager.GetValueInt(GameLogic.CountCellBusterKey));
-            UpdateTypeBusterCount(TypeBuster.LineHorizontal, saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey));
-            UpdateTypeBusterCount(TypeBuster.LineVertical, saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey));
+            UpdateTypeBusterCount(BusterType.Cell, saveManager.GetValueInt(GameLogic.CountCellBusterKey));
+            UpdateTypeBusterCount(BusterType.LineHorizontal, saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey));
+            UpdateTypeBusterCount(BusterType.LineVertical, saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey));
             
             saveManager.ChangeValueEvent += SaveSystemListener;
         }
         
-        private void ActivateTypeGame(TypeGame typeGame)
+        private void ActivateTypeGame(GameType gameType)
         {
             var defaultColor = typeGame1Panel.color;
 
-            switch (typeGame)
+            switch (gameType)
             {
-                case TypeGame.Count:
+                case GameType.Count:
                     typeGame1Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 1);
                     typeGame2Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
                     typeGame3Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
                     break;
-                case TypeGame.Near:
+                case GameType.Near:
                     typeGame1Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
                     typeGame2Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 1);
                     typeGame3Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
                     break;
-                case TypeGame.Line:
+                case GameType.Line:
                     typeGame1Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
                     typeGame2Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
                     typeGame3Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 1);
@@ -104,23 +104,23 @@ namespace Ui
             }
         }
     
-        private void ActivateTypeBuster(TypeBuster typeBuster)
+        private void ActivateTypeBuster(BusterType busterType)
         {
             var defaultColor = typeBuster1Panel.color;
 
-            switch (typeBuster)
+            switch (busterType)
             {
-                case TypeBuster.Cell:
+                case BusterType.Cell:
                     typeBuster1Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 1);
                     typeBuster2Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
                     typeBuster3Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
                     break;
-                case TypeBuster.LineHorizontal:
+                case BusterType.LineHorizontal:
                     typeBuster1Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
                     typeBuster2Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 1);
                     typeBuster3Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
                     break;
-                case TypeBuster.LineVertical:
+                case BusterType.LineVertical:
                     typeBuster1Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
                     typeBuster2Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0);
                     typeBuster3Panel.color = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 1);
@@ -133,28 +133,28 @@ namespace Ui
             switch (keySaveItem)
             {
                 case GameLogic.CountCellBusterKey:
-                    UpdateTypeBusterCount(TypeBuster.Cell, saveManager.GetValueInt(GameLogic.CountCellBusterKey));
+                    UpdateTypeBusterCount(BusterType.Cell, saveManager.GetValueInt(GameLogic.CountCellBusterKey));
                     break;
                 case GameLogic.CountLineHorizontalBusterKey:
-                    UpdateTypeBusterCount(TypeBuster.LineHorizontal, saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey));
+                    UpdateTypeBusterCount(BusterType.LineHorizontal, saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey));
                     break;
                 case GameLogic.CountLineVerticalBusterKey:
-                    UpdateTypeBusterCount(TypeBuster.LineVertical, saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey));
+                    UpdateTypeBusterCount(BusterType.LineVertical, saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey));
                     break;
             }
         }
         
-        private void UpdateTypeBusterCount(TypeBuster typeBuster, int countSet)
+        private void UpdateTypeBusterCount(BusterType busterType, int countSet)
         {
-            switch (typeBuster)
+            switch (busterType)
             {
-                case TypeBuster.LineHorizontal:
+                case BusterType.LineHorizontal:
                     buster2CountText.text = countSet.ToString();
                     break;
-                case TypeBuster.LineVertical:
+                case BusterType.LineVertical:
                     buster3CountText.text = countSet.ToString();
                     break;
-                case TypeBuster.Cell:
+                case BusterType.Cell:
                     buster1CountText.text = countSet.ToString();
                     break;
             }
@@ -261,14 +261,14 @@ namespace Ui
         #endregion
     
         #region Listeners
-        public void ChangeTypeGameListener(TypeGame typeGame)
+        public void ChangeTypeGameListener(GameType gameType)
         {
-            ActivateTypeGame(typeGame);
+            ActivateTypeGame(gameType);
         }
 
-        public void ChangeTypeBusterListener(TypeBuster typeBuster)
+        public void ChangeTypeBusterListener(BusterType busterType)
         {
-            ActivateTypeBuster(typeBuster);
+            ActivateTypeBuster(busterType);
         }
 
         public void ChangeRateAmountListener(int amount)

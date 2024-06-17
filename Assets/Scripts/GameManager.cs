@@ -318,7 +318,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         if (consoleManagerRef == null || consoleManagerRef.Equals(null)) return;
         
-        foreach (var error in errors) consoleManagerRef.AddMessage(error, TypeConsoleText.Error);
+        foreach (var error in errors) consoleManagerRef.AddMessage(error, ConsoleTextType.Error);
         errors.Clear();
     }
 }

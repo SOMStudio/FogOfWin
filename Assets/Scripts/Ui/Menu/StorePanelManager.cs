@@ -34,15 +34,15 @@ namespace Ui.Menu
                     StartCoroutine(UpdateAmountCoroutine());
                     break;
                 case GameLogic.CountCellBusterKey:
-                    StartCoroutine(UpdateBusterCoroutine(TypeBuster.Cell,
+                    StartCoroutine(UpdateBusterCoroutine(BusterType.Cell,
                         saveManager.GetValueInt(GameLogic.CountCellBusterKey)));
                     break;
                 case GameLogic.CountLineHorizontalBusterKey:
-                    StartCoroutine(UpdateBusterCoroutine(TypeBuster.LineHorizontal,
+                    StartCoroutine(UpdateBusterCoroutine(BusterType.LineHorizontal,
                         saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey)));
                     break;
                 case GameLogic.CountLineVerticalBusterKey:
-                    StartCoroutine(UpdateBusterCoroutine(TypeBuster.LineVertical,
+                    StartCoroutine(UpdateBusterCoroutine(BusterType.LineVertical,
                         saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey)));
                     break;
             }
@@ -59,11 +59,11 @@ namespace Ui.Menu
             }
         }
         
-        private IEnumerator UpdateBusterCoroutine(TypeBuster typeBuster, int count)
+        private IEnumerator UpdateBusterCoroutine(BusterType busterType, int count)
         {
             foreach (var item in items)
             {
-                if (item.typeBuster == typeBuster) item.UpdateCount(count);
+                if (item.busterType == busterType) item.UpdateCount(count);
                 yield return null;
             }
         }
@@ -80,21 +80,21 @@ namespace Ui.Menu
             
             saveManager.SetValue(GameLogic.MoneyAmountKey, amount - itemClick.costBuster);
 
-            switch (itemClick.typeBuster)
+            switch (itemClick.busterType)
             {
-                case TypeBuster.Cell:
+                case BusterType.Cell:
                 {
                     var countBuster = saveManager.GetValueInt(GameLogic.CountCellBusterKey);
                     saveManager.SetValue(GameLogic.CountCellBusterKey, countBuster + itemClick.countBuster);
                     break;
                 }
-                case TypeBuster.LineHorizontal:
+                case BusterType.LineHorizontal:
                 {
                     var countBuster = saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey);
                     saveManager.SetValue(GameLogic.CountLineHorizontalBusterKey, countBuster + itemClick.countBuster);
                     break;
                 }
-                case TypeBuster.LineVertical:
+                case BusterType.LineVertical:
                 {
                     var countBuster = saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey);
                     saveManager.SetValue(GameLogic.CountLineVerticalBusterKey, countBuster + itemClick.countBuster);

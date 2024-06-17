@@ -1,13 +1,14 @@
 using Data;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Ui.Menu
 {
     public class StoreItemManager : MonoBehaviour
     {
-        [Header("Main")]
-        public TypeBuster typeBuster;
+        [FormerlySerializedAs("typeBuster")] [Header("Main")]
+        public BusterType busterType;
         public int costBuster;
         public int countBuster;
         

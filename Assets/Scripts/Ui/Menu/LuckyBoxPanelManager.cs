@@ -3,6 +3,7 @@ using Data;
 using Save;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Ui.Menu
@@ -31,7 +32,7 @@ namespace Ui.Menu
             foreach (var box in boxes)
             {
                 box.typeReward = (TypeReward)UnityEngine.Random.Range(0, 2);
-                box.typeBuster = TypeBuster.Cell;
+                box.busterType = BusterType.Cell;
                 box.amount = 0;
 
                 switch (box.typeReward)
@@ -41,7 +42,7 @@ namespace Ui.Menu
                             gameLogic.maxAmountMoneyLuckyBox);
                         break;
                     case TypeReward.Buster:
-                        box.typeBuster = (TypeBuster)UnityEngine.Random.Range(0, 3);
+                        box.busterType = (BusterType)UnityEngine.Random.Range(0, 3);
                         box.amount = UnityEngine.Random.Range(gameLogic.minCountBusterLuckyBox,
                             gameLogic.maxCountBusterLuckyBox);
                         break;
@@ -64,15 +65,15 @@ namespace Ui.Menu
             }
             else
             {
-                switch (luckyBox.typeBuster)
+                switch (luckyBox.busterType)
                 {
-                    case TypeBuster.Cell:
+                    case BusterType.Cell:
                         resultString += luckyBox.amount + " Cell Busters";
                         break;
-                    case TypeBuster.LineHorizontal:
+                    case BusterType.LineHorizontal:
                         resultString += luckyBox.amount + " Horizontal line Cell Busters";
                         break;
-                    case TypeBuster.LineVertical:
+                    case BusterType.LineVertical:
                         resultString += luckyBox.amount + " Vertical line Cell Busters";
                         break;
                 }
@@ -90,21 +91,21 @@ namespace Ui.Menu
             }
             else
             {
-                switch (luckyBox.typeBuster)
+                switch (luckyBox.busterType)
                 {
-                    case TypeBuster.Cell:
+                    case BusterType.Cell:
                     {
                         var countBuster = saveManager.GetValueInt(GameLogic.CountCellBusterKey);
                         saveManager.SetValue(GameLogic.CountCellBusterKey, countBuster + luckyBox.amount);
                         break;
                     }
-                    case TypeBuster.LineHorizontal:
+                    case BusterType.LineHorizontal:
                     {
                         var countBuster = saveManager.GetValueInt(GameLogic.CountLineHorizontalBusterKey);
                         saveManager.SetValue(GameLogic.CountLineHorizontalBusterKey, countBuster + luckyBox.amount);
                         break;
                     }
-                    case TypeBuster.LineVertical:
+                    case BusterType.LineVertical:
                     {
                         var countBuster = saveManager.GetValueInt(GameLogic.CountLineVerticalBusterKey);
                         saveManager.SetValue(GameLogic.CountLineVerticalBusterKey, countBuster + luckyBox.amount);
@@ -153,7 +154,7 @@ namespace Ui.Menu
     {
         [Header("Logic")]
         public TypeReward typeReward;
-        public TypeBuster typeBuster;
+        [FormerlySerializedAs("typeBuster")] public BusterType busterType;
         public int amount;
 
         [Header("Visual")]
