@@ -1,4 +1,5 @@
 using System;
+using Components.UI;
 using Data;
 using Save;
 using UnityEngine;
@@ -8,9 +9,9 @@ using UnityEngine.UI;
 
 namespace Ui.Menu
 {
-    public class LuckyBoxPanelManager : MonoBehaviour
+    public class LuckyBoxPanelManager : CanvasGroupComponent
     {
-        [Header("Main")]
+        [Header("Lucky box")]
         public LuckyBoxItem[] boxes;
 
         [Header("Events")]

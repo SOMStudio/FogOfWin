@@ -1,12 +1,12 @@
-using Ui.Game;
+using Components.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Ui.Menu
 {
-    public class SettingsPanelManager : BasePanelManager
+    public class SettingsPanelManager : CanvasGroupComponent
     {
-        [Header("Main")]
+        [Header("Settings")]
         public Slider soundSlider;
         public Slider musicSlider;
 

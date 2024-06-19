@@ -1,10 +1,10 @@
-using Ui.Game;
+using Components.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Ui.Menu
 {
-    public class LoadPanelManager : BasePanelManager
+    public class LoadPanelManager : CanvasGroupComponent
     {
         [Header("Main")]
         [SerializeField] private Slider slider;

@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 namespace Ui.Game
 {
-    public class ResultPanelManager : BasePanelManager
+    public class ResultPanelManager : AutoHidePanelManager
     {
-        [Header("Main")]
+        [Header("Result")]
         [SerializeField] private Text informationText;
 
         public void SetText(string setText)

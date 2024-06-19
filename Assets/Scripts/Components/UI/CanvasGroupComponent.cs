@@ -13,7 +13,7 @@ namespace Components.UI
         [SerializeField] private UnityEvent showEvent;
         [SerializeField] private UnityEvent hideEvent;
         
-        protected void Start()
+        protected virtual void Start()
         {
             InitState();
         }
@@ -30,7 +30,7 @@ namespace Components.UI
             canvasGroup.interactable = setInteractive;
         }
         
-        public void Show()
+        public virtual void Show()
         {
             InitState();
             
@@ -43,7 +43,7 @@ namespace Components.UI
             showEvent?.Invoke();
         }
 
-        public void Hide()
+        public virtual void Hide()
         {
             InitState();
             

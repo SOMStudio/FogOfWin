@@ -9,6 +9,7 @@ using Ui.Game;
 using Ui.Menu;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Ui
@@ -18,29 +19,14 @@ namespace Ui
         [Header("Main")]
         [SerializeField] private CanvasGroupComponent windowCanvasGroup;
         
-        [Header("Windows")]
-        [SerializeField] private CanvasGroupComponent mainCanvasGroup;
+        [Header("Panels")]
+        [SerializeField] private CanvasGroupComponent mainPanelCanvasGroup;
         [SerializeField] private LoadPanelManager loadPanelManager;
-
-        [Header("Settings")]
-        [SerializeField] private CanvasGroupComponent settingsCanvasGroup;
         [SerializeField] private SettingsPanelManager settingsPanelManager;
-        
-        [Header("Store")]
-        [SerializeField] private CanvasGroupComponent storeCanvasGroup;
         [SerializeField] private StorePanelManager storePanelManager;
-
-        [Header("Lucky Box")]
-        [SerializeField] private CanvasGroupComponent luckyBoxCanvasGrope;
         [SerializeField] private LuckyBoxPanelManager luckyBoxPanelManager;
-        
-        [Header("Result")]
-        [SerializeField] private CanvasGroupComponent resulCanvasGrope;
         [SerializeField] private ResultPanelManager resultPanelManager;
-
-        [Header("Console")]
-        [SerializeField] private CanvasGroupComponent consolePanel;
-        [SerializeField] private Text consoleText;
+        [SerializeField] private ConsolePanelManager consolePanelManager;
 
         [Header("Buttons")]
         [SerializeField] private Button playButton;
@@ -84,7 +70,7 @@ namespace Ui
 
         public void ShowMainPanels()
         {
-            mainCanvasGroup.Show();
+            mainPanelCanvasGroup.Show();
 
             if (gameLogic.NeedShowLuckyBoxWithAmount(saveManager))
             {
@@ -95,19 +81,19 @@ namespace Ui
 
         public void HideMainPanels()
         {
-            mainCanvasGroup.Hide();
+            mainPanelCanvasGroup.Hide();
             
             countClickFogOfWin = 0;
         }
 
         public void ShowSettingsPanel()
         {
-            settingsCanvasGroup.Show();
+            settingsPanelManager.Show();
         }
         
         public void HideSettingsPanel()
         {
-            settingsCanvasGroup.Hide();
+            settingsPanelManager.Hide();
         }
 
         public void LoadWindowShow()
@@ -132,7 +118,7 @@ namespace Ui
 
         private IEnumerator ShowLuckyBoxCoroutine(LuckyBoxItem luckyBox)
         {
-            luckyBoxCanvasGrope.Interactive(false);
+            luckyBoxPanelManager.Interactive(false);
             
             yield return new WaitForSeconds(1f);
             
@@ -141,7 +127,7 @@ namespace Ui
             
             yield return new WaitForSeconds(2f);
             
-            luckyBoxCanvasGrope.Hide();
+            luckyBoxPanelManager.Hide();
             
             yield return new WaitForSeconds(0.5f);
             
@@ -153,24 +139,12 @@ namespace Ui
 
         public void AddMessage(string message, ConsoleTextType consoleTextTypeText = ConsoleTextType.Message)
         {
-            var textResult = "";
-            
-            switch (consoleTextTypeText)
-            {
-                case ConsoleTextType.Message:
-                    textResult = "<color='blue'>" + message + "</color>";
-                    break;
-                case ConsoleTextType.Error:
-                    textResult = "<color='red'>" + message + "</color>";
-                    break;
-            }
-
-            consoleText.text += Environment.NewLine + DateTime.Now.ToString("[HH:mm:ss] ") + textResult;
+            consolePanelManager.AddMessage(message, consoleTextTypeText);
         }
 
         public void Clear()
         {
-            consoleText.text = "Console:";
+            consolePanelManager.Clear();
         }
 
         #region Buttons
@@ -192,12 +166,12 @@ namespace Ui
         public void OpenConsolePanel()
         {
             countClickFogOfWin++;
-            if (countClickFogOfWin == gameLogic.countClickForOpenConsolePanel) consolePanel.Show();
+            if (countClickFogOfWin == gameLogic.countClickForOpenConsolePanel) consolePanelManager.Show();
         }
 
         public void CloseConsolePanel()
         {
-            consolePanel.Hide();
+            consolePanelManager.Hide();
             countClickFogOfWin = 0;
         }
         #endregion

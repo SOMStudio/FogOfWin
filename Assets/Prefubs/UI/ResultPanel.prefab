@@ -118,7 +118,6 @@ GameObject:
   - component: {fileID: 3108182111146683334}
   - component: {fileID: 4675728199306967575}
   - component: {fileID: 663212440791838664}
-  - component: {fileID: 2597175623778727084}
   m_Layer: 5
   m_Name: ResultPanel
   m_TagString: Untagged
@@ -208,28 +207,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba1c76f4bf6e9840a47d4b5eb5c75bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useHideAfterTime: 1
-  hideAfterTime: 3
-  informationText: {fileID: 4344243596564595254}
---- !u!114 &2597175623778727084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1367310955517031700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48087c22118e6ad498f48dbeac12f694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvasGroup: {fileID: 3108182111146683334}
+  canvasGroup: {fileID: 0}
   showEvent:
     m_PersistentCalls:
       m_Calls: []
   hideEvent:
     m_PersistentCalls:
       m_Calls: []
+  useHideAfterTime: 1
+  hideAfterTime: 3
+  informationText: {fileID: 4344243596564595254}
 --- !u!1 &1774591155737603075
 GameObject:
   m_ObjectHideFlags: 0

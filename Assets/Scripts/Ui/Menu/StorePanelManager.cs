@@ -1,15 +1,15 @@
 using System.Collections;
+using Components.UI;
 using Data;
 using Save;
 using Sound;
-using Ui.Game;
 using UnityEngine;
 
 namespace Ui.Menu
 {
-    public class StorePanelManager : BasePanelManager
+    public class StorePanelManager : CanvasGroupComponent
     {
-        [Header("Main")]
+        [Header("Store")]
         public StoreItemManager[] items;
 
         private ISaveManager saveManager;
